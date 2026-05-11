@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     ul { list-style: none; }
@@ -104,6 +106,7 @@
     }
     .hero-sticky video {
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      will-change: transform;
     }
     .hero-overlay {
       position: absolute; inset: 0;
@@ -115,11 +118,14 @@
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       text-align: center; padding: 0 24px;
     }
-    .hero-tag  { margin-bottom: 28px; opacity: 0; animation: fadeDown .8s .3s forwards; }
+    .hero-tag  {
+      margin-bottom: 28px; opacity: 0;
+      will-change: transform, opacity;
+    }
     .hero-h1 {
       font-size: clamp(40px, 7vw, 86px);
       font-weight: 700; max-width: 880px; margin-bottom: 22px;
-      opacity: 0; animation: fadeUp .9s .5s forwards;
+      opacity: 0; will-change: transform, opacity;
     }
     .hero-h1 .grad {
       background: linear-gradient(130deg, #4893FF 0%, #00C2FF 100%);
@@ -128,11 +134,11 @@
     .hero-p {
       font-size: clamp(16px, 2vw, 20px);
       color: var(--sub); max-width: 560px; margin-bottom: 42px; line-height: 1.75;
-      opacity: 0; animation: fadeUp .9s .7s forwards;
+      opacity: 0; will-change: transform, opacity;
     }
     .hero-btns {
       display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
-      opacity: 0; animation: fadeUp .9s .9s forwards;
+      opacity: 0; will-change: transform, opacity;
     }
     .btn-p {
       display: inline-flex; align-items: center; gap: 8px;
@@ -156,7 +162,7 @@
       position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
       z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
       color: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-      opacity: 0; animation: fadeIn 1s 1.5s forwards;
+      opacity: 0;
     }
     .scroll-mouse { width: 22px; height: 36px; border: 2px solid var(--muted); border-radius: 11px; position: relative; }
     .scroll-mouse::after {
@@ -469,17 +475,26 @@
       background: var(--primary); color: #fff;
       font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 700;
       padding: 20px 52px; border-radius: 14px; border: none; cursor: pointer;
-      animation: pulseCta 2.8s ease-in-out infinite;
-      transition: transform .2s, background .2s;
+      position: relative; isolation: isolate;
+      transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s;
+      will-change: transform;
+    }
+    .btn-cta-exp::before {
+      content: '';
+      position: absolute; inset: -6px; border-radius: 20px; z-index: -1;
+      background: radial-gradient(circle, rgba(0,87,255,.65) 0%, transparent 68%);
+      opacity: .5; animation: ctaGlow 2.6s ease-in-out infinite;
+      will-change: transform, opacity;
+    }
+    @keyframes ctaGlow {
+      0%,100% { opacity: .45; transform: scale(1); }
+      50%      { opacity: .75; transform: scale(1.12); }
     }
     .btn-cta-exp:hover {
-      background: #1a6aff; transform: translateY(-4px) scale(1.04);
-      animation: none; box-shadow: 0 16px 52px rgba(0,87,255,.65);
+      background: #1a6aff;
+      transform: translateY(-4px) scale(1.05);
     }
-    @keyframes pulseCta {
-      0%,100% { box-shadow: 0 0 0 0 rgba(0,87,255,.55); }
-      50%      { box-shadow: 0 0 0 22px rgba(0,87,255,0); }
-    }
+    .btn-cta-exp:hover::before { opacity: 1; transform: scale(1.18); }
 
     /* ── FOOTER ───────────────────────── */
     footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 64px 0 32px; }
@@ -495,17 +510,66 @@
     }
     .ft-bot p { font-size: 13.5px; color: var(--muted); }
 
+    /* ── GSAP / SPLIT TEXT ────────────── */
+    .ws  { display: inline-block; overflow: hidden; vertical-align: top; }
+    .wi  { display: inline-block; will-change: transform, opacity; }
+
+    /* ── BLUEPRINT OVERLAY ────────────── */
+    #blueprintOverlay {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      opacity: 0;
+      background-image:
+        linear-gradient(rgba(0,140,255,.11) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,140,255,.11) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mix-blend-mode: screen;
+      will-change: opacity;
+    }
+
+    /* ── METHODOLOGY IMPROVEMENTS ─────── */
+    .steps::before { display: none; }
+    .step-connector {
+      position: absolute; top: 43px; left: 12%; right: 12%; height: 2px;
+      pointer-events: none; overflow: visible;
+    }
+    .step.s-active .step-num {
+      background: rgba(0,87,255,.15) !important;
+      border-color: var(--primary) !important;
+      box-shadow: 0 0 28px rgba(0,87,255,.4), 0 0 56px rgba(0,87,255,.15);
+    }
+
+    /* ── PAIN CARDS ENHANCED ──────────── */
+    .pain-card { transform-style: preserve-3d; will-change: transform, opacity; }
+    .pain-icon { transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+    .pain-card:hover .pain-icon { transform: scale(1.25) rotate(-10deg); }
+    .pain-card:hover { box-shadow: 0 0 0 1px rgba(0,87,255,.5), 0 16px 48px rgba(0,87,255,.12); }
+
+    /* ── CTA INNER above Three.js ─────── */
+    .cta-inner { z-index: 3; }
+    .btn-cta-exp { will-change: transform; }
+
+    /* ── SCROLL NARRATIVE LABEL ───────── */
+    #scrollLabel {
+      position: fixed; bottom: 72px; left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .28em; text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+      z-index: 600; pointer-events: none; opacity: 0;
+    }
+
     /* ── ANIMATIONS ───────────────────── */
     @keyframes fadeUp   { from { opacity:0; transform:translateY(26px) } to { opacity:1; transform:none } }
     @keyframes fadeDown { from { opacity:0; transform:translateY(-16px) } to { opacity:1; transform:none } }
     @keyframes fadeIn   { from { opacity:0 } to { opacity:1 } }
     @keyframes wheel    { 0%,100% { opacity:1; transform:translateX(-50%) translateY(0) } 80% { opacity:0; transform:translateX(-50%) translateY(12px) } }
 
-    .reveal       { opacity:0; transform:translateY(32px); transition:opacity .75s ease, transform .75s ease; }
-    .reveal-l     { opacity:0; transform:translateX(-40px); transition:opacity .75s ease, transform .75s ease; }
-    .reveal-r     { opacity:0; transform:translateX(40px); transition:opacity .75s ease, transform .75s ease; }
-    .stg          { opacity:0; transform:translateY(22px); transition:opacity .65s ease, transform .65s ease; }
-    .in           { opacity:1 !important; transform:none !important; }
+    /* GSAP gestiona reveal/stg — las clases CSS ya no ocultan,
+       solo sirven como selectores semánticos */
+    .reveal, .reveal-l, .reveal-r { opacity: 1; transform: none; }
+    .stg { opacity: 1; transform: none; }
+    .in  { opacity: 1 !important; transform: none !important; }
 
     /* ── RESPONSIVE ───────────────────── */
     @media (max-width: 920px) {
@@ -538,6 +602,8 @@
   </style>
 </head>
 <body>
+  <div id="blueprintOverlay"></div>
+  <div id="scrollLabel">CAOS</div>
 
   <!-- NAV ─────────────────────────────── -->
   <nav id="mainNav">
@@ -560,7 +626,7 @@
     <div class="hero-sticky">
       <video id="heroVid" src="assets/hero.mp4" playsinline muted preload="auto"></video>
       <div class="hero-overlay"></div>
-      <div class="hero-content">
+      <div class="hero-content" id="heroContent">
         <div class="hero-tag tag">Partner Operativo · Comercio Internacional</div>
         <h1 class="hero-h1">Del caos operativo al<br><span class="grad">sistema que escala</span></h1>
         <p class="hero-p">Digitalizamos y optimizamos operaciones de comercio internacional para empresas que están perdiendo eficiencia — y margen — por falta de control.</p>
@@ -697,7 +763,7 @@
     <div class="cta-orb-b"></div>
     <div class="cta-orb-c"></div>
     <canvas id="ctaThree"></canvas>
-    <div class="cta-inner reveal">
+    <div class="cta-inner" id="ctaInner">
       <span class="tag">¿Hablamos?</span>
       <h2 class="cta-h2">¿Listo para convertir tu operativa<br>en una <span class="grad">ventaja competitiva?</span></h2>
       <p class="cta-sub">Un experto de INTEREMPREX analizará tu situación sin compromiso y te dirá con claridad si podemos ayudarte.</p>
@@ -982,36 +1048,112 @@
       window.addEventListener('resize', update);
     })();
 
-    // ── Intersection Observer — reveal ──────────────────
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(el => io.observe(el));
+    // ════════════════════════════════════════════════════
+    // GSAP — Hero (potente) + CTA (cierre visual)
+    // Resto de la web: scroll completamente natural
+    // Principios: gsap.set()+gsap.to() para evitar flickering,
+    //             will-change ya declarado en CSS,
+    //             sólo transform+opacity.
+    // ════════════════════════════════════════════════════
+    gsap.registerPlugin(ScrollTrigger);
 
-    // ── Stagger children ────────────────────────────────
-    const stgIo = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.querySelectorAll('.stg').forEach((c, i) =>
-            setTimeout(() => c.classList.add('in'), i * 115)
-          );
-          stgIo.unobserve(e.target);
+    // ── HERO ENTRADA ─────────────────────────────────────
+    // gsap.set() fija la posición inicial ANTES del primer frame
+    // (evita el flash que causaba fromTo)
+    // CSS ya tiene opacity:0; GSAP sólo añade el offset Y
+    gsap.set('.hero-tag',  { y: -18 });
+    gsap.set('.hero-h1',   { y:  30 });
+    gsap.set('.hero-p',    { y:  22 });
+    gsap.set('.hero-btns', { y:  16 });
+
+    gsap.to('.hero-tag',    { opacity: 1, y: 0, duration: .65, ease: 'power3.out', delay: .2  });
+    gsap.to('.hero-h1',     { opacity: 1, y: 0, duration: .82, ease: 'power3.out', delay: .36 });
+    gsap.to('.hero-p',      { opacity: 1, y: 0, duration: .72, ease: 'power3.out', delay: .58 });
+    gsap.to('.hero-btns',   { opacity: 1, y: 0, duration: .65, ease: 'power3.out', delay: .76 });
+    gsap.to('.scroll-hint', { opacity: 1,        duration: .5,  ease: 'power2.out', delay: 1.3 });
+
+    // ── HERO SCROLL — zoom + split parallax ──────────────
+    // Sólo en desktop; móvil usa autoplay
+    const heroOnDesktop = !window.matchMedia('(max-width: 768px)').matches &&
+                          !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (heroOnDesktop) {
+      // La barra de scroll del hero abarca ~30% del primer scroll
+      const heroTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#heroSec',
+          start: 'top top',
+          end: '28% top',    // termina mucho antes de que el hero acabe (500vh)
+          scrub: 1.3,
         }
       });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.pain-grid, .steps, .srv-grid, .diff-pts').forEach(p => stgIo.observe(p));
 
-    // ── Comparison bars ─────────────────────────────────
-    const barIo = new IntersectionObserver(entries => {
+      // Vídeo: zoom-in suave
+      heroTl.to('#heroVid', { scale: 1.12, ease: 'none' }, 0);
+      // Overlay: oscurece ligeramente para enfocar la transición
+      heroTl.to('.hero-overlay', { opacity: 0.7, ease: 'none' }, 0);
+      // Tag y h1 → salen hacia ARRIBA
+      heroTl.to('.hero-tag', { opacity: 0, y: -30, ease: 'none' }, 0);
+      heroTl.to('.hero-h1',  { opacity: 0, y: -52, ease: 'none' }, 0.05);
+      // Párrafo y botones → salen hacia ABAJO (efecto split)
+      heroTl.to('.hero-p',     { opacity: 0, y: 36, ease: 'none' }, 0.08);
+      heroTl.to('.hero-btns',  { opacity: 0, y: 28, ease: 'none' }, 0.12);
+      heroTl.to('.scroll-hint',{ opacity: 0,        ease: 'none' }, 0);
+    }
+
+    // ── CONECTOR SVG EN METODOLOGÍA ───────────────────────
+    (function () {
+      const stepsEl = document.querySelector('.steps');
+      if (!stepsEl) return;
+      const ns = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(ns, 'svg');
+      svg.setAttribute('aria-hidden', 'true');
+      svg.style.cssText = 'position:absolute;top:43px;left:12%;width:76%;height:4px;overflow:visible;pointer-events:none;';
+      const defs = document.createElementNS(ns, 'defs');
+      const grad = document.createElementNS(ns, 'linearGradient');
+      grad.id = 'cgx'; grad.setAttribute('x1','0%'); grad.setAttribute('x2','100%');
+      [['0%','transparent'],['15%','#0057FF'],['85%','#00C2FF'],['100%','transparent']].forEach(([o,c]) => {
+        const s = document.createElementNS(ns,'stop');
+        s.setAttribute('offset', o); s.setAttribute('stop-color', c); grad.appendChild(s);
+      });
+      defs.appendChild(grad); svg.appendChild(defs);
+      const ln = document.createElementNS(ns,'line');
+      ln.setAttribute('x1','0'); ln.setAttribute('y1','0'); ln.setAttribute('x2','100%'); ln.setAttribute('y2','0');
+      ln.style.cssText = 'stroke:url(#cgx);stroke-width:2;stroke-dasharray:1000;stroke-dashoffset:1000;transition:stroke-dashoffset 1.5s cubic-bezier(.22,1,.36,1);';
+      svg.appendChild(ln);
+      stepsEl.insertBefore(svg, stepsEl.firstChild);
+      ScrollTrigger.create({
+        trigger: stepsEl, start: 'top 70%',
+        onEnter: () => { ln.style.strokeDashoffset = '0'; }
+      });
+    })();
+
+    // ── CTA FINAL — entrada limpia y potente ─────────────
+    gsap.from('#ctaInner > *', {
+      opacity: 0, y: 28, duration: .82, ease: 'power3.out',
+      stagger: .13, immediateRender: false,
+      scrollTrigger: {
+        trigger: '#cta-experto', start: 'top 68%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    // ── BLUEPRINT OVERLAY — sólo en metodología ──────────
+    ScrollTrigger.create({
+      trigger: '#metodologia', start: 'top 60%', end: 'bottom 40%', scrub: 2,
+      onUpdate: s => {
+        const ov = document.getElementById('blueprintOverlay');
+        if (ov) ov.style.opacity = (Math.sin(s.progress * Math.PI) * .28).toString();
+      }
+    });
+
+    // ── BARRAS COMPARATIVAS ───────────────────────────────
+    new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting) {
+        if (e.isIntersecting)
           e.target.querySelectorAll('.cmp-bar-fill').forEach(b => { b.style.width = b.dataset.w + '%'; });
-          barIo.unobserve(e.target);
-        }
       });
-    }, { threshold: 0.3 });
-    const cmp = document.getElementById('cmpCard');
-    if (cmp) barIo.observe(cmp);
+    }, { threshold: .3 }).observe(document.getElementById('cmpCard') || document.createElement('div'));
 
     // ── Three.js CTA — objetos 3D interactivos ──────────
     (function () {
@@ -1154,18 +1296,32 @@
         canvas.style.cursor = raycaster.intersectObjects(meshes, true).length ? 'grab' : 'default';
       });
 
+      /* ── Cursor parallax (desktop) ── */
+      let mx = 0, my = 0, tmx = 0, tmy = 0;
+      const isMobileDevice = window.matchMedia('(max-width:768px)').matches;
+      if (!isMobileDevice) {
+        section.addEventListener('mousemove', e => {
+          const r = section.getBoundingClientRect();
+          mx = ((e.clientX - r.left) / r.width  - .5) * 2;
+          my = ((e.clientY - r.top)  / r.height - .5) * 2;
+        });
+      }
+
       /* ── Loop de animación ── */
       let t = 0;
       function animate() {
         requestAnimationFrame(animate);
         t += 0.007;
 
+        /* cursor parallax lerp */
+        tmx += (mx - tmx) * .04;
+        tmy += (my - tmy) * .04;
+
         meshes.forEach(m => {
           const u = m.userData;
           if (!u.dragging) {
-            m.position.x += Math.sin(t * 0.38 + u.phase) * 0.004 + u.vx;
-            m.position.y += Math.cos(t * 0.29 + u.phase) * 0.004 + u.vy;
-            /* retorno suave al origen */
+            m.position.x += Math.sin(t * 0.38 + u.phase) * 0.004 + u.vx + tmx * .04;
+            m.position.y += Math.cos(t * 0.29 + u.phase) * 0.004 + u.vy - tmy * .03;
             u.vx += (u.ox - m.position.x) * 0.0006;
             u.vy += (u.oy - m.position.y) * 0.0006;
             u.vx *= 0.97; u.vy *= 0.97;
@@ -1177,9 +1333,8 @@
           m.rotation.z += u.rz;
         });
 
-        /* luces orbitales */
-        pl1.position.set(Math.sin(t * 0.45) * 6, Math.cos(t * 0.32) * 5, 7);
-        pl2.position.set(Math.cos(t * 0.38) * 6, Math.sin(t * 0.55) * 4, 5);
+        pl1.position.set(Math.sin(t * 0.45) * 6 + tmx * .8, Math.cos(t * 0.32) * 5 - tmy * .6, 7);
+        pl2.position.set(Math.cos(t * 0.38) * 6 - tmx * .5, Math.sin(t * 0.55) * 4 + tmy * .4, 5);
 
         renderer.render(scene, camera);
       }
