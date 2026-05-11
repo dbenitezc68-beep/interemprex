@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     ul { list-style: none; }
@@ -385,49 +386,62 @@
     .modal-box .f-submit { margin-top: 4px; }
 
     /* ── CTA EXPERTO ─────────────────── */
-    #cta-experto { position: relative; overflow: hidden; background: var(--bg); }
+    #cta-experto {
+      position: relative; overflow: hidden;
+      background: #030812;
+      border-top: 1px solid rgba(0,87,255,.25);
+      border-bottom: 1px solid rgba(0,87,255,.25);
+    }
     .cta-bg {
       position: absolute; inset: -40% 0; z-index: 0;
       background:
-        radial-gradient(ellipse 90% 60% at 50% 50%, rgba(0,87,255,.26) 0%, rgba(0,194,255,.07) 45%, transparent 70%),
-        #060D1A;
+        radial-gradient(ellipse 80% 55% at 50% 50%, rgba(0,87,255,.55) 0%, rgba(0,87,255,.18) 40%, transparent 68%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,55,200,.35) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 80% 20%, rgba(0,180,255,.25) 0%, transparent 55%),
+        #030812;
       will-change: transform;
     }
     .cta-grid {
       position: absolute; inset: 0; z-index: 1;
       background-image:
-        linear-gradient(rgba(0,87,255,.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,87,255,.07) 1px, transparent 1px);
+        linear-gradient(rgba(0,87,255,.13) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,87,255,.13) 1px, transparent 1px);
       background-size: 64px 64px;
     }
     .cta-orb-a {
-      position: absolute; width: 700px; height: 700px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,87,255,.2) 0%, transparent 65%);
+      position: absolute; width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,87,255,.7) 0%, rgba(0,87,255,.3) 30%, transparent 65%);
       top: 50%; left: 50%;
-      filter: blur(48px); z-index: 1;
-      animation: orbA 6s ease-in-out infinite;
+      filter: blur(55px); z-index: 2;
+      animation: orbA 5s ease-in-out infinite;
     }
     .cta-orb-b {
-      position: absolute; width: 320px; height: 320px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,194,255,.14) 0%, transparent 65%);
-      top: 10%; right: 10%;
-      filter: blur(64px); z-index: 1;
-      animation: orbB 8s ease-in-out infinite;
+      position: absolute; width: 420px; height: 420px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,194,255,.55) 0%, rgba(0,130,255,.2) 40%, transparent 65%);
+      top: -5%; right: 5%;
+      filter: blur(60px); z-index: 2;
+      animation: orbB 7s ease-in-out infinite;
     }
     .cta-orb-c {
-      position: absolute; width: 240px; height: 240px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,87,255,.12) 0%, transparent 65%);
-      bottom: 10%; left: 8%;
-      filter: blur(56px); z-index: 1;
-      animation: orbB 10s ease-in-out infinite reverse;
+      position: absolute; width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,87,255,.5) 0%, transparent 65%);
+      bottom: -5%; left: 5%;
+      filter: blur(50px); z-index: 2;
+      animation: orbB 9s ease-in-out infinite reverse;
     }
+    #ctaThree {
+      position: absolute; inset: 0; z-index: 2;
+      width: 100%; height: 100%;
+      cursor: grab;
+    }
+    #ctaThree:active { cursor: grabbing; }
     @keyframes orbA {
-      0%,100% { transform: translate(-50%,-50%) scale(1);   opacity: 1; }
-      50%      { transform: translate(-50%,-50%) scale(1.18); opacity: .7; }
+      0%,100% { transform: translate(-50%,-50%) scale(1);    opacity: 1; }
+      50%      { transform: translate(-50%,-50%) scale(1.2);  opacity: .75; }
     }
     @keyframes orbB {
-      0%,100% { transform: scale(1);    opacity: 1; }
-      50%      { transform: scale(1.25); opacity: .55; }
+      0%,100% { transform: scale(1);     opacity: 1; }
+      50%      { transform: scale(1.28); opacity: .6; }
     }
     .cta-inner {
       position: relative; z-index: 2;
@@ -603,39 +617,6 @@
     </div>
   </section>
 
-  <!-- METODOLOGÍA ─────────────────────── -->
-  <section class="sec" id="metodologia">
-    <div class="sec-in wrap">
-      <div class="sec-head reveal">
-        <span class="tag">Metodología</span>
-        <h2 class="sec-h2">Cómo lo hacemos</h2>
-        <p class="sec-p">No somos consultores que entregan un informe y se van. Entendemos tu operativa real, diseñamos a medida e implementamos directamente.</p>
-      </div>
-      <div class="steps">
-        <div class="step stg">
-          <div class="step-num">01</div>
-          <h3>Diagnóstico</h3>
-          <p>Analizamos tus flujos operativos: pedidos, proveedores, tiempos, datos. Identificamos exactamente dónde se pierde eficiencia y por qué.</p>
-        </div>
-        <div class="step stg">
-          <div class="step-num">02</div>
-          <h3>Diseño a medida</h3>
-          <p>Diseñamos la solución adaptada a tu realidad operativa. Sin plantillas genéricas ni tecnología por tendencia — solo lo que funciona para tu empresa.</p>
-        </div>
-        <div class="step stg">
-          <div class="step-num">03</div>
-          <h3>Implementación directa</h3>
-          <p>Ejecutamos las mejoras nosotros mismos: automatizamos procesos, estructuramos datos y optimizamos las herramientas que ya utilizas.</p>
-        </div>
-        <div class="step stg">
-          <div class="step-num">04</div>
-          <h3>Optimización continua</h3>
-          <p>Una vez en marcha, medimos, ajustamos y mejoramos. Tu operativa debe poder escalar sin aumentar proporcionalmente la complejidad.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- SERVICIOS ───────────────────────── -->
   <section class="sec" id="servicios">
     <div class="divider"></div>
@@ -675,6 +656,39 @@
     </div>
   </section>
 
+  <!-- METODOLOGÍA ─────────────────────── -->
+  <section class="sec" id="metodologia">
+    <div class="sec-in wrap">
+      <div class="sec-head reveal">
+        <span class="tag">Metodología</span>
+        <h2 class="sec-h2">Cómo lo hacemos</h2>
+        <p class="sec-p">No somos consultores que entregan un informe y se van. Entendemos tu operativa real, diseñamos a medida e implementamos directamente.</p>
+      </div>
+      <div class="steps">
+        <div class="step stg">
+          <div class="step-num">01</div>
+          <h3>Diagnóstico</h3>
+          <p>Analizamos tus flujos operativos: pedidos, proveedores, tiempos, datos. Identificamos exactamente dónde se pierde eficiencia y por qué.</p>
+        </div>
+        <div class="step stg">
+          <div class="step-num">02</div>
+          <h3>Diseño a medida</h3>
+          <p>Diseñamos la solución adaptada a tu realidad operativa. Sin plantillas genéricas ni tecnología por tendencia — solo lo que funciona para tu empresa.</p>
+        </div>
+        <div class="step stg">
+          <div class="step-num">03</div>
+          <h3>Implementación directa</h3>
+          <p>Ejecutamos las mejoras nosotros mismos: automatizamos procesos, estructuramos datos y optimizamos las herramientas que ya utilizas.</p>
+        </div>
+        <div class="step stg">
+          <div class="step-num">04</div>
+          <h3>Optimización continua</h3>
+          <p>Una vez en marcha, medimos, ajustamos y mejoramos. Tu operativa debe poder escalar sin aumentar proporcionalmente la complejidad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA HABLAR CON UN EXPERTO ──────── -->
   <section class="sec" id="cta-experto">
     <div class="cta-bg" id="ctaBg"></div>
@@ -682,6 +696,7 @@
     <div class="cta-orb-a"></div>
     <div class="cta-orb-b"></div>
     <div class="cta-orb-c"></div>
+    <canvas id="ctaThree"></canvas>
     <div class="cta-inner reveal">
       <span class="tag">¿Hablamos?</span>
       <h2 class="cta-h2">¿Listo para convertir tu operativa<br>en una <span class="grad">ventaja competitiva?</span></h2>
@@ -997,6 +1012,188 @@
     }, { threshold: 0.3 });
     const cmp = document.getElementById('cmpCard');
     if (cmp) barIo.observe(cmp);
+
+    // ── Three.js CTA — objetos 3D interactivos ──────────
+    (function () {
+      if (typeof THREE === 'undefined') return;
+      const canvas  = document.getElementById('ctaThree');
+      const section = document.getElementById('cta-experto');
+      if (!canvas || !section) return;
+
+      let W = section.offsetWidth, H = section.offsetHeight;
+
+      /* ── Escena ── */
+      const scene    = new THREE.Scene();
+      const camera   = new THREE.PerspectiveCamera(52, W / H, 0.1, 100);
+      camera.position.set(0, 0, 10);
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.setSize(W, H);
+      renderer.setClearColor(0x000000, 0);
+
+      /* ── Luces ── */
+      scene.add(new THREE.AmbientLight(0x112244, 4));
+
+      const pl1 = new THREE.PointLight(0x0066ff, 60, 30);
+      pl1.position.set(5, 4, 7); scene.add(pl1);
+
+      const pl2 = new THREE.PointLight(0x00ccff, 45, 25);
+      pl2.position.set(-5, -3, 5); scene.add(pl2);
+
+      const pl3 = new THREE.PointLight(0x6600ff, 30, 20);
+      pl3.position.set(0, -5, 3); scene.add(pl3);
+
+      /* ── Objetos ── */
+      const defs = [
+        { g: new THREE.IcosahedronGeometry(0.78, 1),          c: 0x0088ff, em: 0x003388, x: -3.8, y:  1.8, z:  0.5 },
+        { g: new THREE.OctahedronGeometry(0.68, 0),           c: 0x00aaff, em: 0x003355, x:  3.4, y:  2.0, z: -0.3 },
+        { g: new THREE.TorusKnotGeometry(0.48, 0.16, 96, 8),  c: 0x3366ff, em: 0x001166, x: -1.0, y: -2.0, z:  0.8 },
+        { g: new THREE.BoxGeometry(1.0, 1.0, 1.0),            c: 0x0077ee, em: 0x002255, x:  2.4, y: -1.8, z: -0.5 },
+        { g: new THREE.DodecahedronGeometry(0.66, 0),         c: 0x44aaff, em: 0x001144, x: -2.9, y: -1.0, z:  0.2 },
+        { g: new THREE.TetrahedronGeometry(0.72, 0),          c: 0x00bbff, em: 0x002233, x:  0.6, y:  2.2, z: -0.8 },
+        { g: new THREE.TorusGeometry(0.56, 0.2, 20, 48),      c: 0x22ccff, em: 0x001122, x: -0.5, y:  0.2, z:  1.0 },
+        { g: new THREE.ConeGeometry(0.55, 1.1, 6),            c: 0x0055cc, em: 0x001133, x:  1.6, y:  0.8, z: -1.0 },
+      ];
+
+      const meshes = defs.map(d => {
+        const mat = new THREE.MeshStandardMaterial({
+          color: d.c, emissive: d.em, emissiveIntensity: 1.2,
+          metalness: 0.75, roughness: 0.18,
+          transparent: true, opacity: 0.90,
+        });
+        const mesh = new THREE.Mesh(d.g, mat);
+        mesh.position.set(d.x, d.y, d.z);
+
+        /* wireframe encima */
+        const wf = new THREE.Mesh(d.g, new THREE.MeshBasicMaterial({
+          color: 0x88ddff, wireframe: true, transparent: true, opacity: 0.22,
+        }));
+        mesh.add(wf);
+
+        mesh.userData = {
+          ox: d.x, oy: d.y,
+          vx: (Math.random() - .5) * .01,
+          vy: (Math.random() - .5) * .01,
+          rx: Math.random() * .010 + .003,
+          ry: Math.random() * .010 + .003,
+          rz: Math.random() * .005,
+          phase: Math.random() * Math.PI * 2,
+          dragging: false,
+        };
+        scene.add(mesh);
+        return mesh;
+      });
+
+      /* ── Drag con raycasting ── */
+      const raycaster  = new THREE.Raycaster();
+      const dragPlane  = new THREE.Plane();
+      const dragOffset = new THREE.Vector3();
+      const dragVel    = new THREE.Vector3();
+      let dragged = null, prevPos = new THREE.Vector3();
+
+      function ndcFromEvent(e) {
+        const t = e.touches ? e.touches[0] : e;
+        const r = canvas.getBoundingClientRect();
+        return new THREE.Vector2(
+          ((t.clientX - r.left) / r.width)  *  2 - 1,
+          ((t.clientY - r.top)  / r.height) * -2 + 1
+        );
+      }
+
+      function startDrag(ndc) {
+        raycaster.setFromCamera(ndc, camera);
+        const hits = raycaster.intersectObjects(meshes, true);
+        if (!hits.length) return;
+        let obj = hits[0].object;
+        while (obj.parent && !meshes.includes(obj)) obj = obj.parent;
+        if (!meshes.includes(obj)) return;
+        dragged = obj;
+        dragged.userData.dragging = true;
+        dragPlane.setFromNormalAndCoplanarPoint(
+          new THREE.Vector3(0, 0, 1), dragged.position
+        );
+        const pt = new THREE.Vector3();
+        raycaster.ray.intersectPlane(dragPlane, pt);
+        dragOffset.copy(dragged.position).sub(pt);
+        prevPos.copy(dragged.position);
+        canvas.style.cursor = 'grabbing';
+      }
+
+      function moveDrag(ndc) {
+        if (!dragged) return;
+        raycaster.setFromCamera(ndc, camera);
+        const pt = new THREE.Vector3();
+        raycaster.ray.intersectPlane(dragPlane, pt);
+        const np = pt.add(dragOffset);
+        dragVel.copy(np).sub(dragged.position);
+        dragged.position.copy(np);
+        prevPos.copy(np);
+      }
+
+      function endDrag() {
+        if (!dragged) return;
+        dragged.userData.vx = dragVel.x * 0.55;
+        dragged.userData.vy = dragVel.y * 0.55;
+        dragged.userData.dragging = false;
+        dragged = null;
+        canvas.style.cursor = 'grab';
+      }
+
+      canvas.addEventListener('mousedown',  e => startDrag(ndcFromEvent(e)));
+      window.addEventListener('mousemove',  e => moveDrag(ndcFromEvent(e)));
+      window.addEventListener('mouseup',    endDrag);
+      canvas.addEventListener('touchstart', e => { e.preventDefault(); startDrag(ndcFromEvent(e)); }, { passive: false });
+      window.addEventListener('touchmove',  e => moveDrag(ndcFromEvent(e)), { passive: true });
+      window.addEventListener('touchend',   endDrag);
+
+      /* hover cursor */
+      canvas.addEventListener('mousemove', e => {
+        if (dragged) return;
+        raycaster.setFromCamera(ndcFromEvent(e), camera);
+        canvas.style.cursor = raycaster.intersectObjects(meshes, true).length ? 'grab' : 'default';
+      });
+
+      /* ── Loop de animación ── */
+      let t = 0;
+      function animate() {
+        requestAnimationFrame(animate);
+        t += 0.007;
+
+        meshes.forEach(m => {
+          const u = m.userData;
+          if (!u.dragging) {
+            m.position.x += Math.sin(t * 0.38 + u.phase) * 0.004 + u.vx;
+            m.position.y += Math.cos(t * 0.29 + u.phase) * 0.004 + u.vy;
+            /* retorno suave al origen */
+            u.vx += (u.ox - m.position.x) * 0.0006;
+            u.vy += (u.oy - m.position.y) * 0.0006;
+            u.vx *= 0.97; u.vy *= 0.97;
+            m.position.x = Math.max(-5.5, Math.min(5.5, m.position.x));
+            m.position.y = Math.max(-3.2, Math.min(3.2, m.position.y));
+          }
+          m.rotation.x += u.rx;
+          m.rotation.y += u.ry;
+          m.rotation.z += u.rz;
+        });
+
+        /* luces orbitales */
+        pl1.position.set(Math.sin(t * 0.45) * 6, Math.cos(t * 0.32) * 5, 7);
+        pl2.position.set(Math.cos(t * 0.38) * 6, Math.sin(t * 0.55) * 4, 5);
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      /* ── Resize ── */
+      function resize() {
+        W = section.offsetWidth; H = section.offsetHeight;
+        camera.aspect = W / H;
+        camera.updateProjectionMatrix();
+        renderer.setSize(W, H);
+      }
+      window.addEventListener('resize', resize);
+    })();
 
     // ── Hero + CTA parallax ─────────────────────────────
     window.addEventListener('scroll', () => {
