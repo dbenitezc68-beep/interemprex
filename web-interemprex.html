@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="INTEREMPREX — Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional.">
+  <title>INTEREMPREX — Digitalización del Comercio Internacional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    ul { list-style: none; }
+
+    :root {
+      --bg:       #060D1A;
+      --bg2:      #091525;
+      --bg3:      #0C1C34;
+      --primary:  #0057FF;
+      --p-glow:   rgba(0,87,255,0.28);
+      --accent:   #00C2FF;
+      --text:     #FFFFFF;
+      --sub:      #9AB0CC;
+      --muted:    #536477;
+      --border:   rgba(0,87,255,0.18);
+      --card:     rgba(9,21,37,0.92);
+      --max:      1200px;
+      --nh:       72px;
+      --r:        12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.15; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(0,194,255,0.07);
+      border: 1px solid rgba(0,194,255,0.22);
+      border-radius: 100px; padding: 6px 16px;
+    }
+
+    /* ── NAV ──────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: var(--nh);
+      display: flex; align-items: center;
+      transition: background .35s, border-color .35s, backdrop-filter .35s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(6,13,26,.93);
+      backdrop-filter: blur(22px);
+      border-color: var(--border);
+    }
+    .nav-in {
+      max-width: var(--max); margin: 0 auto; padding: 0 28px; width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 19px; font-weight: 700; letter-spacing: .06em;
+      color: var(--text); text-decoration: none;
+    }
+    .logo em { color: var(--primary); font-style: normal; }
+    .nav-links { display: flex; align-items: center; gap: 34px; }
+    .nav-links a {
+      color: var(--sub); text-decoration: none;
+      font-size: 14px; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--primary) !important;
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      box-shadow: 0 0 0 0 var(--p-glow);
+      transition: background .2s, transform .2s, box-shadow .2s !important;
+    }
+    .nav-cta:hover { background: #1a6aff !important; transform: translateY(-1px); box-shadow: 0 6px 24px var(--p-glow) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
+
+    /* ── HERO SCROLL VIDEO ────────────── */
+    .hero-wrap { height: 500vh; position: relative; }
+    .hero-sticky {
+      position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden;
+    }
+    .hero-sticky video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(6,13,26,.45) 0%, rgba(6,13,26,.35) 55%, rgba(6,13,26,.88) 100%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 0 24px;
+    }
+    .hero-tag  { margin-bottom: 28px; opacity: 0; animation: fadeDown .8s .3s forwards; }
+    .hero-h1 {
+      font-size: clamp(40px, 7vw, 86px);
+      font-weight: 700; max-width: 880px; margin-bottom: 22px;
+      opacity: 0; animation: fadeUp .9s .5s forwards;
+    }
+    .hero-h1 .grad {
+      background: linear-gradient(130deg, #4893FF 0%, #00C2FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--sub); max-width: 560px; margin-bottom: 42px; line-height: 1.75;
+      opacity: 0; animation: fadeUp .9s .7s forwards;
+    }
+    .hero-btns {
+      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+      opacity: 0; animation: fadeUp .9s .9s forwards;
+    }
+    .btn-p {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--primary); color: #fff;
+      text-decoration: none; font-weight: 600; font-size: 16px;
+      padding: 15px 32px; border-radius: var(--r);
+      box-shadow: 0 4px 28px var(--p-glow);
+      transition: background .2s, transform .2s, box-shadow .2s;
+    }
+    .btn-p:hover { background: #1a6aff; transform: translateY(-2px); box-shadow: 0 8px 36px var(--p-glow); }
+    .btn-g {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16);
+      color: #fff; text-decoration: none; font-weight: 500; font-size: 16px;
+      padding: 15px 32px; border-radius: var(--r);
+      backdrop-filter: blur(8px);
+      transition: background .2s, border-color .2s, transform .2s;
+    }
+    .btn-g:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.3); transform: translateY(-2px); }
+    .scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+      opacity: 0; animation: fadeIn 1s 1.5s forwards;
+    }
+    .scroll-mouse { width: 22px; height: 36px; border: 2px solid var(--muted); border-radius: 11px; position: relative; }
+    .scroll-mouse::after {
+      content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+      width: 3px; height: 6px; background: var(--muted); border-radius: 2px;
+      animation: wheel 1.5s infinite;
+    }
+    .progress-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,.07); z-index: 3; }
+    .progress-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width .05s linear;
+    }
+    .wm-cover {
+      position: absolute;
+      top: 0; left: 0;
+      width: 220px; height: 72px;
+      z-index: 4;
+      background: linear-gradient(135deg, rgba(6,13,26,1) 40%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* ── SECTIONS ─────────────────────── */
+    .sec { position: relative; }
+    .sec-in { padding: 108px 0; }
+    .sec-head { text-align: center; margin-bottom: 68px; }
+    .sec-head .tag { margin-bottom: 20px; }
+    .sec-h2 { font-size: clamp(30px, 4vw, 50px); font-weight: 700; margin-bottom: 18px; }
+    .sec-p { font-size: 18px; color: var(--sub); max-width: 560px; margin: 0 auto; line-height: 1.75; }
+    .divider {
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* ── PROBLEMA ─────────────────────── */
+    #problema { background: var(--bg2); }
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+      gap: 22px; margin-bottom: 56px;
+    }
+    .pain-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--r);
+      padding: 32px;
+      transition: border-color .3s, transform .3s;
+    }
+    .pain-card:hover { border-color: rgba(0,87,255,.5); transform: translateY(-5px); }
+    .pain-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      background: rgba(0,87,255,.09); border: 1px solid rgba(0,87,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+    }
+    .pain-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
+    .pain-card p { font-size: 14.5px; color: var(--sub); line-height: 1.7; }
+    .pain-call {
+      text-align: center; padding: 44px 36px;
+      background: linear-gradient(135deg, rgba(0,87,255,.07), rgba(0,194,255,.04));
+      border: 1px solid var(--border); border-radius: var(--r);
+    }
+    .pain-call p { font-size: 20px; font-weight: 500; line-height: 1.55; }
+    .pain-call span { color: var(--accent); }
+
+    /* ── METODOLOGÍA ──────────────────── */
+    #metodologia { background: var(--bg); }
+    .steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 36px; position: relative;
+    }
+    .steps::before {
+      content: ''; position: absolute;
+      top: 43px; left: 12%; right: 12%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), var(--border), transparent);
+    }
+    .step { text-align: center; }
+    .step-num {
+      width: 86px; height: 86px; border-radius: 50%;
+      border: 2px solid var(--border); background: var(--bg2);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px; font-weight: 700; color: var(--primary);
+      transition: background .3s, border-color .3s;
+    }
+    .step:hover .step-num { background: rgba(0,87,255,.1); border-color: var(--primary); }
+    .step h3 { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
+    .step p { font-size: 14.5px; color: var(--sub); line-height: 1.7; }
+
+    /* ── SERVICIOS ────────────────────── */
+    #servicios { background: var(--bg3); }
+    .srv-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 22px;
+    }
+    .srv-card {
+      background: rgba(6,13,26,.85); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 36px;
+      position: relative; overflow: hidden;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+    .srv-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0; transition: opacity .3s;
+    }
+    .srv-card:hover { border-color: rgba(0,87,255,.45); transform: translateY(-7px); box-shadow: 0 14px 44px rgba(0,87,255,.14); }
+    .srv-card:hover::before { opacity: 1; }
+    .srv-ico { font-size: 34px; margin-bottom: 20px; display: block; }
+    .srv-card h3 { font-size: 19px; font-weight: 600; margin-bottom: 14px; }
+    .srv-card p { font-size: 14.5px; color: var(--sub); line-height: 1.72; }
+
+    /* ── DIFERENCIACIÓN ───────────────── */
+    #diferenciacion { background: var(--bg2); }
+    .diff-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 88px; align-items: center; }
+    .diff-txt .sec-head { text-align: left; }
+    .diff-txt .sec-head .sec-p { margin: 0; }
+    .diff-pts { display: flex; flex-direction: column; gap: 26px; margin-top: 40px; }
+    .diff-pt { display: flex; gap: 16px; align-items: flex-start; }
+    .diff-pt-ico {
+      width: 40px; height: 40px; min-width: 40px;
+      background: rgba(0,87,255,.09); border: 1px solid rgba(0,87,255,.22);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 17px;
+    }
+    .diff-pt-body h4 { font-size: 15.5px; font-weight: 600; margin-bottom: 6px; }
+    .diff-pt-body p { font-size: 14px; color: var(--sub); line-height: 1.65; }
+    .diff-vis {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 18px; padding: 44px;
+      display: flex; flex-direction: column; gap: 32px;
+    }
+    .cmp-row { display: flex; flex-direction: column; gap: 14px; }
+    .cmp-label { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .cmp-bars { display: grid; gap: 10px; }
+    .cmp-bar { display: flex; align-items: center; gap: 12px; }
+    .cmp-bar-lbl { font-size: 13px; color: var(--sub); min-width: 115px; }
+    .cmp-bar-track { flex: 1; height: 8px; background: rgba(255,255,255,.05); border-radius: 4px; overflow: hidden; }
+    .cmp-bar-fill { height: 100%; border-radius: 4px; width: 0; transition: width 1.6s cubic-bezier(.22,1,.36,1); }
+    .cmp-bar-fill.bad  { background: rgba(255,75,75,.45); }
+    .cmp-bar-fill.good { background: linear-gradient(90deg, var(--primary), var(--accent)); }
+    .cmp-bar-val { font-size: 13px; font-weight: 600; min-width: 44px; text-align: right; }
+    .sep-line { height: 1px; background: var(--border); }
+
+    /* ── CONTACTO ─────────────────────── */
+    #contacto { background: var(--bg); }
+    .cnt-wrap { display: grid; grid-template-columns: 1fr 1.25fr; gap: 72px; align-items: start; }
+    .cnt-info h2 { font-size: clamp(28px, 3.5vw, 44px); margin-bottom: 18px; }
+    .cnt-info > p { color: var(--sub); line-height: 1.75; margin-bottom: 42px; }
+    .cnt-data { display: flex; flex-direction: column; gap: 20px; }
+    .cnt-item { display: flex; align-items: center; gap: 16px; }
+    .cnt-item-ico {
+      width: 48px; height: 48px; border-radius: 10px;
+      background: rgba(0,87,255,.09); border: 1px solid rgba(0,87,255,.22);
+      display: flex; align-items: center; justify-content: center; font-size: 19px;
+    }
+    .cnt-item-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .09em; margin-bottom: 3px; }
+    .cnt-item-val {
+      font-size: 16px; font-weight: 500; color: var(--text);
+      text-decoration: none; transition: color .2s;
+    }
+    .cnt-item-val:hover { color: var(--accent); }
+    .cnt-form {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 48px;
+    }
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .f-grp { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .f-grp label { font-size: 12.5px; font-weight: 500; color: var(--sub); }
+    .f-grp input,
+    .f-grp select,
+    .f-grp textarea {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px; padding: 13px 15px;
+      color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px;
+      outline: none; width: 100%;
+      transition: border-color .2s, background .2s;
+    }
+    .f-grp input:focus,
+    .f-grp select:focus,
+    .f-grp textarea:focus { border-color: var(--primary); background: rgba(0,87,255,.05); }
+    .f-grp textarea { resize: vertical; min-height: 118px; }
+    .f-grp select option { background: #091525; }
+    .f-submit {
+      width: 100%; background: var(--primary); color: #fff;
+      border: none; border-radius: 8px; padding: 16px;
+      font-size: 16px; font-weight: 600; font-family: 'Inter', sans-serif;
+      cursor: pointer; box-shadow: 0 4px 24px var(--p-glow);
+      transition: background .2s, transform .2s, box-shadow .2s;
+    }
+    .f-submit:hover { background: #1a6aff; transform: translateY(-1px); box-shadow: 0 8px 36px var(--p-glow); }
+
+    /* ── MODAL ───────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(4,10,20,.88);
+      backdrop-filter: blur(14px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal-box {
+      background: #0C1C34;
+      border: 1px solid rgba(0,87,255,.3);
+      border-radius: 20px; padding: 48px;
+      max-width: 540px; width: 100%;
+      position: relative;
+      transform: translateY(28px) scale(.96);
+      transition: transform .38s cubic-bezier(.22,1,.36,1);
+      max-height: 90vh; overflow-y: auto;
+    }
+    .modal-overlay.open .modal-box { transform: none; }
+    .modal-close {
+      position: absolute; top: 18px; right: 18px;
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px; color: var(--sub);
+      transition: background .2s, color .2s;
+      font-style: normal;
+    }
+    .modal-close:hover { background: rgba(255,255,255,.14); color: var(--text); }
+    .modal-box .modal-tag { margin-bottom: 18px; }
+    .modal-box h3 { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+    .modal-box > p { color: var(--sub); font-size: 15px; line-height: 1.65; margin-bottom: 30px; }
+    .modal-box .f-submit { margin-top: 4px; }
+
+    /* ── CTA EXPERTO ─────────────────── */
+    #cta-experto { position: relative; overflow: hidden; background: var(--bg); }
+    .cta-bg {
+      position: absolute; inset: -40% 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 90% 60% at 50% 50%, rgba(0,87,255,.26) 0%, rgba(0,194,255,.07) 45%, transparent 70%),
+        #060D1A;
+      will-change: transform;
+    }
+    .cta-grid {
+      position: absolute; inset: 0; z-index: 1;
+      background-image:
+        linear-gradient(rgba(0,87,255,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,87,255,.07) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .cta-orb-a {
+      position: absolute; width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,87,255,.2) 0%, transparent 65%);
+      top: 50%; left: 50%;
+      filter: blur(48px); z-index: 1;
+      animation: orbA 6s ease-in-out infinite;
+    }
+    .cta-orb-b {
+      position: absolute; width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,194,255,.14) 0%, transparent 65%);
+      top: 10%; right: 10%;
+      filter: blur(64px); z-index: 1;
+      animation: orbB 8s ease-in-out infinite;
+    }
+    .cta-orb-c {
+      position: absolute; width: 240px; height: 240px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,87,255,.12) 0%, transparent 65%);
+      bottom: 10%; left: 8%;
+      filter: blur(56px); z-index: 1;
+      animation: orbB 10s ease-in-out infinite reverse;
+    }
+    @keyframes orbA {
+      0%,100% { transform: translate(-50%,-50%) scale(1);   opacity: 1; }
+      50%      { transform: translate(-50%,-50%) scale(1.18); opacity: .7; }
+    }
+    @keyframes orbB {
+      0%,100% { transform: scale(1);    opacity: 1; }
+      50%      { transform: scale(1.25); opacity: .55; }
+    }
+    .cta-inner {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 160px 24px;
+      max-width: var(--max); margin: 0 auto;
+    }
+    .cta-inner .tag { margin-bottom: 28px; }
+    .cta-h2 {
+      font-size: clamp(34px, 5.5vw, 70px);
+      font-weight: 700; line-height: 1.08;
+      max-width: 800px; margin: 0 auto 22px;
+    }
+    .cta-h2 .grad {
+      background: linear-gradient(130deg, #4893FF 0%, #00C2FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .cta-sub {
+      font-size: clamp(17px, 2vw, 21px);
+      color: var(--sub); max-width: 500px;
+      margin: 0 auto 56px; line-height: 1.72;
+    }
+    .btn-cta-exp {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--primary); color: #fff;
+      font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 700;
+      padding: 20px 52px; border-radius: 14px; border: none; cursor: pointer;
+      animation: pulseCta 2.8s ease-in-out infinite;
+      transition: transform .2s, background .2s;
+    }
+    .btn-cta-exp:hover {
+      background: #1a6aff; transform: translateY(-4px) scale(1.04);
+      animation: none; box-shadow: 0 16px 52px rgba(0,87,255,.65);
+    }
+    @keyframes pulseCta {
+      0%,100% { box-shadow: 0 0 0 0 rgba(0,87,255,.55); }
+      50%      { box-shadow: 0 0 0 22px rgba(0,87,255,0); }
+    }
+
+    /* ── FOOTER ───────────────────────── */
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 64px 0 32px; }
+    .ft-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 52px; margin-bottom: 52px; }
+    .ft-brand p { color: var(--muted); font-size: 14px; line-height: 1.75; margin-top: 14px; max-width: 310px; }
+    .ft-col h4 { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; }
+    .ft-col a { display: block; color: var(--sub); text-decoration: none; font-size: 14.5px; margin-bottom: 12px; transition: color .2s; }
+    .ft-col a:hover { color: var(--text); }
+    .ft-bot {
+      border-top: 1px solid var(--border); padding-top: 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .ft-bot p { font-size: 13.5px; color: var(--muted); }
+
+    /* ── ANIMATIONS ───────────────────── */
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(26px) } to { opacity:1; transform:none } }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-16px) } to { opacity:1; transform:none } }
+    @keyframes fadeIn   { from { opacity:0 } to { opacity:1 } }
+    @keyframes wheel    { 0%,100% { opacity:1; transform:translateX(-50%) translateY(0) } 80% { opacity:0; transform:translateX(-50%) translateY(12px) } }
+
+    .reveal       { opacity:0; transform:translateY(32px); transition:opacity .75s ease, transform .75s ease; }
+    .reveal-l     { opacity:0; transform:translateX(-40px); transition:opacity .75s ease, transform .75s ease; }
+    .reveal-r     { opacity:0; transform:translateX(40px); transition:opacity .75s ease, transform .75s ease; }
+    .stg          { opacity:0; transform:translateY(22px); transition:opacity .65s ease, transform .65s ease; }
+    .in           { opacity:1 !important; transform:none !important; }
+
+    /* ── RESPONSIVE ───────────────────── */
+    @media (max-width: 920px) {
+      .diff-wrap { grid-template-columns: 1fr; gap: 48px; }
+      .cnt-wrap  { grid-template-columns: 1fr; }
+      .ft-grid   { grid-template-columns: 1fr 1fr; }
+      .steps::before { display: none; }
+      .f-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: fixed; top: var(--nh); left: 0; right: 0;
+        background: rgba(6,13,26,.97); backdrop-filter: blur(22px);
+        padding: 24px; gap: 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .ft-grid   { grid-template-columns: 1fr; }
+      .sec-in    { padding: 76px 0; }
+      .diff-vis  { padding: 32px; }
+      .cnt-form  { padding: 28px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      .hero-wrap { height: 100vh; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV ─────────────────────────────── -->
+  <nav id="mainNav">
+    <div class="nav-in">
+      <a href="#" class="logo">INTER<em>EMPREX</em></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#problema">El Problema</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#metodologia">Metodología</a></li>
+        <li><a href="#contacto" class="nav-cta">Hablemos</a></li>
+      </ul>
+      <div class="hamburger" id="burger" role="button" aria-label="Menú" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SCROLL VIDEO ───────────────── -->
+  <section class="hero-wrap" id="heroSec">
+    <div class="hero-sticky">
+      <video id="heroVid" src="assets/hero.mp4" playsinline muted preload="auto"></video>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-tag tag">Partner Operativo · Comercio Internacional</div>
+        <h1 class="hero-h1">Del caos operativo al<br><span class="grad">sistema que escala</span></h1>
+        <p class="hero-p">Digitalizamos y optimizamos operaciones de comercio internacional para empresas que están perdiendo eficiencia — y margen — por falta de control.</p>
+        <div class="hero-btns">
+          <a href="#contacto" class="btn-p">Hablemos de tu operativa →</a>
+          <a href="#servicios" class="btn-g">Ver servicios</a>
+        </div>
+      </div>
+      <div class="scroll-hint">
+        <div class="scroll-mouse"></div>
+        <span>Scroll</span>
+      </div>
+      <div class="wm-cover"></div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progFill"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EL PROBLEMA ─────────────────────── -->
+  <section class="sec" id="problema">
+    <div class="divider"></div>
+    <div class="sec-in wrap">
+      <div class="sec-head reveal">
+        <span class="tag">El Problema</span>
+        <h2 class="sec-h2">¿Te suena familiar?</h2>
+        <p class="sec-p">Muchas empresas con operativa internacional siguen perdiendo margen por ineficiencias que tienen nombre — y solución.</p>
+      </div>
+      <div class="pain-grid">
+        <div class="pain-card stg">
+          <div class="pain-icon">📂</div>
+          <h3>Datos dispersos y desconectados</h3>
+          <p>Información crítica repartida entre Excel, correos y hojas sin actualizar. Sin una fuente de verdad única, cada decisión parte de datos distintos.</p>
+        </div>
+        <div class="pain-card stg">
+          <div class="pain-icon">⚠️</div>
+          <h3>Procesos manuales propensos a errores</h3>
+          <p>Cada pedido, coordinación o seguimiento depende de personas clave. Un fallo humano puede costar semanas de retraso y cientos de euros.</p>
+        </div>
+        <div class="pain-card stg">
+          <div class="pain-icon">🔍</div>
+          <h3>Sin visibilidad real de las operaciones</h3>
+          <p>Nadie sabe con certeza dónde está un pedido, cuándo llegará o qué pasó con un proveedor. La trazabilidad existe solo en papel — o en ningún sitio.</p>
+        </div>
+        <div class="pain-card stg">
+          <div class="pain-icon">📊</div>
+          <h3>Decisiones con información incompleta</h3>
+          <p>Los datos existen, pero están en formatos distintos, sin estructura ni análisis. Tomar decisiones estratégicas sobre esta base es apostar.</p>
+        </div>
+      </div>
+      <div class="pain-call reveal">
+        <p>Estas ineficiencias no son problemas menores.<br>Son <span>fugas directas de margen</span> que crecen con el volumen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- METODOLOGÍA ─────────────────────── -->
+  <section class="sec" id="metodologia">
+    <div class="sec-in wrap">
+      <div class="sec-head reveal">
+        <span class="tag">Metodología</span>
+        <h2 class="sec-h2">Cómo lo hacemos</h2>
+        <p class="sec-p">No somos consultores que entregan un informe y se van. Entendemos tu operativa real, diseñamos a medida e implementamos directamente.</p>
+      </div>
+      <div class="steps">
+        <div class="step stg">
+          <div class="step-num">01</div>
+          <h3>Diagnóstico</h3>
+          <p>Analizamos tus flujos operativos: pedidos, proveedores, tiempos, datos. Identificamos exactamente dónde se pierde eficiencia y por qué.</p>
+        </div>
+        <div class="step stg">
+          <div class="step-num">02</div>
+          <h3>Diseño a medida</h3>
+          <p>Diseñamos la solución adaptada a tu realidad operativa. Sin plantillas genéricas ni tecnología por tendencia — solo lo que funciona para tu empresa.</p>
+        </div>
+        <div class="step stg">
+          <div class="step-num">03</div>
+          <h3>Implementación directa</h3>
+          <p>Ejecutamos las mejoras nosotros mismos: automatizamos procesos, estructuramos datos y optimizamos las herramientas que ya utilizas.</p>
+        </div>
+        <div class="step stg">
+          <div class="step-num">04</div>
+          <h3>Optimización continua</h3>
+          <p>Una vez en marcha, medimos, ajustamos y mejoramos. Tu operativa debe poder escalar sin aumentar proporcionalmente la complejidad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS ───────────────────────── -->
+  <section class="sec" id="servicios">
+    <div class="divider"></div>
+    <div class="sec-in wrap">
+      <div class="sec-head reveal">
+        <span class="tag">Servicios</span>
+        <h2 class="sec-h2">Qué hacemos por ti</h2>
+        <p class="sec-p">Intervención directa sobre los puntos críticos de tu operativa internacional. Cada servicio está orientado a resultados medibles.</p>
+      </div>
+      <div class="srv-grid">
+        <div class="srv-card stg">
+          <span class="srv-ico">🌐</span>
+          <h3>Gestión de pedidos internacionales</h3>
+          <p>Estructuramos y centralizamos el ciclo completo de pedidos: desde la emisión hasta la recepción, con control en tiempo real y sin fisuras.</p>
+        </div>
+        <div class="srv-card stg">
+          <span class="srv-ico">🤝</span>
+          <h3>Coordinación con proveedores</h3>
+          <p>Sistemas de comunicación y seguimiento que eliminan la dependencia de personas clave y reducen drásticamente los errores de interpretación.</p>
+        </div>
+        <div class="srv-card stg">
+          <span class="srv-ico">⏱️</span>
+          <h3>Control de tiempos de tránsito</h3>
+          <p>Herramientas de monitorización de plazos logísticos que anticipan desviaciones antes de que se conviertan en problemas costosos.</p>
+        </div>
+        <div class="srv-card stg">
+          <span class="srv-ico">📈</span>
+          <h3>Organización y explotación de datos</h3>
+          <p>Transformamos datos logísticos dispersos en información estructurada y accionable. KPIs reales para decisiones sobre base sólida.</p>
+        </div>
+        <div class="srv-card stg">
+          <span class="srv-ico">⚡</span>
+          <h3>Automatización de procesos</h3>
+          <p>Automatizamos tareas repetitivas en Excel, ERPs o herramientas internas. Menos tiempo en operativa rutinaria, más en estrategia y crecimiento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA HABLAR CON UN EXPERTO ──────── -->
+  <section class="sec" id="cta-experto">
+    <div class="cta-bg" id="ctaBg"></div>
+    <div class="cta-grid"></div>
+    <div class="cta-orb-a"></div>
+    <div class="cta-orb-b"></div>
+    <div class="cta-orb-c"></div>
+    <div class="cta-inner reveal">
+      <span class="tag">¿Hablamos?</span>
+      <h2 class="cta-h2">¿Listo para convertir tu operativa<br>en una <span class="grad">ventaja competitiva?</span></h2>
+      <p class="cta-sub">Un experto de INTEREMPREX analizará tu situación sin compromiso y te dirá con claridad si podemos ayudarte.</p>
+      <button onclick="openModal()" class="btn-cta-exp">💬 Hablar con un experto</button>
+    </div>
+  </section>
+
+  <!-- POR QUÉ INTEREMPREX ─────────────── -->
+  <section class="sec" id="diferenciacion">
+    <div class="divider"></div>
+    <div class="sec-in wrap">
+      <div class="diff-wrap">
+        <div class="diff-txt">
+          <div class="sec-head reveal-l" style="text-align:left">
+            <span class="tag">Por qué INTEREMPREX</span>
+            <h2 class="sec-h2">Un partner que actúa,<br>no que aconseja</h2>
+            <p class="sec-p" style="margin:0">La diferencia entre consultoría tradicional y un partner operativo real está en quién ejecuta los cambios — y mide los resultados.</p>
+          </div>
+          <div class="diff-pts">
+            <div class="diff-pt reveal-l">
+              <div class="diff-pt-ico">🎯</div>
+              <div class="diff-pt-body">
+                <h4>Enfoque en ejecución, no en teoría</h4>
+                <p>No entregamos informes de diagnóstico. Implementamos directamente las mejoras operativas en tus sistemas y procesos reales.</p>
+              </div>
+            </div>
+            <div class="diff-pt reveal-l">
+              <div class="diff-pt-ico">🔧</div>
+              <div class="diff-pt-body">
+                <h4>Soluciones adaptadas, no plantillas</h4>
+                <p>Cada empresa tiene una operativa diferente. Diseñamos específicamente para tu flujo, tus herramientas y tu equipo.</p>
+              </div>
+            </div>
+            <div class="diff-pt reveal-l">
+              <div class="diff-pt-ico">📐</div>
+              <div class="diff-pt-body">
+                <h4>Digitalización donde impacta de verdad</h4>
+                <p>No tecnología por tendencia. Aplicamos digitalización donde realmente mejora eficiencia y control en tu operativa concreta.</p>
+              </div>
+            </div>
+            <div class="diff-pt reveal-l">
+              <div class="diff-pt-ico">📏</div>
+              <div class="diff-pt-body">
+                <h4>Resultados medibles y escalables</h4>
+                <p>Cada intervención produce resultados verificables: menos errores, mejor trazabilidad, procesos que escalan sin complejidad adicional.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="diff-vis reveal-r" id="cmpCard">
+          <div class="cmp-row">
+            <div class="cmp-label">Sin sistema estructurado</div>
+            <div class="cmp-bars">
+              <div class="cmp-bar">
+                <span class="cmp-bar-lbl">Trazabilidad</span>
+                <div class="cmp-bar-track"><div class="cmp-bar-fill bad" data-w="22"></div></div>
+                <span class="cmp-bar-val" style="color:rgba(255,80,80,.8)">Baja</span>
+              </div>
+              <div class="cmp-bar">
+                <span class="cmp-bar-lbl">Automatización</span>
+                <div class="cmp-bar-track"><div class="cmp-bar-fill bad" data-w="14"></div></div>
+                <span class="cmp-bar-val" style="color:rgba(255,80,80,.8)">Baja</span>
+              </div>
+              <div class="cmp-bar">
+                <span class="cmp-bar-lbl">Control operativo</span>
+                <div class="cmp-bar-track"><div class="cmp-bar-fill bad" data-w="28"></div></div>
+                <span class="cmp-bar-val" style="color:rgba(255,80,80,.8)">Bajo</span>
+              </div>
+            </div>
+          </div>
+          <div class="sep-line"></div>
+          <div class="cmp-row">
+            <div class="cmp-label">Con INTEREMPREX</div>
+            <div class="cmp-bars">
+              <div class="cmp-bar">
+                <span class="cmp-bar-lbl">Trazabilidad</span>
+                <div class="cmp-bar-track"><div class="cmp-bar-fill good" data-w="91"></div></div>
+                <span class="cmp-bar-val" style="color:var(--accent)">Alta</span>
+              </div>
+              <div class="cmp-bar">
+                <span class="cmp-bar-lbl">Automatización</span>
+                <div class="cmp-bar-track"><div class="cmp-bar-fill good" data-w="85"></div></div>
+                <span class="cmp-bar-val" style="color:var(--accent)">Alta</span>
+              </div>
+              <div class="cmp-bar">
+                <span class="cmp-bar-lbl">Control operativo</span>
+                <div class="cmp-bar-track"><div class="cmp-bar-fill good" data-w="93"></div></div>
+                <span class="cmp-bar-val" style="color:var(--accent)">Alto</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO ────────────────────────── -->
+  <section class="sec" id="contacto">
+    <div class="divider"></div>
+    <div class="sec-in wrap">
+      <div class="cnt-wrap">
+        <div class="cnt-info reveal-l">
+          <span class="tag" style="margin-bottom:24px;display:inline-flex">Contacto</span>
+          <h2>Hablemos de tu operativa</h2>
+          <p>Si reconoces alguno de los problemas que describimos, vale la pena conversar. Cuéntanos cómo funciona tu operativa y te diremos con claridad si podemos ayudarte.</p>
+          <div class="cnt-data">
+            <div class="cnt-item">
+              <div class="cnt-item-ico">✉️</div>
+              <div>
+                <div class="cnt-item-lbl">Email</div>
+                <a href="mailto:Interemprex@gmail.com" class="cnt-item-val">Interemprex@gmail.com</a>
+              </div>
+            </div>
+            <div class="cnt-item">
+              <div class="cnt-item-ico">📞</div>
+              <div>
+                <div class="cnt-item-lbl">Teléfono</div>
+                <a href="tel:+34656718916" class="cnt-item-val">+34 656 718 916</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cnt-form reveal-r">
+          <form action="https://formsubmit.co/interemprex@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="Nuevo contacto — INTEREMPREX web">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://interemprex.com/#contacto">
+            <div class="f-row">
+              <div class="f-grp">
+                <label for="f-nombre">Nombre</label>
+                <input type="text" id="f-nombre" name="Nombre" placeholder="Tu nombre" required>
+              </div>
+              <div class="f-grp">
+                <label for="f-empresa">Empresa</label>
+                <input type="text" id="f-empresa" name="Empresa" placeholder="Nombre de tu empresa" required>
+              </div>
+            </div>
+            <div class="f-grp">
+              <label for="f-email">Email de contacto</label>
+              <input type="email" id="f-email" name="Email" placeholder="tu@empresa.com" required>
+            </div>
+            <div class="f-grp">
+              <label for="f-vol">Volumen operativo aproximado</label>
+              <select id="f-vol" name="Volumen">
+                <option value="">Selecciona...</option>
+                <option>Pequeño — menos de 50 pedidos/mes</option>
+                <option>Medio — 50 a 200 pedidos/mes</option>
+                <option>Alto — más de 200 pedidos/mes</option>
+              </select>
+            </div>
+            <div class="f-grp">
+              <label for="f-msg">¿Cuál es tu mayor reto operativo ahora mismo?</label>
+              <textarea id="f-msg" name="Mensaje" placeholder="Describe brevemente el principal problema o ineficiencia que quieres resolver..."></textarea>
+            </div>
+            <button type="submit" class="f-submit">Enviar mensaje →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL ──────────────────────────── -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeOnBackdrop(event)">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">✕</button>
+      <span class="tag modal-tag">Contacto rápido</span>
+      <h3 id="modalTitle">Habla con un experto</h3>
+      <p>Cuéntanos tu situación y te respondemos en menos de 24 horas.</p>
+      <form onsubmit="submitModal(event)">
+        <div class="f-row">
+          <div class="f-grp">
+            <label for="m-nombre">Nombre</label>
+            <input type="text" id="m-nombre" placeholder="Tu nombre" required>
+          </div>
+          <div class="f-grp">
+            <label for="m-empresa">Empresa</label>
+            <input type="text" id="m-empresa" placeholder="Tu empresa" required>
+          </div>
+        </div>
+        <div class="f-grp">
+          <label for="m-email">Email de contacto</label>
+          <input type="email" id="m-email" placeholder="tu@empresa.com" required>
+        </div>
+        <div class="f-grp">
+          <label for="m-tel">Teléfono (opcional)</label>
+          <input type="tel" id="m-tel" placeholder="+34 600 000 000">
+        </div>
+        <div class="f-grp">
+          <label for="m-msg">¿Cuál es tu principal reto operativo?</label>
+          <textarea id="m-msg" placeholder="Describe brevemente tu situación..." style="min-height:100px" required></textarea>
+        </div>
+        <button type="submit" class="f-submit" id="mBtn">Enviar mensaje →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER ──────────────────────────── -->
+  <footer>
+    <div class="wrap">
+      <div class="ft-grid">
+        <div class="ft-brand">
+          <a href="#" class="logo" style="font-size:18px">INTER<em>EMPREX</em></a>
+          <p>Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional. Convertimos procesos complejos en sistemas claros, medibles y escalables.</p>
+        </div>
+        <div class="ft-col">
+          <h4>Servicios</h4>
+          <a href="#servicios">Gestión de pedidos</a>
+          <a href="#servicios">Coordinación con proveedores</a>
+          <a href="#servicios">Control de tránsitos</a>
+          <a href="#servicios">Datos logísticos</a>
+          <a href="#servicios">Automatización</a>
+        </div>
+        <div class="ft-col">
+          <h4>Empresa</h4>
+          <a href="#problema">El problema</a>
+          <a href="#metodologia">Metodología</a>
+          <a href="#diferenciacion">Por qué nosotros</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+      </div>
+      <div class="ft-bot">
+        <p>© 2026 INTEREMPREX. Todos los derechos reservados.</p>
+        <p>Digitalización del comercio internacional</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Nav scroll ──────────────────────────────────────
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 36);
+    }, { passive: true });
+
+    // ── Mobile menu ─────────────────────────────────────
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    document.querySelectorAll('#navLinks a').forEach(a =>
+      a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'))
+    );
+
+    // ── Scroll-driven video ─────────────────────────────
+    (function () {
+      const video  = document.getElementById('heroVid');
+      const hero   = document.getElementById('heroSec');
+      const fill   = document.getElementById('progFill');
+      if (!video || !hero) return;
+
+      const mobile  = window.matchMedia('(max-width: 768px)').matches;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (mobile || reduced) {
+        video.autoplay = true;
+        video.loop = true;
+        video.play().catch(() => {});
+        return;
+      }
+
+      video.pause();
+      video.currentTime = 0;
+      let ready = false;
+      video.addEventListener('loadedmetadata', () => { ready = true; });
+      video.load();
+
+      function update() {
+        if (!ready || !video.duration) return;
+        const rect = hero.getBoundingClientRect();
+        const scrolled   = -rect.top;
+        const scrollable = hero.offsetHeight - window.innerHeight;
+        if (scrolled <= 0)          { video.currentTime = 0;              if (fill) fill.style.width = '0%';    return; }
+        if (scrolled >= scrollable) { video.currentTime = video.duration; if (fill) fill.style.width = '100%';  return; }
+        const p = scrolled / scrollable;
+        video.currentTime = p * video.duration;
+        if (fill) fill.style.width = (p * 100) + '%';
+      }
+
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; }
+      }, { passive: true });
+      window.addEventListener('resize', update);
+    })();
+
+    // ── Intersection Observer — reveal ──────────────────
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(el => io.observe(el));
+
+    // ── Stagger children ────────────────────────────────
+    const stgIo = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.stg').forEach((c, i) =>
+            setTimeout(() => c.classList.add('in'), i * 115)
+          );
+          stgIo.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.pain-grid, .steps, .srv-grid, .diff-pts').forEach(p => stgIo.observe(p));
+
+    // ── Comparison bars ─────────────────────────────────
+    const barIo = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.cmp-bar-fill').forEach(b => { b.style.width = b.dataset.w + '%'; });
+          barIo.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    const cmp = document.getElementById('cmpCard');
+    if (cmp) barIo.observe(cmp);
+
+    // ── Hero + CTA parallax ─────────────────────────────
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      // Hero content
+      const c = document.querySelector('.hero-content');
+      if (c && y < window.innerHeight) c.style.transform = 'translateY(' + (y * 0.18) + 'px)';
+      // CTA background
+      const ctaBg  = document.getElementById('ctaBg');
+      const ctaSec = document.getElementById('cta-experto');
+      if (ctaBg && ctaSec) {
+        const r = ctaSec.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < window.innerHeight) {
+          const prog = (window.innerHeight - r.top) / (window.innerHeight + r.height);
+          ctaBg.style.transform = 'translateY(' + (prog * 80 - 20) + 'px)';
+        }
+      }
+    }, { passive: true });
+
+    // ── FormSubmit AJAX ─────────────────────────────────
+    const FS_ENDPOINT = 'https://formsubmit.co/ajax/interemprex@gmail.com';
+
+    function enviarFormulario(payload, btnEl, onSuccess) {
+      btnEl.textContent = 'Enviando…';
+      btnEl.disabled = true;
+
+      fetch(FS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success === 'true' || data.success === true) {
+          btnEl.textContent = '✓ Mensaje enviado — te contactamos pronto';
+          btnEl.style.background = '#00a67e';
+          if (onSuccess) onSuccess();
+        } else {
+          throw new Error('error');
+        }
+      })
+      .catch(() => {
+        btnEl.textContent = 'Error al enviar — escríbenos a interemprex@gmail.com';
+        btnEl.style.background = 'rgba(255,80,80,.4)';
+        btnEl.disabled = false;
+      });
+    }
+
+    // ── Formulario inferior — POST nativo (FormSubmit) ──
+    // El formulario usa action/method POST directamente, sin JS.
+
+    // ── Modal ───────────────────────────────────────────
+    function openModal() {
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeOnBackdrop(e) {
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // ── Formulario del modal ────────────────────────────
+    function submitModal(e) {
+      e.preventDefault();
+      enviarFormulario({
+        _subject: 'Experto web — ' + document.getElementById('m-nombre').value,
+        Nombre:   document.getElementById('m-nombre').value,
+        Empresa:  document.getElementById('m-empresa').value,
+        Email:    document.getElementById('m-email').value,
+        Teléfono: document.getElementById('m-tel').value,
+        Mensaje:  document.getElementById('m-msg').value
+      }, document.getElementById('mBtn'), () => setTimeout(closeModal, 2000));
+    }
+  </script>
+</body>
+</html>
