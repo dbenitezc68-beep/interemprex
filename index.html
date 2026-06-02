@@ -3,14 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="INTEREMPREX — Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional.">
+  <meta name="description" content="Partner operativo de comercio internacional. Digitalizamos pedidos, coordinación con proveedores y automatización de procesos para operar con eficiencia real y más margen.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.interemprex.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="INTEREMPREX — Digitalización del Comercio Internacional">
+  <meta property="og:description" content="Partner operativo de comercio internacional. Digitalizamos pedidos, coordinación con proveedores y automatización de procesos para operar con eficiencia real y más margen.">
+  <meta property="og:image" content="https://www.interemprex.com/assets/og-image.jpg">
+  <meta property="og:url" content="https://www.interemprex.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="INTEREMPREX">
+  <meta property="og:locale" content="es_ES">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="INTEREMPREX — Digitalización del Comercio Internacional">
+  <meta name="twitter:description" content="Partner operativo de comercio internacional. Digitalizamos pedidos, proveedores y procesos para operar con eficiencia real.">
+  <meta name="twitter:image" content="https://www.interemprex.com/assets/og-image.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="alternate icon" href="/assets/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
   <title>INTEREMPREX — Digitalización del Comercio Internacional</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     ul { list-style: none; }
@@ -608,7 +628,7 @@
   <!-- NAV ─────────────────────────────── -->
   <nav id="mainNav">
     <div class="nav-in">
-      <a href="#" class="logo">INTER<em>EMPREX</em></a>
+      <a href="/" class="logo">INTER<em>EMPREX</em></a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#problema">El Problema</a></li>
         <li><a href="#servicios">Servicios</a></li>
@@ -965,7 +985,7 @@
     <div class="wrap">
       <div class="ft-grid">
         <div class="ft-brand">
-          <a href="#" class="logo" style="font-size:18px">INTER<em>EMPREX</em></a>
+          <a href="/" class="logo" style="font-size:18px">INTER<em>EMPREX</em></a>
           <p>Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional. Convertimos procesos complejos en sistemas claros, medibles y escalables.</p>
         </div>
         <div class="ft-col">
@@ -990,6 +1010,11 @@
       </div>
     </div>
   </footer>
+
+  <!-- Scripts movidos al final del body para evitar render-blocking -->
+  <script src="assets/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <script>
     // ── Nav scroll ──────────────────────────────────────
@@ -1426,6 +1451,41 @@
         Mensaje:  document.getElementById('m-msg').value
       }, document.getElementById('mBtn'), () => setTimeout(closeModal, 2000));
     }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "INTEREMPREX",
+    "url": "https://www.interemprex.com",
+    "logo": "https://www.interemprex.com/assets/favicon.svg",
+    "description": "Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional. Gestión de pedidos, coordinación con proveedores y automatización de procesos.",
+    "email": "Interemprex@gmail.com",
+    "telephone": "+34656718916",
+    "areaServed": "ES",
+    "foundingLocation": {
+      "@type": "Place",
+      "addressCountry": "ES"
+    },
+    "serviceType": [
+      "Gestión de pedidos internacionales",
+      "Coordinación con proveedores",
+      "Control de tiempos de tránsito",
+      "Organización y explotación de datos logísticos",
+      "Automatización de procesos operativos"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Servicios de digitalización operativa",
+      "itemListElement": [
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Gestión de pedidos internacionales"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Coordinación con proveedores"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Control de tiempos de tránsito"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Organización y explotación de datos"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Automatización de procesos"}}
+      ]
+    }
+  }
   </script>
 </body>
 </html>
