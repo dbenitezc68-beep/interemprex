@@ -39,7 +39,9 @@
   <title>INTEREMPREX — Digitalización del Comercio Internacional</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Fuentes no bloqueantes: se cargan asíncronamente, display=swap evita FOIT -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"></noscript>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     ul { list-style: none; }
@@ -631,6 +633,27 @@
   </style>
 </head>
 <body>
+  <!-- Fallback para buscadores y usuarios sin JavaScript -->
+  <noscript>
+    <style>.noscript-fallback{max-width:800px;margin:60px auto;padding:32px;font-family:sans-serif;color:#111;line-height:1.7}.noscript-fallback h1{font-size:2rem;margin-bottom:12px}.noscript-fallback h2{font-size:1.3rem;margin:28px 0 10px;border-bottom:1px solid #ddd;padding-bottom:6px}.noscript-fallback ul{padding-left:20px}.noscript-fallback li{margin-bottom:6px}</style>
+    <div class="noscript-fallback">
+      <h1>INTEREMPREX — Del caos operativo al sistema que escala</h1>
+      <p>Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional para empresas que están perdiendo eficiencia y margen por falta de control.</p>
+      <h2>Servicios de digitalización para comercio internacional</h2>
+      <ul>
+        <li><strong>Gestión de pedidos internacionales</strong> — control en tiempo real del ciclo completo de pedidos.</li>
+        <li><strong>Coordinación con proveedores</strong> — sistemas de seguimiento que eliminan dependencias y errores.</li>
+        <li><strong>Control de tiempos de tránsito</strong> — monitorización de plazos que anticipa desviaciones.</li>
+        <li><strong>Organización y explotación de datos logísticos</strong> — KPIs reales sobre base sólida.</li>
+        <li><strong>Automatización de procesos operativos</strong> — automatizamos tareas repetitivas en Excel y ERPs.</li>
+      </ul>
+      <h2>Nuestra metodología de digitalización operativa</h2>
+      <p>Diagnóstico → Diseño a medida → Implementación directa → Optimización continua.</p>
+      <h2>Contacto</h2>
+      <p>Email: <a href="mailto:Interemprex@gmail.com">Interemprex@gmail.com</a> · Teléfono: <a href="tel:+34656718916">+34 656 718 916</a></p>
+    </div>
+  </noscript>
+
   <div id="blueprintOverlay"></div>
   <div id="scrollLabel">CAOS</div>
 
@@ -1465,6 +1488,38 @@
       }, document.getElementById('mBtn'), () => setTimeout(closeModal, 2000));
     }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://www.interemprex.com/"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url": "https://www.interemprex.com/",
+    "name": "INTEREMPREX — Digitalización del Comercio Internacional",
+    "description": "Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional. Gestión de pedidos, coordinación con proveedores y automatización de procesos.",
+    "inLanguage": "es-ES",
+    "isPartOf": {"@type": "WebSite", "url": "https://www.interemprex.com"},
+    "about": {"@type": "Organization", "name": "INTEREMPREX"},
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.interemprex.com/"}]
+    }
+  }
+  </script>
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
