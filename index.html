@@ -129,7 +129,7 @@ img{display:block;max-width:100%}
 .hero-btns{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap;justify-content:center;pointer-events:auto;opacity:0;animation:fadeUp .9s 1.75s ease forwards}
 .hero-btns .btn{font-size:15px;padding:15px 30px}
 .hero-hint{
-  position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:3;
+  position:absolute;bottom:122px;left:50%;transform:translateX(-50%);z-index:3;
   font-family:var(--display);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);
   opacity:0;animation:fadeIn 1s 2.2s ease forwards;text-align:center;
 }
@@ -308,7 +308,7 @@ footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:cla
   .hero-pill{font-size:11px;padding:6px 14px;margin-bottom:22px}
   .hero-btns{margin-top:30px;width:100%;flex-direction:column;align-items:stretch;padding:0 8px}
   .hero-btns .btn{justify-content:center;width:100%;padding:16px 24px;font-size:16px}
-  .hero-hint{bottom:64px;font-size:10px;padding:0 30px}
+  .hero-hint{bottom:106px;font-size:10px;padding:0 30px}
   h2.sec-h2{font-size:clamp(1.7rem,7vw,2.3rem)}
   .sec-sub{font-size:1rem}
   .sec-eyebrow{font-size:10px;margin-bottom:12px}
@@ -528,7 +528,7 @@ footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:cla
 <section class="sec" id="proceso" aria-labelledby="proc-h">
   <div class="container">
     <div class="sec-eyebrow reveal" data-i18n="procEye">Proceso</div>
-    <h2 class="sec-h2 reveal d1" id="proc-h" data-i18n="procH2">Tres pasos. Cero complicaciones.</h2>
+    <h2 class="sec-h2 reveal d1" id="proc-h" data-i18n="procH2">Cuatro pasos. Cero complicaciones.</h2>
     <p class="sec-sub reveal d2" data-i18n="procSub">Un método claro que convierte el caos operativo en un sistema que escala.</p>
     <div class="process-steps">
       <div class="ps reveal"><div class="ps-num">1</div><h4 data-i18n="p1H">Diagnóstico</h4><p data-i18n="p1P">Estudiamos tus flujos. Detectamos exactamente dónde pierdes eficiencia.</p></div>
@@ -686,7 +686,7 @@ const T = {
     w1H:'Enfoque práctico',w1P:'Nada de teoría. Ejecutamos las mejoras nosotros mismos, en tus herramientas y procesos reales.',w2H:'Automatización real',w2P:'Tecnología solo donde impacta de verdad. Sin plantillas genéricas ni soluciones de moda.',w3H:'Orientación a resultados',w3P:'Cada intervención produce resultados verificables: menos errores, mejor trazabilidad, más margen.',
     resEye:'Resultados',resH2:'Misiones completadas',resSub:'Intervenciones reales, impacto medible.',
     r1S:'Distribución alimentaria',r1P:'Stock en tránsito de 25 proveedores internacionales unificado en un único sistema Excel + ERP automatizado.',r2S:'Operativa de pedidos',r2P:'Reducción de tareas manuales en el ciclo completo: emisión, seguimiento y recepción sin retrabajos.',r3S:'Errores de integridad',r3P:'Cero referencias rotas tras la integración completa de consultas y tablas de pedidos.',
-    procEye:'Proceso',procH2:'Tres pasos. Cero complicaciones.',procSub:'Un método claro que convierte el caos operativo en un sistema que escala.',
+    procEye:'Proceso',procH2:'Cuatro pasos. Cero complicaciones.',procSub:'Un método claro que convierte el caos operativo en un sistema que escala.',
     p1H:'Diagnóstico',p1P:'Estudiamos tus flujos. Detectamos exactamente dónde pierdes eficiencia.',p2H:'Diseño a medida',p2P:'Solución adaptada a tu flujo real. Sin plantillas genéricas.',p3H:'Implementación',p3P:'Ejecutamos nosotros directamente sobre tus sistemas.',p4H:'Optimización continua',p4P:'Medimos, ajustamos y escalamos sin añadir complejidad.',
     contEye:'Contacto',contH2:'Trabajemos juntos',ciH:'¿Listo para despegar?',ciP:'Cuéntanos cómo funciona tu negocio. Te diremos con claridad si podemos ayudarte y cómo. Respuesta en menos de 24 horas.',waLabel:'WhatsApp · +34 656 718 916',location:'Extremadura, España',
     fmH:'Envíanos un mensaje',fmP:'Respondemos en menos de 24 horas',fName:'Nombre',fComp:'Empresa',fMail:'Email',fService:'Servicio de interés',fSvcOpt0:'— Selecciona un servicio —',fSvcOpt1:'Web & Ecommerce',fSvcOpt2:'Automatización de procesos',fSvcOpt3:'Marketing digital',fSvcOpt4:'Escalado e internacionalización',fSvcOpt5:'Varios / No sé aún',fMsg:'Tu reto operativo',sendBtn:'Enviar mensaje',sending:'Enviando…',sentH:'¡Mensaje recibido!',sentP:'Gracias por contactarnos. Respondemos en menos de 24 horas.',
@@ -705,7 +705,7 @@ const T = {
     w1H:'Practical approach',w1P:'No theory. We execute the improvements ourselves, in your real tools and processes.',w2H:'Real automation',w2P:'Technology only where it truly impacts. No generic templates or trendy solutions.',w3H:'Results-driven',w3P:'Every intervention produces verifiable results: fewer errors, better traceability, more margin.',
     resEye:'Results',resH2:'Missions accomplished',resSub:'Real interventions, measurable impact.',
     r1S:'Food distribution',r1P:'In-transit stock from 25 international suppliers unified into a single automated Excel + ERP system.',r2S:'Order operations',r2P:'Manual work cut across the full order cycle: issue, tracking and reception with zero rework.',r3S:'Integrity errors',r3P:'Zero broken references after full integration of order queries and tables.',
-    procEye:'Process',procH2:'Three steps. Zero complications.',procSub:'A clear method that turns operational chaos into a system that scales.',
+    procEye:'Process',procH2:'Four steps. Zero complications.',procSub:'A clear method that turns operational chaos into a system that scales.',
     p1H:'Diagnosis',p1P:'We study your flows. We detect exactly where you lose efficiency.',p2H:'Tailored design',p2P:'Solution fitted to your real flow. No generic templates.',p3H:'Implementation',p3P:'We execute it ourselves, directly on your systems.',p4H:'Continuous optimization',p4P:'We measure, adjust and scale without adding complexity.',
     contEye:'Contact',contH2:'Let\'s work together',ciH:'Ready for liftoff?',ciP:'Tell us how your business works. We\'ll tell you clearly whether we can help and how. Reply within 24 hours.',waLabel:'WhatsApp · +34 656 718 916',location:'Extremadura, Spain',
     fmH:'Send us a message',fmP:'We reply within 24 hours',fName:'Name',fComp:'Company',fMail:'Email',fService:'Service of interest',fSvcOpt0:'— Select a service —',fSvcOpt1:'Web & Ecommerce',fSvcOpt2:'Process automation',fSvcOpt3:'Digital marketing',fSvcOpt4:'Scaling & internationalization',fSvcOpt5:'Several / Not sure yet',fMsg:'Your operational challenge',sendBtn:'Send message',sending:'Sending…',sentH:'Message received!',sentP:'Thank you for reaching out. We reply within 24 hours.',
