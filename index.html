@@ -1,1590 +1,1140 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Partner operativo de comercio internacional. Digitalizamos pedidos, coordinación con proveedores y automatización de procesos para operar con eficiencia real y más margen.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://www.interemprex.com/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INTEREMPREX — Digitalizamos, automatizamos y escalamos negocios</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="shortcut icon" href="assets/favicon.ico">
+<meta name="description" content="INTEREMPREX — Digitalizamos, automatizamos y escalamos operaciones de comercio internacional. Web, automatización, marketing digital e internacionalización.">
+<meta name="theme-color" content="#04070F">
+<link rel="canonical" href="https://www.interemprex.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="INTEREMPREX">
+<meta property="og:title" content="INTEREMPREX — Lanza tu negocio">
+<meta property="og:description" content="Del caos operativo al sistema que escala. Digitalizamos, automatizamos y escalamos negocios de comercio internacional.">
+<meta property="og:url" content="https://www.interemprex.com/">
+<meta property="og:image" content="https://www.interemprex.com/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="INTEREMPREX — Lanza tu negocio">
+<meta name="twitter:description" content="Del caos operativo al sistema que escala. Digitalizamos, automatizamos y escalamos negocios de comercio internacional.">
+<meta name="twitter:image" content="https://www.interemprex.com/assets/og-image.jpg">
+<!-- Plausible / GA4: descomenta al publicar
+<script defer data-domain="interemprex.com" src="https://plausible.io/js/script.js"></script>
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04070F; --bg2:#080D18;
+  --surface:rgba(8,14,26,.82); --surface2:rgba(12,20,36,.9);
+  --line:rgba(56,189,248,.18); --line2:rgba(255,255,255,.06);
+  --ink:#EAF2FB; --ink2:rgba(220,234,248,.75); --ink3:rgba(180,204,228,.45);
+  --blue:#38bdf8; --blue2:#0ea5e9; --cyan:#22d3ee; --teal:#2dd4bf; --violet:#a78bfa;
+  --wa:#25d366; --r:16px;
+  --display:'Space Grotesk',system-ui,sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(56,189,248,.3)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="INTEREMPREX — Digitalización del Comercio Internacional">
-  <meta property="og:description" content="Partner operativo de comercio internacional. Digitalizamos pedidos, coordinación con proveedores y automatización de procesos para operar con eficiencia real y más margen.">
-  <meta property="og:image" content="https://www.interemprex.com/assets/og-image.jpg">
-  <meta property="og:url" content="https://www.interemprex.com/">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="INTEREMPREX">
-  <meta property="og:locale" content="es_ES">
+/* ── custom cursor halo (desktop only) ── */
+#bgStars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity .6s ease}
+#bgStars.on{opacity:1}
+#warpCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;transition:opacity .35s ease}
+#warpCanvas.on{opacity:1}
+#stats{position:relative;z-index:5}
+.stat-num{position:relative}
+/* stat numbers streak in from the warp */
+.stat-item{opacity:0;transform:translateY(30px)}
+.stat-item.warpIn{animation:warpIn .7s cubic-bezier(.16,1,.3,1) forwards}
+.stat-item.warpIn:nth-child(1){animation-delay:.0s}
+.stat-item.warpIn:nth-child(2){animation-delay:.08s}
+.stat-item.warpIn:nth-child(3){animation-delay:.16s}
+.stat-item.warpIn:nth-child(4){animation-delay:.24s}
+@keyframes warpIn{from{opacity:0;transform:translateY(30px) scale(.94);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+#cursorHalo{
+  position:fixed;width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(56,189,248,.5);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s,background .25s;
+  mix-blend-mode:screen;will-change:transform;display:none;
+}
+#cursorHalo.grow{width:64px;height:64px;background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.8)}
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="INTEREMPREX — Digitalización del Comercio Internacional">
-  <meta name="twitter:description" content="Partner operativo de comercio internacional. Digitalizamos pedidos, proveedores y procesos para operar con eficiencia real.">
-  <meta name="twitter:image" content="https://www.interemprex.com/assets/og-image.jpg">
+/* ── NAV ── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:200;background:transparent;border-bottom:1px solid transparent;transition:background .4s,backdrop-filter .4s,border-color .4s}
+#nav.scrolled{background:rgba(4,7,15,.88);backdrop-filter:blur(18px);border-bottom-color:var(--line2)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.nav-brand{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.1em;display:flex;align-items:center;gap:9px;flex:none}
+.brand-mark{height:26px;width:auto;display:block}
+.nav-brand .bpulse{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 10px var(--blue);animation:bpulse 2.5s ease-in-out infinite}
+@keyframes bpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.nav-brand em{font-style:normal;color:var(--blue)}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-links a{font-size:14px;font-weight:500;color:var(--ink2);padding:8px 14px;border-radius:8px;transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--ink);background:rgba(56,189,248,.08)}
+.nav-links a.active{color:var(--blue)}
+.nav-ctas{display:flex;align-items:center;gap:10px;flex:none}
+#langToggle{background:none;border:1px solid var(--line);border-radius:8px;color:var(--ink3);font-family:var(--display);font-size:12px;font-weight:600;letter-spacing:.08em;padding:6px 12px;cursor:pointer;transition:.25s}
+#langToggle:hover{color:var(--blue);border-color:var(--blue)}
+.btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:0;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.03em;padding:11px 22px;border-radius:10px;transition:.25s ease;white-space:nowrap;text-decoration:none}
+.btn-pri{background:var(--blue);color:#03101c}
+.btn-pri:hover{background:var(--cyan);transform:translateY(-1px);box-shadow:0 8px 28px -8px rgba(56,189,248,.6)}
+.btn-ghost{background:rgba(56,189,248,.07);color:var(--ink2);border:1px solid var(--line)}
+.btn-ghost:hover{color:var(--blue);border-color:var(--blue)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:0;padding:8px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--ink2);border-radius:2px;transition:.3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;bottom:0;z-index:190;background:rgba(4,7,15,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:8px;border-top:1px solid var(--line2)}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:var(--display);font-size:1.4rem;font-weight:600;color:var(--ink2);padding:14px 40px;border-radius:12px;transition:.2s}
+.mobile-menu a:hover{color:var(--blue);background:rgba(56,189,248,.07)}
+.mobile-menu .btn-pri{margin-top:16px;font-size:1.1rem;padding:16px 36px}
 
-  <!-- Favicon — set completo para todos los navegadores y dispositivos -->
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96.png">
-  <link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
-  <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-  <link rel="shortcut icon" href="/assets/favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-  <meta name="msapplication-TileImage" content="/assets/favicon-192.png">
-  <meta name="msapplication-TileColor" content="#091525">
+/* ── HERO: orbital system ── */
+#hero{position:relative;height:100svh;min-height:640px;overflow:hidden}
+#orbitCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-copy-scrim{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:min(900px,92vw);height:420px;pointer-events:none;z-index:2;
+  background:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(4,7,15,.78),rgba(4,7,15,.4) 55%,transparent 78%);}
+.hero-overlay{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:0 24px;
+}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:9px;font-family:var(--display);font-size:12px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--blue);border:1px solid rgba(56,189,248,.35);
+  border-radius:999px;padding:7px 18px;margin-bottom:30px;background:rgba(4,7,15,.5);backdrop-filter:blur(8px);
+  opacity:0;animation:fadeUp .9s 1.1s ease forwards;
+}
+.hero-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 10px var(--blue)}
+.hero-h1{
+  font-family:var(--display);font-weight:700;font-size:clamp(2.8rem,8vw,6.5rem);line-height:.98;
+  letter-spacing:-.035em;text-transform:uppercase;
+}
+.hero-h1 .word{display:inline-block;opacity:0;transform:translateY(40px) rotateX(-40deg);transform-origin:bottom}
+.hero-h1 .word.in{animation:wordIn .85s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes wordIn{to{opacity:1;transform:none}}
+.hero-h1 em{font-style:normal;background:linear-gradient(92deg,#fff 0%,var(--blue) 55%,var(--cyan) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{margin-top:24px;max-width:540px;font-size:clamp(1.05rem,1.6vw,1.3rem);color:var(--ink2);text-shadow:0 2px 24px rgba(2,5,12,.9);opacity:0;animation:fadeUp .9s 1.5s ease forwards}
+.hero-btns{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap;justify-content:center;pointer-events:auto;opacity:0;animation:fadeUp .9s 1.75s ease forwards}
+.hero-btns .btn{font-size:15px;padding:15px 30px}
+.hero-hint{
+  position:absolute;bottom:80px;left:50%;transform:translateX(-50%);z-index:3;
+  font-family:var(--display);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);
+  opacity:0;animation:fadeIn 1s 2.2s ease forwards;text-align:center;
+}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--display);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink3);opacity:0;animation:fadeIn 1s 2.4s ease forwards;cursor:pointer;background:none;border:0;z-index:3}
+.hero-scroll::after{content:"";width:1px;height:38px;background:linear-gradient(to bottom,var(--blue),transparent);animation:drip 2s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{to{opacity:1}}
+/* orbit tooltip */
+#orbitTip{
+  position:absolute;z-index:4;pointer-events:none;
+  font-family:var(--display);font-size:12px;font-weight:600;letter-spacing:.04em;
+  background:rgba(4,7,15,.92);border:1px solid var(--line);border-radius:10px;
+  padding:8px 14px;color:var(--ink);transform:translate(-50%,-140%);
+  opacity:0;transition:opacity .2s;white-space:nowrap;backdrop-filter:blur(8px);
+}
+#orbitTip.show{opacity:1}
+#orbitTip span{display:block;font-family:var(--body);font-weight:400;font-size:11px;color:var(--ink3);margin-top:2px}
 
-  <!-- Idioma y región -->
-  <link rel="alternate" hreflang="es-ES" href="https://www.interemprex.com/">
-  <link rel="alternate" hreflang="x-default" href="https://www.interemprex.com/">
+/* ── SECTIONS ── */
+.sec{padding:clamp(64px,9vw,130px) 0;position:relative;z-index:5}
+.container{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.sec-eyebrow{font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.sec-eyebrow::before{content:"";width:30px;height:1px;background:var(--blue);box-shadow:0 0 8px var(--blue)}
+h2.sec-h2{font-family:var(--display);font-weight:700;font-size:clamp(2rem,4.5vw,3.4rem);letter-spacing:-.025em;line-height:1.1}
+.sec-sub{margin-top:14px;color:var(--ink2);font-size:clamp(1rem,1.4vw,1.15rem);max-width:580px}
 
-  <!-- Identidad y experiencia móvil -->
-  <meta name="theme-color" content="#060D1A">
-  <meta name="author" content="INTEREMPREX">
-  <meta name="keywords" content="comercio internacional, digitalización operativa, gestión de pedidos, automatización de procesos, coordinación con proveedores, partner operativo, operativa internacional, logística">
+/* telescope reveal */
+.reveal{opacity:0;transform:translateY(34px) scale(.985);filter:blur(6px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1),filter .8s ease}
+.reveal.in{opacity:1;transform:none;filter:blur(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
 
-  <title>INTEREMPREX — Digitalización del Comercio Internacional</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Fuentes no bloqueantes: se cargan asíncronamente, display=swap evita FOIT -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"></noscript>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    ul { list-style: none; }
+/* ── STATS ── */
+#stats{border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);padding:44px 0;background:rgba(8,14,26,.55);backdrop-filter:blur(6px);position:relative;z-index:5}
+.stats-inner{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.stat-item{text-align:center}
+.stat-num{font-family:var(--display);font-weight:700;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--blue);letter-spacing:-.02em;filter:drop-shadow(0 0 18px rgba(56,189,248,.4))}
+.stat-label{margin-top:6px;font-size:.88rem;color:var(--ink3);letter-spacing:.04em}
 
-    :root {
-      --bg:       #060D1A;
-      --bg2:      #091525;
-      --bg3:      #0C1C34;
-      --primary:  #0057FF;
-      --p-glow:   rgba(0,87,255,0.28);
-      --accent:   #00C2FF;
-      --text:     #FFFFFF;
-      --sub:      #9AB0CC;
-      --muted:    #536477;
-      --border:   rgba(0,87,255,0.18);
-      --card:     rgba(9,21,37,0.92);
-      --max:      1200px;
-      --nh:       72px;
-      --r:        12px;
-    }
+/* ── SERVICES ── */
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:56px}
+.svc-card{position:relative;border-radius:20px;padding:38px;overflow:hidden;background:var(--surface);border:1px solid var(--line2);transition:border-color .35s,transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;transform-style:preserve-3d}
+.svc-card::after{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;transition:.35s;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(56,189,248,.13),transparent 55%);pointer-events:none}
+.svc-card:hover{border-color:rgba(56,189,248,.4);box-shadow:0 24px 60px -24px rgba(56,189,248,.4)}
+.svc-card:hover::after{opacity:1}
+.svc-card:hover .svc-icon svg{animation:floatIcon 3s ease-in-out infinite}
+@keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.svc-accent{display:inline-block;font-family:var(--display);font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-bottom:22px;background:color-mix(in srgb,var(--acc,#38bdf8) 14%,transparent);border:1px solid color-mix(in srgb,var(--acc,#38bdf8) 35%,transparent);color:var(--acc,#38bdf8)}
+.svc-icon{width:52px;height:52px;border-radius:14px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--acc,#38bdf8) 12%,transparent);border:1px solid color-mix(in srgb,var(--acc,#38bdf8) 25%,transparent)}
+.svc-icon svg{width:26px;height:26px}
+.svc-card h3{font-family:var(--display);font-size:1.3rem;font-weight:700;letter-spacing:-.015em;margin-bottom:10px;color:var(--ink)}
+.svc-card p{color:var(--ink2);font-size:.97rem;margin-bottom:22px}
+.svc-tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-size:11px;font-family:var(--display);font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid var(--line2);color:var(--ink3);transition:.25s}
+.svc-card:hover .tag{border-color:color-mix(in srgb,var(--acc,#38bdf8) 30%,transparent);color:var(--acc,#38bdf8)}
+.svc-metric{position:absolute;top:32px;right:32px;font-family:var(--display);font-weight:700;font-size:1.8rem;letter-spacing:-.02em;color:var(--acc,#38bdf8);opacity:.22;transition:.35s;filter:drop-shadow(0 0 12px var(--acc,#38bdf8))}
+.svc-card:hover .svc-metric{opacity:.55}
 
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.65;
-      overflow-x: hidden;
-    }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+/* ── WHY ── */
+#why{background:linear-gradient(180deg,transparent,rgba(56,189,248,.025) 40%,rgba(56,189,248,.025) 60%,transparent)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;border:1px solid var(--line2);border-radius:20px;overflow:hidden}
+.why-item{padding:36px 32px;background:var(--surface);transition:background .3s;border-right:1px solid var(--line2)}
+.why-item:last-child{border-right:0}
+.why-item:hover{background:rgba(12,22,40,.95)}
+.why-num{font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.24em;color:var(--blue);margin-bottom:18px}
+.why-item h3{font-family:var(--display);font-size:1.1rem;font-weight:700;margin-bottom:10px}
+.why-item p{color:var(--ink2);font-size:.94rem}
 
-    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.15; }
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+/* ── RESULTS ── */
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.res-card{padding:32px;border-radius:18px;background:var(--surface);border:1px solid var(--line2);transition:border-color .3s,transform .3s}
+.res-card:hover{border-color:rgba(56,189,248,.35);transform:translateY(-4px)}
+.res-big{font-family:var(--display);font-weight:700;font-size:clamp(2.2rem,4vw,3rem);color:var(--blue);letter-spacing:-.02em;filter:drop-shadow(0 0 16px rgba(56,189,248,.35));line-height:1;margin-bottom:14px}
+.res-sector{font-family:var(--display);font-size:10px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.res-card p{font-size:.94rem;color:var(--ink2)}
 
-    .tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase;
-      color: var(--accent);
-      background: rgba(0,194,255,0.07);
-      border: 1px solid rgba(0,194,255,0.22);
-      border-radius: 100px; padding: 6px 16px;
-    }
+/* ── PROCESS ── */
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;position:relative}
+.process-steps::after{content:"";position:absolute;top:24px;left:calc(12.5% + 16px);right:calc(12.5% + 16px);height:1px;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--teal),var(--violet));opacity:.35}
+.ps{text-align:center;padding:0 20px;position:relative}
+.ps-num{width:48px;height:48px;border-radius:50%;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;background:var(--bg2);border:2px solid var(--blue);font-family:var(--display);font-weight:700;font-size:.9rem;color:var(--blue);box-shadow:0 0 20px rgba(56,189,248,.3);transition:background .3s,box-shadow .3s}
+.ps:hover .ps-num{background:var(--blue);color:#03101c;box-shadow:0 0 30px rgba(56,189,248,.6)}
+.ps h4{font-family:var(--display);font-weight:700;font-size:1rem;margin-bottom:8px}
+.ps p{font-size:.9rem;color:var(--ink2)}
 
-    /* ── NAV ──────────────────────────── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      height: var(--nh);
-      display: flex; align-items: center;
-      transition: background .35s, border-color .35s, backdrop-filter .35s;
-      border-bottom: 1px solid transparent;
-    }
-    nav.scrolled {
-      background: rgba(6,13,26,.93);
-      backdrop-filter: blur(22px);
-      border-color: var(--border);
-    }
-    .nav-in {
-      max-width: var(--max); margin: 0 auto; padding: 0 28px; width: 100%;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 19px; font-weight: 700; letter-spacing: .06em;
-      color: var(--text); text-decoration: none;
-    }
-    .logo em { color: var(--primary); font-style: normal; }
-    .nav-links { display: flex; align-items: center; gap: 34px; }
-    .nav-links a {
-      color: var(--sub); text-decoration: none;
-      font-size: 14px; font-weight: 500;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--text); }
-    .nav-cta {
-      background: var(--primary) !important;
-      color: #fff !important;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-weight: 600 !important;
-      box-shadow: 0 0 0 0 var(--p-glow);
-      transition: background .2s, transform .2s, box-shadow .2s !important;
-    }
-    .nav-cta:hover { background: #1a6aff !important; transform: translateY(-1px); box-shadow: 0 6px 24px var(--p-glow) !important; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
+/* ── CONTACT ── */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:start;margin-top:56px}
+.contact-info h3{font-family:var(--display);font-weight:700;font-size:1.5rem;margin-bottom:12px;letter-spacing:-.015em}
+.contact-info p{color:var(--ink2);margin-bottom:32px;font-size:1.05rem}
+.contact-lines{display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.cline{display:flex;align-items:center;gap:14px;color:var(--ink2);font-size:.97rem;transition:color .2s}
+.cline:hover{color:var(--ink)}
+.cline-icon{width:40px;height:40px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line2);transition:.25s}
+.cline:hover .cline-icon{border-color:var(--blue);background:rgba(56,189,248,.1)}
+.cline-icon svg{width:18px;height:18px;stroke:var(--blue);fill:none}
+.cline-icon.wa-icon svg{fill:var(--wa);stroke:none}
+.social-row{display:flex;gap:12px;flex-wrap:wrap}
+.social-chip{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:500;color:var(--ink3);border:1px solid var(--line2);border-radius:10px;padding:9px 16px;background:var(--surface);transition:.25s}
+.social-chip:hover{color:var(--blue);border-color:var(--blue);background:rgba(56,189,248,.07)}
+.social-chip svg{width:16px;height:16px;fill:currentColor}
+.form-panel{background:var(--surface2);border:1px solid var(--line);border-radius:22px;padding:36px;position:relative;overflow:hidden}
+.form-panel::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue) 50%,transparent);animation:scan 3s linear infinite}
+@keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.form-head{margin-bottom:24px}
+.form-head h3{font-family:var(--display);font-size:1.15rem;font-weight:700;margin-bottom:5px}
+.form-head p{color:var(--ink3);font-size:.9rem}
+.field{margin-bottom:16px}
+.field label{display:block;font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px}
+.field input,.field textarea,.field select{width:100%;background:rgba(4,7,15,.65);border:1px solid rgba(56,189,248,.16);border-radius:11px;padding:13px 16px;color:var(--ink);font-family:var(--body);font-size:15px;outline:none;transition:border-color .25s,box-shadow .25s;appearance:none}
+.field textarea{resize:vertical;min-height:100px}
+.field select option{background:#080D18;color:var(--ink)}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(56,189,248,.14),0 0 24px -8px rgba(56,189,248,.5)}
+.field input.err,.field textarea.err{border-color:#f87171}
+.form-panel .btn-pri{width:100%;justify-content:center;margin-top:6px;font-size:15px;padding:14px}
+#formSuccess{display:none;text-align:center;padding:50px 10px}
+#formSuccess .check{width:58px;height:58px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3)}
+#formSuccess .check svg{width:26px;height:26px;stroke:var(--blue);fill:none}
+#formSuccess h3{font-family:var(--display);font-size:1.2rem;font-weight:700;margin-bottom:6px}
+#formSuccess p{color:var(--ink2);font-size:.95rem}
 
-    /* ── HERO SCROLL VIDEO ────────────── */
-    .hero-wrap { height: 500vh; position: relative; }
-    .hero-sticky {
-      position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden;
-    }
-    .hero-sticky video {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-      will-change: transform;
-    }
-    .hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(6,13,26,.45) 0%, rgba(6,13,26,.35) 55%, rgba(6,13,26,.88) 100%);
-      z-index: 1;
-    }
-    .hero-content {
-      position: absolute; inset: 0; z-index: 2;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 0 24px;
-    }
-    .hero-tag  {
-      margin-bottom: 28px; opacity: 0;
-      will-change: transform, opacity;
-    }
-    .hero-h1 {
-      font-size: clamp(40px, 7vw, 86px);
-      font-weight: 700; max-width: 880px; margin-bottom: 22px;
-      opacity: 0; will-change: transform, opacity;
-    }
-    .hero-h1 .grad {
-      background: linear-gradient(130deg, #4893FF 0%, #00C2FF 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .hero-p {
-      font-size: clamp(16px, 2vw, 20px);
-      color: var(--sub); max-width: 560px; margin-bottom: 42px; line-height: 1.75;
-      opacity: 0; will-change: transform, opacity;
-    }
-    .hero-btns {
-      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
-      opacity: 0; will-change: transform, opacity;
-    }
-    .btn-p {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--primary); color: #fff;
-      text-decoration: none; font-weight: 600; font-size: 16px;
-      padding: 15px 32px; border-radius: var(--r);
-      box-shadow: 0 4px 28px var(--p-glow);
-      transition: background .2s, transform .2s, box-shadow .2s;
-    }
-    .btn-p:hover { background: #1a6aff; transform: translateY(-2px); box-shadow: 0 8px 36px var(--p-glow); }
-    .btn-g {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16);
-      color: #fff; text-decoration: none; font-weight: 500; font-size: 16px;
-      padding: 15px 32px; border-radius: var(--r);
-      backdrop-filter: blur(8px);
-      transition: background .2s, border-color .2s, transform .2s;
-    }
-    .btn-g:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.3); transform: translateY(-2px); }
-    .scroll-hint {
-      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
-      color: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
-      opacity: 0;
-    }
-    .scroll-mouse { width: 22px; height: 36px; border: 2px solid var(--muted); border-radius: 11px; position: relative; }
-    .scroll-mouse::after {
-      content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
-      width: 3px; height: 6px; background: var(--muted); border-radius: 2px;
-      animation: wheel 1.5s infinite;
-    }
-    .progress-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,.07); z-index: 3; }
-    .progress-fill {
-      height: 100%; width: 0%;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      transition: width .05s linear;
-    }
-    .wm-cover {
-      position: absolute;
-      top: 0; left: 0;
-      width: 220px; height: 72px;
-      z-index: 4;
-      background: linear-gradient(135deg, rgba(6,13,26,1) 40%, transparent 100%);
-      pointer-events: none;
-    }
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;z-index:500;background:rgba(2,4,10,.88);backdrop-filter:blur(12px);display:none;align-items:flex-start;justify-content:center;padding:clamp(16px,4vw,40px);overflow-y:auto}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--line2);border-radius:22px;max-width:760px;width:100%;padding:clamp(28px,4vw,52px);margin:auto;position:relative}
+.modal-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.06);border:1px solid var(--line2);color:var(--ink3);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.modal-close:hover{color:var(--ink);background:rgba(255,255,255,.12)}
+.modal h2{font-family:var(--display);font-size:1.7rem;font-weight:700;margin-bottom:6px}
+.modal .modal-date{font-size:.85rem;color:var(--ink3);margin-bottom:28px}
+.modal h3{font-family:var(--display);font-size:1.05rem;font-weight:700;margin:24px 0 8px;color:var(--blue)}
+.modal p,.modal li{font-size:.95rem;color:var(--ink2);margin-bottom:10px}
+.modal ul,.modal ol{padding-left:20px;margin-bottom:12px}
+.modal li{margin-bottom:6px}
+.modal a{color:var(--blue);text-decoration:underline}
+.modal-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line2);margin-bottom:28px;flex-wrap:wrap}
+.modal-tab{font-family:var(--display);font-size:13px;font-weight:600;padding:10px 18px;border-radius:10px 10px 0 0;cursor:pointer;background:none;border:0;color:var(--ink3);transition:.2s}
+.modal-tab.active{color:var(--blue);background:rgba(56,189,248,.08)}
+.modal-content{display:none}
+.modal-content.active{display:block}
 
-    /* ── SECTIONS ─────────────────────── */
-    .sec { position: relative; }
-    .sec-in { padding: 108px 0; }
-    .sec-head { text-align: center; margin-bottom: 68px; }
-    .sec-head .tag { margin-bottom: 20px; }
-    .sec-h2 { font-size: clamp(30px, 4vw, 50px); font-weight: 700; margin-bottom: 18px; }
-    .sec-p { font-size: 18px; color: var(--sub); max-width: 560px; margin: 0 auto; line-height: 1.75; }
-    .divider {
-      position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-    }
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:clamp(48px,6vw,72px) 0 32px;position:relative;z-index:5}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:52px}
+.foot-brand{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.1em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.foot-brand em{font-style:normal;color:var(--blue)}
+.foot-desc{color:var(--ink3);font-size:.9rem;max-width:280px;line-height:1.6}
+.foot-social{display:flex;gap:10px;margin-top:20px}
+.fsoc{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line2);color:var(--ink3);transition:.25s}
+.fsoc:hover{color:var(--blue);border-color:var(--blue);background:rgba(56,189,248,.08)}
+.fsoc svg{width:16px;height:16px;fill:currentColor}
+.foot-col h4{font-family:var(--display);font-weight:700;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:16px}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.foot-col ul li a{color:var(--ink3);font-size:.9rem;transition:color .2s}
+.foot-col ul li a:hover{color:var(--blue)}
+.foot-col ul li a.policy-link{cursor:pointer}
+.foot-bottom{padding-top:28px;border-top:1px solid var(--line2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:.82rem;color:var(--ink3)}
+.foot-bottom a{color:var(--ink3);transition:color .2s}
+.foot-bottom a:hover{color:var(--blue)}
 
-    /* ── PROBLEMA ─────────────────────── */
-    #problema { background: var(--bg2); }
-    .pain-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
-      gap: 22px; margin-bottom: 56px;
-    }
-    .pain-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: var(--r);
-      padding: 32px;
-      transition: border-color .3s, transform .3s;
-    }
-    .pain-card:hover { border-color: rgba(0,87,255,.5); transform: translateY(-5px); }
-    .pain-icon {
-      width: 48px; height: 48px; border-radius: 10px;
-      background: rgba(0,87,255,.09); border: 1px solid rgba(0,87,255,.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px; margin-bottom: 20px;
-    }
-    .pain-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
-    .pain-card p { font-size: 14.5px; color: var(--sub); line-height: 1.7; }
-    .pain-call {
-      text-align: center; padding: 44px 36px;
-      background: linear-gradient(135deg, rgba(0,87,255,.07), rgba(0,194,255,.04));
-      border: 1px solid var(--border); border-radius: var(--r);
-    }
-    .pain-call p { font-size: 20px; font-weight: 500; line-height: 1.55; }
-    .pain-call span { color: var(--accent); }
+@media (max-width:1020px){
+  .svc-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr;border-radius:16px}
+  .why-item{border-right:0;border-bottom:1px solid var(--line2)}
+  .why-item:last-child{border-bottom:0}
+  .results-grid{grid-template-columns:1fr 1fr}
+  .process-steps{grid-template-columns:1fr 1fr;gap:32px}
+  .process-steps::after{display:none}
+  .contact-wrap{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+}
+/* ═══════════ MOBILE OPTIMIZATION ═══════════ */
+@media (max-width:768px){
+  /* tighter, more legible type scale */
+  .hero-h1{font-size:clamp(2.4rem,12vw,3.6rem);line-height:.96}
+  .hero-sub{font-size:1.05rem;margin-top:18px;padding:0 8px}
+  .hero-pill{font-size:11px;padding:6px 14px;margin-bottom:22px}
+  .hero-btns{margin-top:30px;width:100%;flex-direction:column;align-items:stretch;padding:0 8px}
+  .hero-btns .btn{justify-content:center;width:100%;padding:16px 24px;font-size:16px}
+  .hero-hint{bottom:64px;font-size:10px;padding:0 30px}
+  h2.sec-h2{font-size:clamp(1.7rem,7vw,2.3rem)}
+  .sec-sub{font-size:1rem}
+  .sec-eyebrow{font-size:10px;margin-bottom:12px}
 
-    /* ── METODOLOGÍA ──────────────────── */
-    #metodologia { background: var(--bg); }
-    .steps {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 36px; position: relative;
-    }
-    .steps::before {
-      content: ''; position: absolute;
-      top: 43px; left: 12%; right: 12%; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), var(--border), transparent);
-    }
-    .step { text-align: center; }
-    .step-num {
-      width: 86px; height: 86px; border-radius: 50%;
-      border: 2px solid var(--border); background: var(--bg2);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 26px; font-weight: 700; color: var(--primary);
-      transition: background .3s, border-color .3s;
-    }
-    .step:hover .step-num { background: rgba(0,87,255,.1); border-color: var(--primary); }
-    .step h3 { font-size: 17px; font-weight: 600; margin-bottom: 12px; }
-    .step p { font-size: 14.5px; color: var(--sub); line-height: 1.7; }
+  /* generous tap targets */
+  .cline{padding:6px 0}
+  .cline-icon{width:44px;height:44px}
+  .social-chip{padding:12px 18px;font-size:14px}
+  .nav-brand{font-size:15px}
+  .brand-mark{height:22px}
 
-    /* ── SERVICIOS ────────────────────── */
-    #servicios { background: var(--bg3); }
-    .srv-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 22px;
-    }
-    .srv-card {
-      background: rgba(6,13,26,.85); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 36px;
-      position: relative; overflow: hidden;
-      transition: border-color .3s, transform .3s, box-shadow .3s;
-    }
-    .srv-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      opacity: 0; transition: opacity .3s;
-    }
-    .srv-card:hover { border-color: rgba(0,87,255,.45); transform: translateY(-7px); box-shadow: 0 14px 44px rgba(0,87,255,.14); }
-    .srv-card:hover::before { opacity: 1; }
-    .srv-ico { font-size: 34px; margin-bottom: 20px; display: block; }
-    .srv-card h3 { font-size: 19px; font-weight: 600; margin-bottom: 14px; }
-    .srv-card p { font-size: 14.5px; color: var(--sub); line-height: 1.72; }
+  /* cards breathe */
+  .svc-grid{margin-top:40px;gap:16px}
+  .svc-card{padding:28px 24px}
+  .svc-card h3{font-size:1.2rem}
+  .why-grid{margin-top:40px}
+  .why-item{padding:28px 24px}
+  .results-grid{margin-top:40px;gap:14px}
+  .res-card{padding:26px 22px}
+  .process-steps{margin-top:44px;gap:36px}
+  .form-panel{padding:28px 22px}
+  .contact-wrap{margin-top:40px;gap:36px}
 
-    /* ── DIFERENCIACIÓN ───────────────── */
-    #diferenciacion { background: var(--bg2); }
-    .diff-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 88px; align-items: center; }
-    .diff-txt .sec-head { text-align: left; }
-    .diff-txt .sec-head .sec-p { margin: 0; }
-    .diff-pts { display: flex; flex-direction: column; gap: 26px; margin-top: 40px; }
-    .diff-pt { display: flex; gap: 16px; align-items: flex-start; }
-    .diff-pt-ico {
-      width: 40px; height: 40px; min-width: 40px;
-      background: rgba(0,87,255,.09); border: 1px solid rgba(0,87,255,.22);
-      border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 17px;
-    }
-    .diff-pt-body h4 { font-size: 15.5px; font-weight: 600; margin-bottom: 6px; }
-    .diff-pt-body p { font-size: 14px; color: var(--sub); line-height: 1.65; }
-    .diff-vis {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 18px; padding: 44px;
-      display: flex; flex-direction: column; gap: 32px;
-    }
-    .cmp-row { display: flex; flex-direction: column; gap: 14px; }
-    .cmp-label { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-    .cmp-bars { display: grid; gap: 10px; }
-    .cmp-bar { display: flex; align-items: center; gap: 12px; }
-    .cmp-bar-lbl { font-size: 13px; color: var(--sub); min-width: 115px; }
-    .cmp-bar-track { flex: 1; height: 8px; background: rgba(255,255,255,.05); border-radius: 4px; overflow: hidden; }
-    .cmp-bar-fill { height: 100%; border-radius: 4px; width: 0; transition: width 1.6s cubic-bezier(.22,1,.36,1); }
-    .cmp-bar-fill.bad  { background: rgba(255,75,75,.45); }
-    .cmp-bar-fill.good { background: linear-gradient(90deg, var(--primary), var(--accent)); }
-    .cmp-bar-val { font-size: 13px; font-weight: 600; min-width: 44px; text-align: right; }
-    .sep-line { height: 1px; background: var(--border); }
+  /* modal full-height comfortable */
+  .modal{border-radius:18px;padding:28px 22px}
+  .modal-tabs{gap:2px}
+  .modal-tab{font-size:12px;padding:9px 12px}
+  .modal h2{font-size:1.4rem}
 
-    /* ── CONTACTO ─────────────────────── */
-    #contacto { background: var(--bg); }
-    .cnt-wrap { display: grid; grid-template-columns: 1fr 1.25fr; gap: 72px; align-items: start; }
-    .cnt-info h2 { font-size: clamp(28px, 3.5vw, 44px); margin-bottom: 18px; }
-    .cnt-info > p { color: var(--sub); line-height: 1.75; margin-bottom: 42px; }
-    .cnt-data { display: flex; flex-direction: column; gap: 20px; }
-    .cnt-item { display: flex; align-items: center; gap: 16px; }
-    .cnt-item-ico {
-      width: 48px; height: 48px; border-radius: 10px;
-      background: rgba(0,87,255,.09); border: 1px solid rgba(0,87,255,.22);
-      display: flex; align-items: center; justify-content: center; font-size: 19px;
-    }
-    .cnt-item-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .09em; margin-bottom: 3px; }
-    .cnt-item-val {
-      font-size: 16px; font-weight: 500; color: var(--text);
-      text-decoration: none; transition: color .2s;
-    }
-    .cnt-item-val:hover { color: var(--accent); }
-    .cnt-form {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 48px;
-    }
-    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .f-grp { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-    .f-grp label { font-size: 12.5px; font-weight: 500; color: var(--sub); }
-    .f-grp input,
-    .f-grp select,
-    .f-grp textarea {
-      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
-      border-radius: 8px; padding: 13px 15px;
-      color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px;
-      outline: none; width: 100%;
-      transition: border-color .2s, background .2s;
-    }
-    .f-grp input:focus,
-    .f-grp select:focus,
-    .f-grp textarea:focus { border-color: var(--primary); background: rgba(0,87,255,.05); }
-    .f-grp textarea { resize: vertical; min-height: 118px; }
-    .f-grp select option { background: #091525; }
-    .f-submit {
-      width: 100%; background: var(--primary); color: #fff;
-      border: none; border-radius: 8px; padding: 16px;
-      font-size: 16px; font-weight: 600; font-family: 'Inter', sans-serif;
-      cursor: pointer; box-shadow: 0 4px 24px var(--p-glow);
-      transition: background .2s, transform .2s, box-shadow .2s;
-    }
-    .f-submit:hover { background: #1a6aff; transform: translateY(-1px); box-shadow: 0 8px 36px var(--p-glow); }
+  /* footer stacks cleanly */
+  .foot-grid{gap:32px}
+  .foot-bottom{flex-direction:column;align-items:flex-start;gap:8px;text-align:left}
+}
+@media (max-width:680px){
+  .nav-links,.nav-ctas .btn-ghost,#langToggle,.nav-ctas .btn-pri{display:none}
+  .hamburger{display:flex}
+  .results-grid{grid-template-columns:1fr}
+  .process-steps{grid-template-columns:1fr;gap:30px}
+  .foot-grid{grid-template-columns:1fr}
+  .svc-metric{display:none}
+  #cursorHalo{display:none!important}
+  /* language toggle moves into the mobile menu */
+  .mobile-menu .mm-lang{display:inline-flex!important;margin-top:8px;background:none;border:1px solid var(--line);
+    border-radius:8px;color:var(--ink2);font-family:var(--display);font-size:13px;font-weight:600;
+    letter-spacing:.08em;padding:10px 22px;cursor:pointer}
+}
+@media (max-width:430px){
+  .foot-grid{grid-template-columns:1fr}
+  .stats-inner{gap:18px}
+  .stat-num{font-size:1.9rem}
+  .stat-label{font-size:.8rem}
+}
+/* taller phones: let hero sub + orbit coexist */
+@media (max-width:680px) and (max-height:720px){
+  .hero-hint{display:none}
+}
 
-    /* ── MODAL ───────────────────────── */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 9000;
-      background: rgba(4,10,20,.88);
-      backdrop-filter: blur(14px);
-      display: flex; align-items: center; justify-content: center;
-      padding: 24px;
-      opacity: 0; pointer-events: none;
-      transition: opacity .3s ease;
-    }
-    .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal-box {
-      background: #0C1C34;
-      border: 1px solid rgba(0,87,255,.3);
-      border-radius: 20px; padding: 48px;
-      max-width: 540px; width: 100%;
-      position: relative;
-      transform: translateY(28px) scale(.96);
-      transition: transform .38s cubic-bezier(.22,1,.36,1);
-      max-height: 90vh; overflow-y: auto;
-    }
-    .modal-overlay.open .modal-box { transform: none; }
-    .modal-close {
-      position: absolute; top: 18px; right: 18px;
-      width: 36px; height: 36px;
-      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
-      border-radius: 8px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 16px; color: var(--sub);
-      transition: background .2s, color .2s;
-      font-style: normal;
-    }
-    .modal-close:hover { background: rgba(255,255,255,.14); color: var(--text); }
-    .modal-box .modal-tag { margin-bottom: 18px; }
-    .modal-box h3 { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; margin-bottom: 8px; }
-    .modal-box > p { color: var(--sub); font-size: 15px; line-height: 1.65; margin-bottom: 30px; }
-    .modal-box .f-submit { margin-top: 4px; }
-
-    /* ── CTA EXPERTO ─────────────────── */
-    #cta-experto {
-      position: relative; overflow: hidden;
-      background: #030812;
-      border-top: 1px solid rgba(0,87,255,.25);
-      border-bottom: 1px solid rgba(0,87,255,.25);
-    }
-    .cta-bg {
-      position: absolute; inset: -40% 0; z-index: 0;
-      background:
-        radial-gradient(ellipse 80% 55% at 50% 50%, rgba(0,87,255,.55) 0%, rgba(0,87,255,.18) 40%, transparent 68%),
-        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,55,200,.35) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 30% at 80% 20%, rgba(0,180,255,.25) 0%, transparent 55%),
-        #030812;
-      will-change: transform;
-    }
-    .cta-grid {
-      position: absolute; inset: 0; z-index: 1;
-      background-image:
-        linear-gradient(rgba(0,87,255,.13) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,87,255,.13) 1px, transparent 1px);
-      background-size: 64px 64px;
-    }
-    .cta-orb-a {
-      position: absolute; width: 800px; height: 800px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,87,255,.7) 0%, rgba(0,87,255,.3) 30%, transparent 65%);
-      top: 50%; left: 50%;
-      filter: blur(55px); z-index: 2;
-      animation: orbA 5s ease-in-out infinite;
-    }
-    .cta-orb-b {
-      position: absolute; width: 420px; height: 420px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,194,255,.55) 0%, rgba(0,130,255,.2) 40%, transparent 65%);
-      top: -5%; right: 5%;
-      filter: blur(60px); z-index: 2;
-      animation: orbB 7s ease-in-out infinite;
-    }
-    .cta-orb-c {
-      position: absolute; width: 300px; height: 300px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,87,255,.5) 0%, transparent 65%);
-      bottom: -5%; left: 5%;
-      filter: blur(50px); z-index: 2;
-      animation: orbB 9s ease-in-out infinite reverse;
-    }
-    #ctaThree {
-      position: absolute; inset: 0; z-index: 2;
-      width: 100%; height: 100%;
-      cursor: grab;
-    }
-    #ctaThree:active { cursor: grabbing; }
-    @keyframes orbA {
-      0%,100% { transform: translate(-50%,-50%) scale(1);    opacity: 1; }
-      50%      { transform: translate(-50%,-50%) scale(1.2);  opacity: .75; }
-    }
-    @keyframes orbB {
-      0%,100% { transform: scale(1);     opacity: 1; }
-      50%      { transform: scale(1.28); opacity: .6; }
-    }
-    .cta-inner {
-      position: relative; z-index: 2;
-      text-align: center;
-      padding: 160px 24px;
-      max-width: var(--max); margin: 0 auto;
-    }
-    .cta-inner .tag { margin-bottom: 28px; }
-    .cta-h2 {
-      font-size: clamp(34px, 5.5vw, 70px);
-      font-weight: 700; line-height: 1.08;
-      max-width: 800px; margin: 0 auto 22px;
-    }
-    .cta-h2 .grad {
-      background: linear-gradient(130deg, #4893FF 0%, #00C2FF 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .cta-sub {
-      font-size: clamp(17px, 2vw, 21px);
-      color: var(--sub); max-width: 500px;
-      margin: 0 auto 56px; line-height: 1.72;
-    }
-    .btn-cta-exp {
-      display: inline-flex; align-items: center; gap: 12px;
-      background: var(--primary); color: #fff;
-      font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 700;
-      padding: 20px 52px; border-radius: 14px; border: none; cursor: pointer;
-      position: relative; isolation: isolate;
-      transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s;
-      will-change: transform;
-    }
-    .btn-cta-exp::before {
-      content: '';
-      position: absolute; inset: -6px; border-radius: 20px; z-index: -1;
-      background: radial-gradient(circle, rgba(0,87,255,.65) 0%, transparent 68%);
-      opacity: .5; animation: ctaGlow 2.6s ease-in-out infinite;
-      will-change: transform, opacity;
-    }
-    @keyframes ctaGlow {
-      0%,100% { opacity: .45; transform: scale(1); }
-      50%      { opacity: .75; transform: scale(1.12); }
-    }
-    .btn-cta-exp:hover {
-      background: #1a6aff;
-      transform: translateY(-4px) scale(1.05);
-    }
-    .btn-cta-exp:hover::before { opacity: 1; transform: scale(1.18); }
-
-    /* ── FOOTER ───────────────────────── */
-    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 64px 0 32px; }
-    .ft-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 52px; margin-bottom: 52px; }
-    .ft-brand p { color: var(--muted); font-size: 14px; line-height: 1.75; margin-top: 14px; max-width: 310px; }
-    .ft-col h4 { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; }
-    .ft-col a { display: block; color: var(--sub); text-decoration: none; font-size: 14.5px; margin-bottom: 12px; transition: color .2s; }
-    .ft-col a:hover { color: var(--text); }
-    .ft-bot {
-      border-top: 1px solid var(--border); padding-top: 28px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 12px;
-    }
-    .ft-bot p { font-size: 13.5px; color: var(--muted); }
-
-    /* ── GSAP / SPLIT TEXT ────────────── */
-    .ws  { display: inline-block; overflow: hidden; vertical-align: top; }
-    .wi  { display: inline-block; will-change: transform, opacity; }
-
-    /* ── BLUEPRINT OVERLAY ────────────── */
-    #blueprintOverlay {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      opacity: 0;
-      background-image:
-        linear-gradient(rgba(0,140,255,.11) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,140,255,.11) 1px, transparent 1px);
-      background-size: 52px 52px;
-      mix-blend-mode: screen;
-      will-change: opacity;
-    }
-
-    /* ── METHODOLOGY IMPROVEMENTS ─────── */
-    .steps::before { display: none; }
-    .step-connector {
-      position: absolute; top: 43px; left: 12%; right: 12%; height: 2px;
-      pointer-events: none; overflow: visible;
-    }
-    .step.s-active .step-num {
-      background: rgba(0,87,255,.15) !important;
-      border-color: var(--primary) !important;
-      box-shadow: 0 0 28px rgba(0,87,255,.4), 0 0 56px rgba(0,87,255,.15);
-    }
-
-    /* ── PAIN CARDS ENHANCED ──────────── */
-    .pain-card { transform-style: preserve-3d; will-change: transform, opacity; }
-    .pain-icon { transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
-    .pain-card:hover .pain-icon { transform: scale(1.25) rotate(-10deg); }
-    .pain-card:hover { box-shadow: 0 0 0 1px rgba(0,87,255,.5), 0 16px 48px rgba(0,87,255,.12); }
-
-    /* ── CTA INNER above Three.js ─────── */
-    .cta-inner { z-index: 3; }
-    .btn-cta-exp { will-change: transform; }
-
-    /* ── SCROLL NARRATIVE LABEL ───────── */
-    #scrollLabel {
-      position: fixed; bottom: 72px; left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 10px; font-weight: 700;
-      letter-spacing: .28em; text-transform: uppercase;
-      color: rgba(255,255,255,.35);
-      z-index: 600; pointer-events: none; opacity: 0;
-    }
-
-    /* ── ANIMATIONS ───────────────────── */
-    @keyframes fadeUp   { from { opacity:0; transform:translateY(26px) } to { opacity:1; transform:none } }
-    @keyframes fadeDown { from { opacity:0; transform:translateY(-16px) } to { opacity:1; transform:none } }
-    @keyframes fadeIn   { from { opacity:0 } to { opacity:1 } }
-    @keyframes wheel    { 0%,100% { opacity:1; transform:translateX(-50%) translateY(0) } 80% { opacity:0; transform:translateX(-50%) translateY(12px) } }
-
-    /* GSAP gestiona reveal/stg — las clases CSS ya no ocultan,
-       solo sirven como selectores semánticos */
-    .reveal, .reveal-l, .reveal-r { opacity: 1; transform: none; }
-    .stg { opacity: 1; transform: none; }
-    .in  { opacity: 1 !important; transform: none !important; }
-
-    /* ── RESPONSIVE ───────────────────── */
-    @media (max-width: 920px) {
-      .diff-wrap { grid-template-columns: 1fr; gap: 48px; }
-      .cnt-wrap  { grid-template-columns: 1fr; }
-      .ft-grid   { grid-template-columns: 1fr 1fr; }
-      .steps::before { display: none; }
-      .f-row { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      .nav-links.open {
-        display: flex; flex-direction: column;
-        position: fixed; top: var(--nh); left: 0; right: 0;
-        background: rgba(6,13,26,.97); backdrop-filter: blur(22px);
-        padding: 24px; gap: 16px;
-        border-bottom: 1px solid var(--border);
-      }
-      .hero-btns { flex-direction: column; align-items: center; }
-      .ft-grid   { grid-template-columns: 1fr; }
-      .sec-in    { padding: 76px 0; }
-      .diff-vis  { padding: 32px; }
-      .cnt-form  { padding: 28px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-      .hero-wrap { height: 100vh; }
-    }
-  </style>
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .reveal{opacity:1!important;transform:none!important;filter:none!important}.stat-item{opacity:1!important;transform:none!important}
+  .hero-h1 .word{opacity:1!important;transform:none!important}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "INTEREMPREX",
+  "url": "https://www.interemprex.com/",
+  "logo": "https://www.interemprex.com/assets/favicon-512.png",
+  "description": "Partner operativo de comercio internacional. Digitalizamos, automatizamos y escalamos negocios físicos.",
+  "email": "Interemprex@gmail.com",
+  "telephone": "+34656718916",
+  "address": {"@type":"PostalAddress","addressRegion":"Extremadura","addressCountry":"ES"},
+  "sameAs": [
+    "https://www.linkedin.com/company/interemprex",
+    "https://www.instagram.com/interemprex",
+    "https://twitter.com/interemprex"
+  ]
+}
+</script>
 </head>
 <body>
-  <!-- Fallback para buscadores y usuarios sin JavaScript -->
-  <noscript>
-    <style>.noscript-fallback{max-width:800px;margin:60px auto;padding:32px;font-family:sans-serif;color:#111;line-height:1.7}.noscript-fallback h1{font-size:2rem;margin-bottom:12px}.noscript-fallback h2{font-size:1.3rem;margin:28px 0 10px;border-bottom:1px solid #ddd;padding-bottom:6px}.noscript-fallback ul{padding-left:20px}.noscript-fallback li{margin-bottom:6px}</style>
-    <div class="noscript-fallback">
-      <h1>INTEREMPREX — Del caos operativo al sistema que escala</h1>
-      <p>Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional para empresas que están perdiendo eficiencia y margen por falta de control.</p>
-      <h2>Servicios de digitalización para comercio internacional</h2>
-      <ul>
-        <li><strong>Gestión de pedidos internacionales</strong> — control en tiempo real del ciclo completo de pedidos.</li>
-        <li><strong>Coordinación con proveedores</strong> — sistemas de seguimiento que eliminan dependencias y errores.</li>
-        <li><strong>Control de tiempos de tránsito</strong> — monitorización de plazos que anticipa desviaciones.</li>
-        <li><strong>Organización y explotación de datos logísticos</strong> — KPIs reales sobre base sólida.</li>
-        <li><strong>Automatización de procesos operativos</strong> — automatizamos tareas repetitivas en Excel y ERPs.</li>
-      </ul>
-      <h2>Nuestra metodología de digitalización operativa</h2>
-      <p>Diagnóstico → Diseño a medida → Implementación directa → Optimización continua.</p>
-      <h2>Contacto</h2>
-      <p>Email: <a href="mailto:Interemprex@gmail.com">Interemprex@gmail.com</a> · Teléfono: <a href="tel:+34656718916">+34 656 718 916</a></p>
+
+<div id="cursorHalo" aria-hidden="true"></div>
+<canvas id="bgStars" aria-hidden="true"></canvas>
+<canvas id="warpCanvas" aria-hidden="true"></canvas>
+
+<!-- NAV -->
+<nav id="nav" aria-label="Navegación principal">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#hero"><img src="assets/logo-icon.png" alt="" aria-hidden="true" class="brand-mark"><span class="bpulse" aria-hidden="true"></span>INTER<em>EMPREX</em></a>
+    <div class="nav-links">
+      <a href="#servicios" data-i18n="navSvc">Servicios</a>
+      <a href="#por-que" data-i18n="navWhy">Por qué nosotros</a>
+      <a href="#resultados" data-i18n="navRes">Resultados</a>
+      <a href="#proceso" data-i18n="navProc">Proceso</a>
+      <a href="#contacto" data-i18n="navCont">Contacto</a>
     </div>
-  </noscript>
-
-  <div id="blueprintOverlay"></div>
-  <div id="scrollLabel">CAOS</div>
-
-  <!-- NAV ─────────────────────────────── -->
-  <nav id="mainNav" role="navigation" aria-label="Navegación principal">
-    <div class="nav-in">
-      <a href="/" class="logo">INTER<em>EMPREX</em></a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#problema">El Problema</a></li>
-        <li><a href="#servicios">Servicios</a></li>
-        <li><a href="#metodologia">Metodología</a></li>
-        <li><a href="#contacto" class="nav-cta">Hablemos</a></li>
-      </ul>
-      <div class="hamburger" id="burger" role="button" aria-label="Menú" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-      </div>
+    <div class="nav-ctas">
+      <button id="langToggle" aria-label="Cambiar idioma">EN</button>
+      <a class="btn btn-ghost" href="#contacto" data-i18n="navGhost">Hablar con nosotros</a>
+      <a class="btn btn-pri" href="#contacto" data-i18n="navPri">Empezar ahora</a>
     </div>
-  </nav>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#servicios" data-i18n="navSvc">Servicios</a>
+  <a href="#por-que" data-i18n="navWhy">Por qué nosotros</a>
+  <a href="#resultados" data-i18n="navRes">Resultados</a>
+  <a href="#proceso" data-i18n="navProc">Proceso</a>
+  <a class="btn btn-pri" href="#contacto" data-i18n="navPri">Empezar ahora</a>
+  <button class="mm-lang" id="mmLang" style="display:none" aria-label="Cambiar idioma">EN</button>
+</div>
 
-  <main id="contenido-principal">
-
-  <!-- HERO SCROLL VIDEO ───────────────── -->
-  <section class="hero-wrap" id="heroSec" aria-label="Inicio: del caos operativo al sistema que escala">
-    <div class="hero-sticky">
-      <video id="heroVid" src="assets/hero.mp4" poster="assets/hero.gif" playsinline muted preload="auto" aria-label="Vídeo de presentación INTEREMPREX — digitalización de comercio internacional"></video>
-      <div class="hero-overlay"></div>
-      <div class="hero-content" id="heroContent">
-        <div class="hero-tag tag">Partner Operativo · Comercio Internacional</div>
-        <h1 class="hero-h1">Del caos operativo al<br><span class="grad">sistema que escala</span></h1>
-        <p class="hero-p">Digitalizamos y optimizamos operaciones de comercio internacional para empresas que están perdiendo eficiencia — y margen — por falta de control.</p>
-        <div class="hero-btns">
-          <a href="#contacto" class="btn-p">Hablemos de tu operativa →</a>
-          <a href="#servicios" class="btn-g">Ver servicios</a>
-        </div>
-      </div>
-      <div class="scroll-hint">
-        <div class="scroll-mouse"></div>
-        <span>Scroll</span>
-      </div>
-      <div class="wm-cover"></div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progFill"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EL PROBLEMA ─────────────────────── -->
-  <section class="sec" id="problema" aria-label="El problema: ineficiencias en operativa de comercio internacional">
-    <div class="divider"></div>
-    <div class="sec-in wrap">
-      <div class="sec-head reveal">
-        <span class="tag">El Problema</span>
-        <h2 class="sec-h2">¿Te suena familiar en tu operativa internacional?</h2>
-        <p class="sec-p">Muchas empresas con operativa de comercio internacional siguen perdiendo margen por ineficiencias que tienen nombre — y solución.</p>
-      </div>
-      <div class="pain-grid">
-        <div class="pain-card stg">
-          <div class="pain-icon">📂</div>
-          <h3>Datos dispersos y desconectados</h3>
-          <p>Información crítica repartida entre Excel, correos y hojas sin actualizar. Sin una fuente de verdad única, cada decisión parte de datos distintos.</p>
-        </div>
-        <div class="pain-card stg">
-          <div class="pain-icon">⚠️</div>
-          <h3>Procesos manuales propensos a errores</h3>
-          <p>Cada pedido, coordinación o seguimiento depende de personas clave. Un fallo humano puede costar semanas de retraso y cientos de euros.</p>
-        </div>
-        <div class="pain-card stg">
-          <div class="pain-icon">🔍</div>
-          <h3>Sin visibilidad real de las operaciones</h3>
-          <p>Nadie sabe con certeza dónde está un pedido, cuándo llegará o qué pasó con un proveedor. La trazabilidad existe solo en papel — o en ningún sitio.</p>
-        </div>
-        <div class="pain-card stg">
-          <div class="pain-icon">📊</div>
-          <h3>Decisiones con información incompleta</h3>
-          <p>Los datos existen, pero están en formatos distintos, sin estructura ni análisis. Tomar decisiones estratégicas sobre esta base es apostar.</p>
-        </div>
-      </div>
-      <div class="pain-call reveal">
-        <p>Estas ineficiencias no son problemas menores.<br>Son <span>fugas directas de margen</span> que crecen con el volumen.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVICIOS ───────────────────────── -->
-  <section class="sec" id="servicios" aria-label="Servicios de digitalización de comercio internacional">
-    <div class="divider"></div>
-    <div class="sec-in wrap">
-      <div class="sec-head reveal">
-        <span class="tag">Servicios</span>
-        <h2 class="sec-h2">Servicios de digitalización para comercio internacional</h2>
-        <p class="sec-p">Intervención directa sobre los puntos críticos de tu operativa internacional. Cada servicio está orientado a resultados medibles.</p>
-      </div>
-      <div class="srv-grid">
-        <div class="srv-card stg">
-          <span class="srv-ico">🌐</span>
-          <h3>Gestión de pedidos internacionales</h3>
-          <p>Estructuramos y centralizamos el ciclo completo de pedidos: desde la emisión hasta la recepción, con control en tiempo real y sin fisuras.</p>
-        </div>
-        <div class="srv-card stg">
-          <span class="srv-ico">🤝</span>
-          <h3>Coordinación con proveedores</h3>
-          <p>Sistemas de comunicación y seguimiento que eliminan la dependencia de personas clave y reducen drásticamente los errores de interpretación.</p>
-        </div>
-        <div class="srv-card stg">
-          <span class="srv-ico">⏱️</span>
-          <h3>Control de tiempos de tránsito</h3>
-          <p>Herramientas de monitorización de plazos logísticos que anticipan desviaciones antes de que se conviertan en problemas costosos.</p>
-        </div>
-        <div class="srv-card stg">
-          <span class="srv-ico">📈</span>
-          <h3>Organización y explotación de datos</h3>
-          <p>Transformamos datos logísticos dispersos en información estructurada y accionable. KPIs reales para decisiones sobre base sólida.</p>
-        </div>
-        <div class="srv-card stg">
-          <span class="srv-ico">⚡</span>
-          <h3>Automatización de procesos</h3>
-          <p>Automatizamos tareas repetitivas en Excel, ERPs o herramientas internas. Menos tiempo en operativa rutinaria, más en estrategia y crecimiento.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- METODOLOGÍA ─────────────────────── -->
-  <section class="sec" id="metodologia" aria-label="Metodología de trabajo: diagnóstico, diseño, implementación y optimización">
-    <div class="sec-in wrap">
-      <div class="sec-head reveal">
-        <span class="tag">Metodología</span>
-        <h2 class="sec-h2">Nuestra metodología de digitalización operativa</h2>
-        <p class="sec-p">No somos consultores que entregan un informe y se van. Entendemos tu operativa real, diseñamos a medida e implementamos directamente.</p>
-      </div>
-      <div class="steps">
-        <div class="step stg">
-          <div class="step-num">01</div>
-          <h3>Diagnóstico</h3>
-          <p>Analizamos tus flujos operativos: pedidos, proveedores, tiempos, datos. Identificamos exactamente dónde se pierde eficiencia y por qué.</p>
-        </div>
-        <div class="step stg">
-          <div class="step-num">02</div>
-          <h3>Diseño a medida</h3>
-          <p>Diseñamos la solución adaptada a tu realidad operativa. Sin plantillas genéricas ni tecnología por tendencia — solo lo que funciona para tu empresa.</p>
-        </div>
-        <div class="step stg">
-          <div class="step-num">03</div>
-          <h3>Implementación directa</h3>
-          <p>Ejecutamos las mejoras nosotros mismos: automatizamos procesos, estructuramos datos y optimizamos las herramientas que ya utilizas.</p>
-        </div>
-        <div class="step stg">
-          <div class="step-num">04</div>
-          <h3>Optimización continua</h3>
-          <p>Una vez en marcha, medimos, ajustamos y mejoramos. Tu operativa debe poder escalar sin aumentar proporcionalmente la complejidad.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA HABLAR CON UN EXPERTO ──────── -->
-  <section class="sec" id="cta-experto" aria-label="Convierte tu operativa en una ventaja competitiva">
-    <div class="cta-bg" id="ctaBg"></div>
-    <div class="cta-grid"></div>
-    <div class="cta-orb-a"></div>
-    <div class="cta-orb-b"></div>
-    <div class="cta-orb-c"></div>
-    <canvas id="ctaThree"></canvas>
-    <div class="cta-inner" id="ctaInner">
-      <span class="tag">¿Hablamos?</span>
-      <h2 class="cta-h2">¿Listo para convertir tu operativa<br>en una <span class="grad">ventaja competitiva?</span></h2>
-      <p class="cta-sub">Un experto de INTEREMPREX analizará tu situación sin compromiso y te dirá con claridad si podemos ayudarte.</p>
-      <button onclick="openModal()" class="btn-cta-exp">💬 Hablar con un experto</button>
-    </div>
-  </section>
-
-  <!-- POR QUÉ INTEREMPREX ─────────────── -->
-  <section class="sec" id="diferenciacion" aria-label="Por qué INTEREMPREX: partner operativo que actúa y no solo aconseja">
-    <div class="divider"></div>
-    <div class="sec-in wrap">
-      <div class="diff-wrap">
-        <div class="diff-txt">
-          <div class="sec-head reveal-l" style="text-align:left">
-            <span class="tag">Por qué INTEREMPREX</span>
-            <h2 class="sec-h2">Un partner operativo que actúa,<br>no que aconseja</h2>
-            <p class="sec-p" style="margin:0">La diferencia entre consultoría tradicional y un partner operativo real en comercio internacional está en quién ejecuta los cambios — y mide los resultados.</p>
-          </div>
-          <div class="diff-pts">
-            <div class="diff-pt reveal-l">
-              <div class="diff-pt-ico">🎯</div>
-              <div class="diff-pt-body">
-                <h4>Enfoque en ejecución, no en teoría</h4>
-                <p>No entregamos informes de diagnóstico. Implementamos directamente las mejoras operativas en tus sistemas y procesos reales.</p>
-              </div>
-            </div>
-            <div class="diff-pt reveal-l">
-              <div class="diff-pt-ico">🔧</div>
-              <div class="diff-pt-body">
-                <h4>Soluciones adaptadas, no plantillas</h4>
-                <p>Cada empresa tiene una operativa diferente. Diseñamos específicamente para tu flujo, tus herramientas y tu equipo.</p>
-              </div>
-            </div>
-            <div class="diff-pt reveal-l">
-              <div class="diff-pt-ico">📐</div>
-              <div class="diff-pt-body">
-                <h4>Digitalización donde impacta de verdad</h4>
-                <p>No tecnología por tendencia. Aplicamos digitalización donde realmente mejora eficiencia y control en tu operativa concreta.</p>
-              </div>
-            </div>
-            <div class="diff-pt reveal-l">
-              <div class="diff-pt-ico">📏</div>
-              <div class="diff-pt-body">
-                <h4>Resultados medibles y escalables</h4>
-                <p>Cada intervención produce resultados verificables: menos errores, mejor trazabilidad, procesos que escalan sin complejidad adicional.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="diff-vis reveal-r" id="cmpCard">
-          <div class="cmp-row">
-            <div class="cmp-label">Sin sistema estructurado</div>
-            <div class="cmp-bars">
-              <div class="cmp-bar">
-                <span class="cmp-bar-lbl">Trazabilidad</span>
-                <div class="cmp-bar-track"><div class="cmp-bar-fill bad" data-w="22"></div></div>
-                <span class="cmp-bar-val" style="color:rgba(255,80,80,.8)">Baja</span>
-              </div>
-              <div class="cmp-bar">
-                <span class="cmp-bar-lbl">Automatización</span>
-                <div class="cmp-bar-track"><div class="cmp-bar-fill bad" data-w="14"></div></div>
-                <span class="cmp-bar-val" style="color:rgba(255,80,80,.8)">Baja</span>
-              </div>
-              <div class="cmp-bar">
-                <span class="cmp-bar-lbl">Control operativo</span>
-                <div class="cmp-bar-track"><div class="cmp-bar-fill bad" data-w="28"></div></div>
-                <span class="cmp-bar-val" style="color:rgba(255,80,80,.8)">Bajo</span>
-              </div>
-            </div>
-          </div>
-          <div class="sep-line"></div>
-          <div class="cmp-row">
-            <div class="cmp-label">Con INTEREMPREX</div>
-            <div class="cmp-bars">
-              <div class="cmp-bar">
-                <span class="cmp-bar-lbl">Trazabilidad</span>
-                <div class="cmp-bar-track"><div class="cmp-bar-fill good" data-w="91"></div></div>
-                <span class="cmp-bar-val" style="color:var(--accent)">Alta</span>
-              </div>
-              <div class="cmp-bar">
-                <span class="cmp-bar-lbl">Automatización</span>
-                <div class="cmp-bar-track"><div class="cmp-bar-fill good" data-w="85"></div></div>
-                <span class="cmp-bar-val" style="color:var(--accent)">Alta</span>
-              </div>
-              <div class="cmp-bar">
-                <span class="cmp-bar-lbl">Control operativo</span>
-                <div class="cmp-bar-track"><div class="cmp-bar-fill good" data-w="93"></div></div>
-                <span class="cmp-bar-val" style="color:var(--accent)">Alto</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACTO ────────────────────────── -->
-  <section class="sec" id="contacto" aria-label="Contacto: hablemos de tu operativa internacional">
-    <div class="divider"></div>
-    <div class="sec-in wrap">
-      <div class="cnt-wrap">
-        <div class="cnt-info reveal-l">
-          <span class="tag" style="margin-bottom:24px;display:inline-flex">Contacto</span>
-          <h2>Hablemos de tu operativa</h2>
-          <p>Si reconoces alguno de los problemas que describimos, vale la pena conversar. Cuéntanos cómo funciona tu operativa y te diremos con claridad si podemos ayudarte.</p>
-          <address class="cnt-data" style="font-style:normal;">
-            <div class="cnt-item">
-              <div class="cnt-item-ico">✉️</div>
-              <div>
-                <div class="cnt-item-lbl">Email</div>
-                <a href="mailto:Interemprex@gmail.com" class="cnt-item-val" rel="noopener">Interemprex@gmail.com</a>
-              </div>
-            </div>
-            <div class="cnt-item">
-              <div class="cnt-item-ico">📞</div>
-              <div>
-                <div class="cnt-item-lbl">Teléfono</div>
-                <a href="tel:+34656718916" class="cnt-item-val">+34 656 718 916</a>
-              </div>
-            </div>
-          </address>
-        </div>
-        <div class="cnt-form reveal-r">
-          <form action="https://formsubmit.co/interemprex@gmail.com" method="POST" aria-label="Formulario de contacto INTEREMPREX">
-            <input type="hidden" name="_subject" value="Nuevo contacto — INTEREMPREX web">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" value="https://interemprex.com/#contacto">
-            <div class="f-row">
-              <div class="f-grp">
-                <label for="f-nombre">Nombre</label>
-                <input type="text" id="f-nombre" name="Nombre" placeholder="Tu nombre" autocomplete="name" required>
-              </div>
-              <div class="f-grp">
-                <label for="f-empresa">Empresa</label>
-                <input type="text" id="f-empresa" name="Empresa" placeholder="Nombre de tu empresa" autocomplete="organization" required>
-              </div>
-            </div>
-            <div class="f-grp">
-              <label for="f-email">Email de contacto</label>
-              <input type="email" id="f-email" name="Email" placeholder="tu@empresa.com" autocomplete="email" required>
-            </div>
-            <div class="f-grp">
-              <label for="f-vol">Volumen operativo aproximado</label>
-              <select id="f-vol" name="Volumen">
-                <option value="">Selecciona...</option>
-                <option>Pequeño — menos de 50 pedidos/mes</option>
-                <option>Medio — 50 a 200 pedidos/mes</option>
-                <option>Alto — más de 200 pedidos/mes</option>
-              </select>
-            </div>
-            <div class="f-grp">
-              <label for="f-msg">¿Cuál es tu mayor reto operativo ahora mismo?</label>
-              <textarea id="f-msg" name="Mensaje" placeholder="Describe brevemente el principal problema o ineficiencia que quieres resolver..."></textarea>
-            </div>
-            <button type="submit" class="f-submit">Enviar mensaje →</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  </main><!-- /contenido-principal -->
-
-  <!-- MODAL ──────────────────────────── -->
-  <div class="modal-overlay" id="modalOverlay" onclick="closeOnBackdrop(event)">
-    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">✕</button>
-      <span class="tag modal-tag">Contacto rápido</span>
-      <h3 id="modalTitle">Habla con un experto</h3>
-      <p>Cuéntanos tu situación y te respondemos en menos de 24 horas.</p>
-      <form onsubmit="submitModal(event)">
-        <div class="f-row">
-          <div class="f-grp">
-            <label for="m-nombre">Nombre</label>
-            <input type="text" id="m-nombre" placeholder="Tu nombre" required>
-          </div>
-          <div class="f-grp">
-            <label for="m-empresa">Empresa</label>
-            <input type="text" id="m-empresa" placeholder="Tu empresa" required>
-          </div>
-        </div>
-        <div class="f-grp">
-          <label for="m-email">Email de contacto</label>
-          <input type="email" id="m-email" placeholder="tu@empresa.com" required>
-        </div>
-        <div class="f-grp">
-          <label for="m-tel">Teléfono (opcional)</label>
-          <input type="tel" id="m-tel" placeholder="+34 600 000 000">
-        </div>
-        <div class="f-grp">
-          <label for="m-msg">¿Cuál es tu principal reto operativo?</label>
-          <textarea id="m-msg" placeholder="Describe brevemente tu situación..." style="min-height:100px" required></textarea>
-        </div>
-        <button type="submit" class="f-submit" id="mBtn">Enviar mensaje →</button>
-      </form>
+<!-- HERO: interactive orbital system -->
+<section id="hero" aria-label="Hero">
+  <canvas id="orbitCanvas" aria-hidden="true"></canvas>
+  <div id="orbitTip" role="status"></div>
+  <div class="hero-copy-scrim" aria-hidden="true"></div>
+  <div class="hero-overlay">
+    <div class="hero-pill" data-i18n="heroPill">Partner operativo · Comercio internacional</div>
+    <h1 class="hero-h1" id="heroTitle" aria-label="Lanza tu negocio"><span class="word">Lanza</span> <span class="word">tu</span> <span class="word"><em>negocio</em></span></h1>
+    <p class="hero-sub" data-i18n="heroSub">Tus servicios orbitan un mismo núcleo: tu negocio. Pasa el cursor sobre cada planeta.</p>
+    <div class="hero-btns">
+      <a class="btn btn-pri" href="#contacto" data-i18n="heroCta1">Empezar ahora</a>
+      <a class="btn btn-ghost" href="#servicios" data-i18n="heroCta2">Ver servicios</a>
     </div>
   </div>
+  <div class="hero-hint" data-i18n="heroHint">Mueve el cursor · los planetas son nuestros servicios</div>
+  <button class="hero-scroll" onclick="document.getElementById('stats').scrollIntoView({behavior:'smooth'})" data-i18n="scroll">Scroll</button>
+</section>
 
-  <!-- FOOTER ──────────────────────────── -->
-  <footer>
-    <div class="wrap">
-      <div class="ft-grid">
-        <div class="ft-brand">
-          <a href="/" class="logo" style="font-size:18px">INTER<em>EMPREX</em></a>
-          <p>Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional. Convertimos procesos complejos en sistemas claros, medibles y escalables.</p>
-        </div>
-        <div class="ft-col">
-          <h4>Servicios</h4>
-          <a href="#servicios">Gestión de pedidos</a>
-          <a href="#servicios">Coordinación con proveedores</a>
-          <a href="#servicios">Control de tránsitos</a>
-          <a href="#servicios">Datos logísticos</a>
-          <a href="#servicios">Automatización</a>
-        </div>
-        <div class="ft-col">
-          <h4>Empresa</h4>
-          <a href="#problema">El problema</a>
-          <a href="#metodologia">Metodología</a>
-          <a href="#diferenciacion">Por qué nosotros</a>
-          <a href="#contacto">Contacto</a>
-        </div>
+<!-- STATS -->
+<div id="stats">
+  <div class="stats-inner">
+    <div class="stat-item reveal"><div class="stat-num">−80%</div><div class="stat-label" data-i18n="st1">Tareas manuales eliminadas</div></div>
+    <div class="stat-item reveal d1"><div class="stat-num">&lt;24h</div><div class="stat-label" data-i18n="st2">Tiempo de respuesta</div></div>
+    <div class="stat-item reveal d2"><div class="stat-num">25→1</div><div class="stat-label" data-i18n="st3">Proveedores unificados</div></div>
+    <div class="stat-item reveal d3"><div class="stat-num">100%</div><div class="stat-label" data-i18n="st4">Implementación directa</div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="sec" id="servicios" aria-labelledby="svc-h">
+  <div class="container">
+    <div class="sec-eyebrow reveal" data-i18n="svcEye">Servicios</div>
+    <h2 class="sec-h2 reveal d1" id="svc-h" data-i18n="svcH2">Todo lo que necesitas<br>para crecer</h2>
+    <p class="sec-sub reveal d2" data-i18n="svcSub">Intervención directa sobre los puntos críticos de tu operativa. Sin plantillas, sin teoría: resultados medibles.</p>
+    <div class="svc-grid">
+      <div class="svc-card reveal" style="--acc:#38bdf8">
+        <div class="svc-metric">Web</div>
+        <span class="svc-accent" data-i18n="s1Eye">Propulsión digital</span>
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8M12 18v3"/><path d="M7 13l3 3 5-5" stroke="#22d3ee"/></svg></div>
+        <h3 data-i18n="s1H">Desarrollo Web &amp; Ecommerce</h3>
+        <p data-i18n="s1P">Webs y tiendas diseñadas para convertir visitas en pedidos. Carga instantánea, recorrido pensado para el cliente.</p>
+        <div class="svc-tags"><span class="tag" data-i18n="s1t1">Landing pages</span><span class="tag" data-i18n="s1t2">Tiendas online</span><span class="tag">CRO</span><span class="tag">SEO</span></div>
       </div>
-      <div class="ft-bot">
-        <p>© 2026 INTEREMPREX. Todos los derechos reservados.</p>
-        <p>Digitalización del comercio internacional</p>
+      <div class="svc-card reveal d1" style="--acc:#22d3ee">
+        <div class="svc-metric">Auto</div>
+        <span class="svc-accent" data-i18n="s2Eye">Piloto automático</span>
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07"/></svg></div>
+        <h3 data-i18n="s2H">Automatización de procesos</h3>
+        <p data-i18n="s2P">Eliminamos tareas repetitivas en Excel, ERPs y herramientas internas. Tu equipo, libre para decidir.</p>
+        <div class="svc-tags"><span class="tag">Excel &amp; ERP</span><span class="tag" data-i18n="s2t2">Flujos de pedido</span><span class="tag" data-i18n="s2t3">Integraciones</span></div>
+      </div>
+      <div class="svc-card reveal d2" style="--acc:#a78bfa">
+        <div class="svc-metric">Mktg</div>
+        <span class="svc-accent" data-i18n="s3Eye">Señal, no ruido</span>
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V11M10 19V5M16 19v-9M22 19H2"/><circle cx="16" cy="6" r="2" stroke="#38bdf8"/></svg></div>
+        <h3 data-i18n="s3H">Marketing digital</h3>
+        <p data-i18n="s3P">Captación medible que convierte visibilidad en clientes reales. Cada euro, con retorno claro.</p>
+        <div class="svc-tags"><span class="tag">SEO local</span><span class="tag" data-i18n="s3t2">Campañas</span><span class="tag" data-i18n="s3t3">Analítica</span><span class="tag">Google Ads</span></div>
+      </div>
+      <div class="svc-card reveal d3" style="--acc:#2dd4bf">
+        <div class="svc-metric">Intl</div>
+        <span class="svc-accent" data-i18n="s4Eye">Órbita global</span>
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.5 3.5 3.5 14 0 18M12 3c-3.5 3.5-3.5 14 0 18"/></svg></div>
+        <h3 data-i18n="s4H">Escalado e internacionalización</h3>
+        <p data-i18n="s4P">Pedidos, proveedores y tránsitos internacionales bajo control. Crece sin fricción.</p>
+        <div class="svc-tags"><span class="tag">Import / Export</span><span class="tag" data-i18n="s4t2">Proveedores</span><span class="tag" data-i18n="s4t3">Trazabilidad</span></div>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <!-- Scripts movidos al final del body para evitar render-blocking -->
-  <script src="assets/three.min.js"></script>
-  <script src="assets/gsap.min.js"></script>
-  <script src="assets/ScrollTrigger.min.js"></script>
+<!-- WHY -->
+<section class="sec" id="por-que" aria-labelledby="why-h">
+  <div class="container">
+    <div class="sec-eyebrow reveal" data-i18n="whyEye">Por qué INTEREMPREX</div>
+    <h2 class="sec-h2 reveal d1" id="why-h" data-i18n="whyH2">Un partner que actúa,<br>no que aconseja</h2>
+    <p class="sec-sub reveal d2" data-i18n="whySub">No entregamos informes y nos vamos. Implementamos directamente sobre tus sistemas reales.</p>
+    <div class="why-grid">
+      <div class="why-item reveal"><div class="why-num">01</div><h3 data-i18n="w1H">Enfoque práctico</h3><p data-i18n="w1P">Nada de teoría. Ejecutamos las mejoras nosotros mismos, en tus herramientas y procesos reales.</p></div>
+      <div class="why-item reveal d1"><div class="why-num">02</div><h3 data-i18n="w2H">Automatización real</h3><p data-i18n="w2P">Tecnología solo donde impacta de verdad. Sin plantillas genéricas ni soluciones de moda.</p></div>
+      <div class="why-item reveal d2"><div class="why-num">03</div><h3 data-i18n="w3H">Orientación a resultados</h3><p data-i18n="w3P">Cada intervención produce resultados verificables: menos errores, mejor trazabilidad, más margen.</p></div>
+    </div>
+  </div>
+</section>
 
-  <script>
-    // ── Nav scroll ──────────────────────────────────────
-    const nav = document.getElementById('mainNav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 36);
-    }, { passive: true });
+<!-- RESULTS -->
+<section class="sec" id="resultados" aria-labelledby="res-h">
+  <div class="container">
+    <div class="sec-eyebrow reveal" data-i18n="resEye">Resultados</div>
+    <h2 class="sec-h2 reveal d1" id="res-h" data-i18n="resH2">Misiones completadas</h2>
+    <p class="sec-sub reveal d2" data-i18n="resSub">Intervenciones reales, impacto medible.</p>
+    <div class="results-grid">
+      <div class="res-card reveal"><div class="res-big">25→1</div><div class="res-sector" data-i18n="r1S">Distribución alimentaria</div><p data-i18n="r1P">Stock en tránsito de 25 proveedores internacionales unificado en un único sistema Excel + ERP automatizado.</p></div>
+      <div class="res-card reveal d1"><div class="res-big">−80%</div><div class="res-sector" data-i18n="r2S">Operativa de pedidos</div><p data-i18n="r2P">Reducción de tareas manuales en el ciclo completo: emisión, seguimiento y recepción sin retrabajos.</p></div>
+      <div class="res-card reveal d2"><div class="res-big">0</div><div class="res-sector" data-i18n="r3S">Errores de integridad</div><p data-i18n="r3P">Cero referencias rotas tras la integración completa de consultas y tablas de pedidos.</p></div>
+    </div>
+  </div>
+</section>
 
-    // ── Mobile menu ─────────────────────────────────────
-    function toggleMenu() {
-      document.getElementById('navLinks').classList.toggle('open');
+<!-- PROCESS -->
+<section class="sec" id="proceso" aria-labelledby="proc-h">
+  <div class="container">
+    <div class="sec-eyebrow reveal" data-i18n="procEye">Proceso</div>
+    <h2 class="sec-h2 reveal d1" id="proc-h" data-i18n="procH2">Tres pasos. Cero complicaciones.</h2>
+    <p class="sec-sub reveal d2" data-i18n="procSub">Un método claro que convierte el caos operativo en un sistema que escala.</p>
+    <div class="process-steps">
+      <div class="ps reveal"><div class="ps-num">1</div><h4 data-i18n="p1H">Diagnóstico</h4><p data-i18n="p1P">Estudiamos tus flujos. Detectamos exactamente dónde pierdes eficiencia.</p></div>
+      <div class="ps reveal d1"><div class="ps-num">2</div><h4 data-i18n="p2H">Diseño a medida</h4><p data-i18n="p2P">Solución adaptada a tu flujo real. Sin plantillas genéricas.</p></div>
+      <div class="ps reveal d2"><div class="ps-num">3</div><h4 data-i18n="p3H">Implementación</h4><p data-i18n="p3P">Ejecutamos nosotros directamente sobre tus sistemas.</p></div>
+      <div class="ps reveal d3"><div class="ps-num">4</div><h4 data-i18n="p4H">Optimización continua</h4><p data-i18n="p4P">Medimos, ajustamos y escalamos sin añadir complejidad.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec" id="contacto" aria-labelledby="cont-h">
+  <div class="container">
+    <div class="sec-eyebrow reveal" data-i18n="contEye">Contacto</div>
+    <h2 class="sec-h2 reveal d1" id="cont-h" data-i18n="contH2">Trabajemos juntos</h2>
+    <div class="contact-wrap">
+      <div class="contact-info reveal">
+        <h3 data-i18n="ciH">¿Listo para despegar?</h3>
+        <p data-i18n="ciP">Cuéntanos cómo funciona tu negocio. Te diremos con claridad si podemos ayudarte y cómo. Respuesta en menos de 24 horas.</p>
+        <div class="contact-lines">
+          <a class="cline" href="https://wa.me/34656718916?text=Hola%2C%20vengo%20de%20interemprex.com%20y%20quiero%20hablar%20sobre%20mi%20operativa." target="_blank" rel="noopener">
+            <div class="cline-icon wa-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm4.6 13.9c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.2-.2.2-.7.8-.8 1-.1.1-.3.2-.5.1a6.7 6.7 0 01-3.3-2.9c-.3-.5.3-.5.8-1.4.1-.2 0-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.7 3.1.6.5 0 1.5-.6 1.7-1.2.2-.5.2-1 .1-1.1z"/></svg></div>
+            <span data-i18n="waLabel">WhatsApp · +34 656 718 916</span>
+          </a>
+          <a class="cline" href="mailto:Interemprex@gmail.com"><div class="cline-icon"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><span>Interemprex@gmail.com</span></a>
+          <a class="cline" href="tel:+34656718916"><div class="cline-icon"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg></div><span>+34 656 718 916</span></a>
+          <div class="cline"><div class="cline-icon"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div><span data-i18n="location">Extremadura, España</span></div>
+        </div>
+        <div class="social-row">
+          <a class="social-chip" href="https://www.linkedin.com/company/interemprex" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+          <a class="social-chip" href="https://www.instagram.com/interemprex" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>Instagram</a>
+          <a class="social-chip" href="https://twitter.com/interemprex" target="_blank" rel="noopener" aria-label="X / Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X / Twitter</a>
+        </div>
+      </div>
+      <div class="form-panel reveal d2">
+        <div class="form-head"><h3 data-i18n="fmH">Envíanos un mensaje</h3><p data-i18n="fmP">Respondemos en menos de 24 horas</p></div>
+        <div id="formBody">
+          <div class="field"><label for="fName" data-i18n="fName">Nombre</label><input id="fName" type="text" autocomplete="name"></div>
+          <div class="field"><label for="fComp" data-i18n="fComp">Empresa</label><input id="fComp" type="text" autocomplete="organization"></div>
+          <div class="field"><label for="fMail" data-i18n="fMail">Email</label><input id="fMail" type="email" autocomplete="email"></div>
+          <div class="field"><label for="fService" data-i18n="fService">Servicio de interés</label>
+            <select id="fService">
+              <option value="" data-i18n="fSvcOpt0">— Selecciona un servicio —</option>
+              <option value="web" data-i18n="fSvcOpt1">Web &amp; Ecommerce</option>
+              <option value="auto" data-i18n="fSvcOpt2">Automatización de procesos</option>
+              <option value="mkt" data-i18n="fSvcOpt3">Marketing digital</option>
+              <option value="intl" data-i18n="fSvcOpt4">Escalado e internacionalización</option>
+              <option value="all" data-i18n="fSvcOpt5">Varios / No sé aún</option>
+            </select>
+          </div>
+          <div class="field"><label for="fMsg" data-i18n="fMsg">Tu reto operativo</label><textarea id="fMsg" placeholder="Cuéntanos qué mejorar..."></textarea></div>
+          <button class="btn btn-pri" id="sendBtn" type="button" data-i18n="sendBtn">Enviar mensaje</button>
+        </div>
+        <div id="formSuccess">
+          <div class="check"><svg stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <h3 data-i18n="sentH">¡Mensaje recibido!</h3>
+          <p data-i18n="sentP">Gracias por contactarnos. Te respondemos en menos de 24 horas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><img src="assets/logo-icon.png" alt="" aria-hidden="true" class="brand-mark"><span class="bpulse" aria-hidden="true"></span>INTER<em>EMPREX</em></div>
+        <p class="foot-desc" data-i18n="footDesc">Partner operativo de comercio internacional. Digitalizamos, automatizamos y escalamos negocios físicos.</p>
+        <div class="foot-social">
+          <a class="fsoc" href="https://www.linkedin.com/company/interemprex" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a class="fsoc" href="https://www.instagram.com/interemprex" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg></a>
+          <a class="fsoc" href="https://twitter.com/interemprex" target="_blank" rel="noopener" aria-label="X / Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a class="fsoc" href="https://wa.me/34656718916" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm4.6 13.9c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.2-.2.2-.7.8-.8 1-.1.1-.3.2-.5.1a6.7 6.7 0 01-3.3-2.9c-.3-.5.3-.5.8-1.4.1-.2 0-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.7 3.1.6.5 0 1.5-.6 1.7-1.2.2-.5.2-1 .1-1.1z"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col"><h4 data-i18n="fColSvc">Servicios</h4><ul><li><a href="#servicios" data-i18n="fS1">Web &amp; Ecommerce</a></li><li><a href="#servicios" data-i18n="fS2">Automatización</a></li><li><a href="#servicios" data-i18n="fS3">Marketing digital</a></li><li><a href="#servicios" data-i18n="fS4">Internacionalización</a></li></ul></div>
+      <div class="foot-col"><h4 data-i18n="fColCo">Empresa</h4><ul><li><a href="#por-que" data-i18n="fC1">Por qué nosotros</a></li><li><a href="#resultados" data-i18n="fC2">Resultados</a></li><li><a href="#proceso" data-i18n="fC3">Proceso</a></li><li><a href="#contacto" data-i18n="fC4">Contacto</a></li></ul></div>
+      <div class="foot-col"><h4 data-i18n="fColLegal">Legal</h4><ul><li><a class="policy-link" data-modal="privacy" data-i18n="fL1">Política de privacidad</a></li><li><a class="policy-link" data-modal="cookies" data-i18n="fL2">Política de cookies</a></li><li><a class="policy-link" data-modal="legal" data-i18n="fL3">Aviso legal</a></li><li><a class="policy-link" data-modal="terms" data-i18n="fL4">Condiciones de servicio</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span data-i18n="footCopy">© 2026 INTEREMPREX. Todos los derechos reservados.</span>
+      <span><a class="policy-link" data-modal="privacy" data-i18n="fL1">Privacidad</a> · <a class="policy-link" data-modal="cookies" data-i18n="fL2">Cookies</a> · <a class="policy-link" data-modal="legal" data-i18n="fL3">Aviso legal</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="privacy" data-i18n="fL1">Política de privacidad</button>
+      <button class="modal-tab" data-tab="cookies" data-i18n="fL2">Cookies</button>
+      <button class="modal-tab" data-tab="legal" data-i18n="fL3">Aviso legal</button>
+      <button class="modal-tab" data-tab="terms" data-i18n="fL4">Condiciones</button>
+    </div>
+    <div class="modal-content active" id="tab-privacy">
+      <h2 id="modalTitle">Política de Privacidad</h2><p class="modal-date">Última actualización: junio de 2026</p>
+      <h3>1. Responsable del tratamiento</h3><p><strong>INTEREMPREX</strong>, con domicilio en Extremadura, España. Contacto: <a href="mailto:Interemprex@gmail.com">Interemprex@gmail.com</a> · +34 656 718 916.</p>
+      <h3>2. Datos que recogemos</h3><ul><li><strong>Datos de contacto:</strong> nombre, empresa, email y teléfono facilitados a través del formulario o por correo.</li><li><strong>Datos de navegación:</strong> IP, navegador y páginas visitadas (solo si se activa analítica, sin datos identificables).</li><li><strong>Comunicaciones comerciales:</strong> datos necesarios para gestionar presupuesto, contratación y prestación del servicio.</li></ul>
+      <h3>3. Finalidades y base legal</h3><ul><li>Responder a solicitudes de información y presupuesto (<em>interés legítimo</em>).</li><li>Gestionar la relación contractual con clientes (<em>ejecución de contrato</em>).</li><li>Enviar comunicaciones a clientes sobre servicios similares (<em>interés legítimo</em>); en otros casos, con <em>consentimiento</em>.</li><li>Cumplir obligaciones fiscales, contables y mercantiles (<em>obligación legal</em>).</li></ul>
+      <h3>4. Conservación</h3><p>Los datos se conservan mientras exista relación comercial y, tras finalizar, durante los plazos legales (hasta 10 años para documentación contable y fiscal).</p>
+      <h3>5. Tus derechos</h3><p>Puedes ejercer tus derechos de <strong>acceso, rectificación, supresión, limitación, portabilidad y oposición</strong> escribiendo a <a href="mailto:Interemprex@gmail.com">Interemprex@gmail.com</a> (asunto "Derechos RGPD"). También puedes reclamar ante la <a href="https://www.aepd.es" target="_blank" rel="noopener">AEPD</a>.</p>
+      <h3>6. Cesión de datos</h3><p>No cedemos datos a terceros salvo obligación legal. Los proveedores tecnológicos actúan como encargados bajo contrato de confidencialidad. No realizamos transferencias internacionales.</p>
+      <h3>7. Seguridad</h3><p>Aplicamos medidas técnicas y organizativas apropiadas: conexiones cifradas (HTTPS), acceso restringido y revisión periódica de controles.</p>
+    </div>
+    <div class="modal-content" id="tab-cookies">
+      <h2>Política de Cookies</h2><p class="modal-date">Última actualización: junio de 2026</p>
+      <h3>¿Qué son las cookies?</h3><p>Pequeños archivos de texto que un sitio almacena en tu dispositivo para recordar preferencias o registrar estadísticas de uso.</p>
+      <h3>Cookies que utilizamos</h3><ul><li><strong>Técnicas esenciales:</strong> funcionamiento básico (idioma, sesión de formulario). Interés legítimo. No requieren consentimiento.</li><li><strong>Analítica (opcional):</strong> si se activa Plausible Analytics, se registra información anonimizada sin cookies de rastreo persistentes ni terceros. Base legal: consentimiento.</li></ul>
+      <h3>Sin cookies de terceros</h3><p>Esta web no instala cookies de publicidad, remarketing ni perfiles. Sin Google Ads ni Facebook Pixel.</p>
+      <h3>Cómo gestionarlas</h3><p>Puedes rechazar o eliminar cookies desde tu navegador: <a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Chrome</a>, <a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies" target="_blank" rel="noopener">Firefox</a>, <a href="https://support.apple.com/es-es/guide/safari/sfri11471" target="_blank" rel="noopener">Safari</a>.</p>
+    </div>
+    <div class="modal-content" id="tab-legal">
+      <h2>Aviso Legal</h2><p class="modal-date">Última actualización: junio de 2026</p>
+      <h3>1. Datos identificativos</h3><p>En cumplimiento del art. 10 de la Ley 34/2002 (LSSI-CE):</p><ul><li><strong>Denominación:</strong> INTEREMPREX</li><li><strong>Actividad:</strong> consultoría, digitalización y comercio internacional para empresas</li><li><strong>Territorio:</strong> Extremadura, España</li><li><strong>Email:</strong> <a href="mailto:Interemprex@gmail.com">Interemprex@gmail.com</a></li><li><strong>Teléfono:</strong> +34 656 718 916</li></ul>
+      <h3>2. Objeto</h3><p>Regula el acceso y uso del sitio <strong>www.interemprex.com</strong> y la relación entre INTEREMPREX y los usuarios.</p>
+      <h3>3. Propiedad intelectual</h3><p>Los contenidos (textos, imágenes, diseño, logotipos, código) son propiedad de INTEREMPREX o sus licenciantes. Prohibida su reproducción sin autorización expresa.</p>
+      <h3>4. Exclusión de responsabilidad</h3><p>INTEREMPREX no se responsabiliza de daños por interrupciones ajenas a su control ni del uso incorrecto de los contenidos. Los enlaces a terceros son informativos.</p>
+      <h3>5. Legislación y jurisdicción</h3><p>Se rige por la legislación española. Las partes se someten a los Juzgados y Tribunales de Badajoz (Extremadura, España).</p>
+    </div>
+    <div class="modal-content" id="tab-terms">
+      <h2>Condiciones Generales de Servicio</h2><p class="modal-date">Última actualización: junio de 2026</p>
+      <h3>1. Objeto</h3><p>Regulan la contratación de los servicios de consultoría, digitalización, automatización y comercio internacional prestados por INTEREMPREX al Cliente.</p>
+      <h3>2. Contratación y presupuesto</h3><p>La relación se inicia con la aceptación por escrito del presupuesto personalizado. Cada proyecto se rige por sus condiciones específicas, que prevalecen sobre estas generales en caso de contradicción.</p>
+      <h3>3. Prestación del servicio</h3><ul><li>INTEREMPREX ejecuta con diligencia profesional según alcance, plazos y entregables del presupuesto.</li><li>El Cliente facilita la información, accesos y colaboración necesarios.</li><li>Los plazos pueden verse afectados por retrasos imputables al Cliente, comunicados por escrito.</li></ul>
+      <h3>4. Precios y pago</h3><ul><li>Precios en euros (€), impuestos según presupuesto.</li><li>Forma habitual: 50% al inicio y 50% a la entrega, salvo acuerdo distinto.</li><li>El impago puede suspender el servicio y generar intereses de demora.</li></ul>
+      <h3>5. Propiedad y entrega</h3><p>Abonado el importe total, los entregables son propiedad del Cliente. INTEREMPREX puede referenciar el proyecto en su portfolio salvo solicitud en contrario.</p>
+      <h3>6. Confidencialidad</h3><p>INTEREMPREX trata con absoluta confidencialidad la información del Cliente. Esta obligación persiste tras finalizar el servicio.</p>
+      <h3>7. Limitación de responsabilidad</h3><p>La responsabilidad máxima se limita al importe facturado por el proyecto. Excluido el lucro cesante y los daños indirectos.</p>
+      <h3>8. Cancelación</h3><p>Cualquier parte puede cancelar con 15 días de preaviso por escrito. Los trabajos realizados se facturan proporcionalmente.</p>
+      <h3>9. Legislación y jurisdicción</h3><p>Legislación española. Conflictos sometidos a los Juzgados y Tribunales de Badajoz.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const WEB3FORMS_KEY = 'PEGA_AQUI_TU_ACCESS_KEY';
+const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ───────── I18N ───────── */
+const T = {
+  es:{navSvc:'Servicios',navWhy:'Por qué nosotros',navRes:'Resultados',navProc:'Proceso',navCont:'Contacto',navGhost:'Hablar con nosotros',navPri:'Empezar ahora',
+    heroWords:['Lanza','tu','<em>negocio</em>'],heroTitlePlain:'Lanza tu negocio',
+    heroPill:'Partner operativo · Comercio internacional',heroSub:'Tus servicios orbitan un mismo núcleo: tu negocio. Pasa el cursor sobre cada planeta.',heroCta1:'Empezar ahora',heroCta2:'Ver servicios',heroHint:'Mueve el cursor · los planetas son nuestros servicios',scroll:'Scroll',
+    st1:'Tareas manuales eliminadas',st2:'Tiempo de respuesta',st3:'Proveedores unificados',st4:'Implementación directa',
+    svcEye:'Servicios',svcH2:'Todo lo que necesitas<br>para crecer',svcSub:'Intervención directa sobre los puntos críticos de tu operativa. Sin plantillas, sin teoría: resultados medibles.',
+    s1Eye:'Propulsión digital',s1H:'Desarrollo Web & Ecommerce',s1P:'Webs y tiendas diseñadas para convertir visitas en pedidos. Carga instantánea, recorrido pensado para el cliente.',s1t1:'Landing pages',s1t2:'Tiendas online',
+    s2Eye:'Piloto automático',s2H:'Automatización de procesos',s2P:'Eliminamos tareas repetitivas en Excel, ERPs y herramientas internas. Tu equipo, libre para decidir.',s2t2:'Flujos de pedido',s2t3:'Integraciones',
+    s3Eye:'Señal, no ruido',s3H:'Marketing digital',s3P:'Captación medible que convierte visibilidad en clientes reales. Cada euro, con retorno claro.',s3t2:'Campañas',s3t3:'Analítica',
+    s4Eye:'Órbita global',s4H:'Escalado e internacionalización',s4P:'Pedidos, proveedores y tránsitos internacionales bajo control. Crece sin fricción.',s4t2:'Proveedores',s4t3:'Trazabilidad',
+    whyEye:'Por qué INTEREMPREX',whyH2:'Un partner que actúa,<br>no que aconseja',whySub:'No entregamos informes y nos vamos. Implementamos directamente sobre tus sistemas reales.',
+    w1H:'Enfoque práctico',w1P:'Nada de teoría. Ejecutamos las mejoras nosotros mismos, en tus herramientas y procesos reales.',w2H:'Automatización real',w2P:'Tecnología solo donde impacta de verdad. Sin plantillas genéricas ni soluciones de moda.',w3H:'Orientación a resultados',w3P:'Cada intervención produce resultados verificables: menos errores, mejor trazabilidad, más margen.',
+    resEye:'Resultados',resH2:'Misiones completadas',resSub:'Intervenciones reales, impacto medible.',
+    r1S:'Distribución alimentaria',r1P:'Stock en tránsito de 25 proveedores internacionales unificado en un único sistema Excel + ERP automatizado.',r2S:'Operativa de pedidos',r2P:'Reducción de tareas manuales en el ciclo completo: emisión, seguimiento y recepción sin retrabajos.',r3S:'Errores de integridad',r3P:'Cero referencias rotas tras la integración completa de consultas y tablas de pedidos.',
+    procEye:'Proceso',procH2:'Tres pasos. Cero complicaciones.',procSub:'Un método claro que convierte el caos operativo en un sistema que escala.',
+    p1H:'Diagnóstico',p1P:'Estudiamos tus flujos. Detectamos exactamente dónde pierdes eficiencia.',p2H:'Diseño a medida',p2P:'Solución adaptada a tu flujo real. Sin plantillas genéricas.',p3H:'Implementación',p3P:'Ejecutamos nosotros directamente sobre tus sistemas.',p4H:'Optimización continua',p4P:'Medimos, ajustamos y escalamos sin añadir complejidad.',
+    contEye:'Contacto',contH2:'Trabajemos juntos',ciH:'¿Listo para despegar?',ciP:'Cuéntanos cómo funciona tu negocio. Te diremos con claridad si podemos ayudarte y cómo. Respuesta en menos de 24 horas.',waLabel:'WhatsApp · +34 656 718 916',location:'Extremadura, España',
+    fmH:'Envíanos un mensaje',fmP:'Respondemos en menos de 24 horas',fName:'Nombre',fComp:'Empresa',fMail:'Email',fService:'Servicio de interés',fSvcOpt0:'— Selecciona un servicio —',fSvcOpt1:'Web & Ecommerce',fSvcOpt2:'Automatización de procesos',fSvcOpt3:'Marketing digital',fSvcOpt4:'Escalado e internacionalización',fSvcOpt5:'Varios / No sé aún',fMsg:'Tu reto operativo',sendBtn:'Enviar mensaje',sending:'Enviando…',sentH:'¡Mensaje recibido!',sentP:'Gracias por contactarnos. Respondemos en menos de 24 horas.',
+    footDesc:'Partner operativo de comercio internacional. Digitalizamos, automatizamos y escalamos negocios físicos.',fColSvc:'Servicios',fColCo:'Empresa',fColLegal:'Legal',fS1:'Web & Ecommerce',fS2:'Automatización',fS3:'Marketing digital',fS4:'Internacionalización',fC1:'Por qué nosotros',fC2:'Resultados',fC3:'Proceso',fC4:'Contacto',fL1:'Política de privacidad',fL2:'Política de cookies',fL3:'Aviso legal',fL4:'Condiciones de servicio',footCopy:'© 2026 INTEREMPREX. Todos los derechos reservados.',
+    planets:['Web','Automatización','Marketing','Internacional'],planetSub:['Ecommerce & landing','Procesos sin fricción','Captación medible','Sin fronteras']},
+  en:{navSvc:'Services',navWhy:'Why us',navRes:'Results',navProc:'Process',navCont:'Contact',navGhost:'Talk to us',navPri:'Get started',
+    heroWords:['Launch','your','<em>business</em>'],heroTitlePlain:'Launch your business',
+    heroPill:'Operations partner · International trade',heroSub:'Your services orbit a single core: your business. Hover over each planet.',heroCta1:'Get started',heroCta2:'See services',heroHint:'Move the cursor · the planets are our services',scroll:'Scroll',
+    st1:'Manual tasks eliminated',st2:'Response time',st3:'Suppliers unified',st4:'Direct implementation',
+    svcEye:'Services',svcH2:'Everything you need<br>to grow',svcSub:'Direct intervention on the critical points of your operations. No templates, no theory: measurable results.',
+    s1Eye:'Digital propulsion',s1H:'Web & Ecommerce',s1P:'Sites and stores designed to turn visits into orders. Instant load, journey built for the customer.',s1t1:'Landing pages',s1t2:'Online stores',
+    s2Eye:'Autopilot',s2H:'Process automation',s2P:'We eliminate repetitive tasks in Excel, ERPs and internal tools. Your team, free to decide.',s2t2:'Order flows',s2t3:'Integrations',
+    s3Eye:'Signal, not noise',s3H:'Digital marketing',s3P:'Measurable acquisition that turns visibility into real clients. Every euro, with clear ROI.',s3t2:'Campaigns',s3t3:'Analytics',
+    s4Eye:'Global orbit',s4H:'Scaling & internationalization',s4P:'International orders, suppliers and transits under control. Grow without friction.',s4t2:'Suppliers',s4t3:'Traceability',
+    whyEye:'Why INTEREMPREX',whyH2:'A partner that acts,<br>not just advises',whySub:'We don\'t deliver reports and leave. We implement directly on your real systems.',
+    w1H:'Practical approach',w1P:'No theory. We execute the improvements ourselves, in your real tools and processes.',w2H:'Real automation',w2P:'Technology only where it truly impacts. No generic templates or trendy solutions.',w3H:'Results-driven',w3P:'Every intervention produces verifiable results: fewer errors, better traceability, more margin.',
+    resEye:'Results',resH2:'Missions accomplished',resSub:'Real interventions, measurable impact.',
+    r1S:'Food distribution',r1P:'In-transit stock from 25 international suppliers unified into a single automated Excel + ERP system.',r2S:'Order operations',r2P:'Manual work cut across the full order cycle: issue, tracking and reception with zero rework.',r3S:'Integrity errors',r3P:'Zero broken references after full integration of order queries and tables.',
+    procEye:'Process',procH2:'Three steps. Zero complications.',procSub:'A clear method that turns operational chaos into a system that scales.',
+    p1H:'Diagnosis',p1P:'We study your flows. We detect exactly where you lose efficiency.',p2H:'Tailored design',p2P:'Solution fitted to your real flow. No generic templates.',p3H:'Implementation',p3P:'We execute it ourselves, directly on your systems.',p4H:'Continuous optimization',p4P:'We measure, adjust and scale without adding complexity.',
+    contEye:'Contact',contH2:'Let\'s work together',ciH:'Ready for liftoff?',ciP:'Tell us how your business works. We\'ll tell you clearly whether we can help and how. Reply within 24 hours.',waLabel:'WhatsApp · +34 656 718 916',location:'Extremadura, Spain',
+    fmH:'Send us a message',fmP:'We reply within 24 hours',fName:'Name',fComp:'Company',fMail:'Email',fService:'Service of interest',fSvcOpt0:'— Select a service —',fSvcOpt1:'Web & Ecommerce',fSvcOpt2:'Process automation',fSvcOpt3:'Digital marketing',fSvcOpt4:'Scaling & internationalization',fSvcOpt5:'Several / Not sure yet',fMsg:'Your operational challenge',sendBtn:'Send message',sending:'Sending…',sentH:'Message received!',sentP:'Thank you for reaching out. We reply within 24 hours.',
+    footDesc:'Operations partner for international trade. We digitalize, automate and scale physical businesses.',fColSvc:'Services',fColCo:'Company',fColLegal:'Legal',fS1:'Web & Ecommerce',fS2:'Automation',fS3:'Digital marketing',fS4:'Internationalization',fC1:'Why us',fC2:'Results',fC3:'Process',fC4:'Contact',fL1:'Privacy policy',fL2:'Cookie policy',fL3:'Legal notice',fL4:'Terms of service',footCopy:'© 2026 INTEREMPREX. All rights reserved.',
+    planets:['Web','Automation','Marketing','International'],planetSub:['Ecommerce & landing','Frictionless processes','Measurable acquisition','Borderless']}
+};
+let lang='es';
+function buildTitle(){
+  const t=document.getElementById('heroTitle');
+  t.innerHTML=T[lang].heroWords.map(w=>'<span class="word">'+w+'</span>').join(' ');
+  t.setAttribute('aria-label', T[lang].heroTitlePlain);
+  const words=t.querySelectorAll('.word');
+  words.forEach((w,i)=>{ w.classList.remove('in'); if(prefersReduced){w.classList.add('in');} else { w.style.animationDelay=(0.5+i*0.16)+'s'; requestAnimationFrame(()=>w.classList.add('in')); }});
+}
+function applyLang(){
+  const d=T[lang]; document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(d[k]!==undefined) el.innerHTML=d[k]; });
+  document.getElementById('langToggle').textContent=lang==='es'?'EN':'ES';
+  var __mml=document.getElementById('mmLang'); if(__mml) __mml.textContent=lang==='es'?'EN':'ES';
+}
+function toggleLang(){lang=lang==='es'?'en':'es';applyLang();buildTitle();}
+document.getElementById('langToggle').addEventListener('click',toggleLang);
+var _mml=document.getElementById('mmLang'); if(_mml) _mml.addEventListener('click',toggleLang);
+applyLang(); buildTitle();
+// touch devices: adapt hero copy that references the cursor
+if(matchMedia('(hover:none)').matches){
+  T.es.heroSub='Tus servicios orbitan un mismo núcleo: tu negocio.';
+  T.en.heroSub='Your services orbit a single core: your business.';
+  T.es.heroHint='Cuatro servicios, un sistema'; T.en.heroHint='Four services, one system';
+  applyLang();
+}
+
+/* ───────── NAV ───────── */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+const ham=document.getElementById('hamburger'),mob=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>{const o=mob.classList.toggle('open');ham.classList.toggle('open',o);ham.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':'';});
+mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mob.classList.remove('open');ham.classList.remove('open');ham.setAttribute('aria-expanded','false');document.body.style.overflow='';}));
+
+/* ───────── REVEAL ───────── */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ───────── ACTIVE NAV ───────── */
+const navLinks=document.querySelectorAll('.nav-links a');
+const ioNav=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));});},{threshold:.4});
+document.querySelectorAll('section[id],#stats').forEach(s=>ioNav.observe(s));
+
+/* ───────── CURSOR HALO ───────── */
+const halo=document.getElementById('cursorHalo');
+if(matchMedia('(pointer:fine)').matches && !prefersReduced){
+  halo.style.display='block';
+  let hx=innerWidth/2,hy=innerHeight/2,cx=hx,cy=hy;
+  addEventListener('mousemove',e=>{hx=e.clientX;hy=e.clientY;});
+  document.querySelectorAll('a,button,.svc-card,input,textarea,select').forEach(el=>{
+    el.addEventListener('mouseenter',()=>halo.classList.add('grow'));
+    el.addEventListener('mouseleave',()=>halo.classList.remove('grow'));
+  });
+  (function loop(){cx+=(hx-cx)*.18;cy+=(hy-cy)*.18;halo.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
+}
+
+/* ───────── CARD GLOW + 3D TILT ───────── */
+document.querySelectorAll('.svc-card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+    c.style.setProperty('--mx',px*100+'%'); c.style.setProperty('--my',py*100+'%');
+    if(!prefersReduced) c.style.transform=`translateY(-6px) perspective(900px) rotateX(${(.5-py)*5}deg) rotateY(${(px-.5)*5}deg)`;
+  });
+  c.addEventListener('mouseleave',()=>{c.style.transform='';});
+});
+
+/* ─────────────────────────────────────────
+   HERO ORBITAL SYSTEM (canvas)
+───────────────────────────────────────── */
+(function(){
+  const canvas=document.getElementById('orbitCanvas');
+  const ctx=canvas.getContext('2d');
+  const tip=document.getElementById('orbitTip');
+  const heroEl=document.getElementById('hero');
+  let W,H,DPR,cx,cy,t0=performance.now();
+  let mouse={x:-9999,y:-9999,active:false};
+  let hoverIdx=-1;
+
+  const COLORS=['#38bdf8','#22d3ee','#a78bfa','#2dd4bf'];
+  // planets: radius from sun (rel), size, speed, color, link
+  const planets=[
+    {orbit:.30,size:9, speed:.34,color:COLORS[0],link:'#servicios',moons:1},
+    {orbit:.45,size:12,speed:.22,color:COLORS[1],link:'#servicios',moons:2},
+    {orbit:.62,size:8, speed:.15,color:COLORS[2],link:'#servicios',moons:0},
+    {orbit:.80,size:14,speed:.10,color:COLORS[3],link:'#servicios',moons:3},
+  ];
+  planets.forEach(p=>p.angle=Math.random()*Math.PI*2);
+
+  // starfield with gravity toward cursor
+  let stars=[];
+  function buildStars(){
+    const n=Math.min(170,Math.floor(W*H/9000));
+    stars=Array.from({length:n},()=>({
+      x:Math.random()*W,y:Math.random()*H,
+      bx:0,by:0, // base captured below
+      r:Math.random()*1.3+.3, tw:Math.random()*6.28, sp:.4+Math.random()*1.1
+    }));
+    stars.forEach(s=>{s.bx=s.x;s.by=s.y;});
+  }
+  function resize(){
+    DPR=Math.min(devicePixelRatio||1,2);
+    W=heroEl.clientWidth; H=heroEl.clientHeight;
+    canvas.width=W*DPR; canvas.height=H*DPR;
+    canvas.style.width=W+'px'; canvas.style.height=H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    cx=W/2; cy=H*(W<680?0.70:0.62);
+    buildStars();
+  }
+  resize();
+  addEventListener('resize',resize);
+
+  heroEl.addEventListener('mousemove',e=>{
+    const r=canvas.getBoundingClientRect();
+    mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; mouse.active=true;
+  });
+  heroEl.addEventListener('mouseleave',()=>{mouse.active=false;mouse.x=-9999;mouse.y=-9999;});
+  heroEl.addEventListener('click',()=>{ if(hoverIdx>=0){ document.getElementById('servicios').scrollIntoView({behavior:'smooth'}); }});
+
+  const minDim=()=>Math.min(W,H);
+
+  function draw(now){
+    const dt=Math.min((now-t0)/1000,.05); t0=now;
+    ctx.clearRect(0,0,W,H);
+
+    // background nebula
+    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,minDim()*.9);
+    g.addColorStop(0,'rgba(20,40,72,.55)');
+    g.addColorStop(.5,'rgba(8,16,32,.25)');
+    g.addColorStop(1,'rgba(4,7,15,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+
+    // stars with cursor gravity
+    for(const s of stars){
+      let tx=s.bx, ty=s.by;
+      if(mouse.active){
+        const dx=s.bx-mouse.x, dy=s.by-mouse.y, d2=dx*dx+dy*dy, d=Math.sqrt(d2)||1;
+        if(d<200){ const pull=(1-d/200)*38; tx=s.bx+dx/d*pull; ty=s.by+dy/d*pull; }
+      }
+      s.x+=(tx-s.x)*.08; s.y+=(ty-s.y)*.08;
+      const a=.35+.5*Math.abs(Math.sin(now*.001*s.sp+s.tw));
+      ctx.globalAlpha=a; ctx.fillStyle='#bfe7ff';
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.28); ctx.fill();
     }
-    document.querySelectorAll('#navLinks a').forEach(a =>
-      a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'))
-    );
+    ctx.globalAlpha=1;
 
-    // ── Scroll-driven video ─────────────────────────────
-    (function () {
-      const video  = document.getElementById('heroVid');
-      const hero   = document.getElementById('heroSec');
-      const fill   = document.getElementById('progFill');
-      if (!video || !hero) return;
+    // orbit rings
+    const base=minDim()*(W<680?0.62:0.46);
+    hoverIdx=-1;
+    let tipShown=false;
+    for(let i=0;i<planets.length;i++){
+      const p=planets[i];
+      const R=p.orbit*base;
+      ctx.beginPath(); ctx.strokeStyle='rgba(56,189,248,.10)'; ctx.lineWidth=1;
+      ctx.ellipse(cx,cy,R,R*.34,0,0,6.28); ctx.stroke();
 
-      const mobile  = window.matchMedia('(max-width: 768px)').matches;
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(!prefersReduced) p.angle+=p.speed*dt;
+      const px=cx+Math.cos(p.angle)*R;
+      const py=cy+Math.sin(p.angle)*R*.34;
 
-      if (mobile || reduced) {
-        video.autoplay = true;
-        video.loop = true;
-        video.play().catch(() => {});
-        return;
+      // hover detection
+      const md=mouse.active?Math.hypot(mouse.x-px,mouse.y-py):999;
+      const isHover=md<p.size+14;
+      if(isHover){hoverIdx=i;}
+
+      // glow
+      const gg=ctx.createRadialGradient(px,py,0,px,py,p.size*3.2);
+      gg.addColorStop(0,p.color+'cc'); gg.addColorStop(1,p.color+'00');
+      ctx.fillStyle=gg; ctx.beginPath(); ctx.arc(px,py,p.size*3.2,0,6.28); ctx.fill();
+
+      // planet body
+      ctx.fillStyle=p.color;
+      ctx.beginPath(); ctx.arc(px,py,p.size*(isHover?1.25:1),0,6.28); ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,.5)'; ctx.lineWidth=isHover?2:1;
+      ctx.beginPath(); ctx.arc(px,py,p.size*(isHover?1.25:1),0,6.28); ctx.stroke();
+
+      // moons
+      for(let m=0;m<p.moons;m++){
+        const ma=p.angle*2.4+m*2.1;
+        const mr=p.size+8+m*5;
+        const mx=px+Math.cos(ma)*mr, my=py+Math.sin(ma)*mr*.7;
+        ctx.fillStyle='rgba(220,234,248,.8)';
+        ctx.beginPath(); ctx.arc(mx,my,1.6,0,6.28); ctx.fill();
       }
 
-      video.pause();
-      video.currentTime = 0;
-      let ready = false;
-      video.addEventListener('loadedmetadata', () => { ready = true; });
-      video.load();
-
-      function update() {
-        if (!ready || !video.duration) return;
-        const rect = hero.getBoundingClientRect();
-        const scrolled   = -rect.top;
-        const scrollable = hero.offsetHeight - window.innerHeight;
-        if (scrolled <= 0)          { video.currentTime = 0;              if (fill) fill.style.width = '0%';    return; }
-        if (scrolled >= scrollable) { video.currentTime = video.duration; if (fill) fill.style.width = '100%';  return; }
-        const p = scrolled / scrollable;
-        video.currentTime = p * video.duration;
-        if (fill) fill.style.width = (p * 100) + '%';
+      // tooltip on hover
+      if(isHover && !tipShown){
+        tipShown=true;
+        const r=canvas.getBoundingClientRect();
+        tip.style.left=(r.left+px)+'px';
+        tip.style.top=(r.top+py)+'px';
+        tip.innerHTML=T[lang].planets[i]+'<span>'+T[lang].planetSub[i]+'</span>';
+        tip.classList.add('show');
       }
-
-      let ticking = false;
-      window.addEventListener('scroll', () => {
-        if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; }
-      }, { passive: true });
-      window.addEventListener('resize', update);
-    })();
-
-    // ════════════════════════════════════════════════════
-    // GSAP — Hero (potente) + CTA (cierre visual)
-    // Resto de la web: scroll completamente natural
-    // Principios: gsap.set()+gsap.to() para evitar flickering,
-    //             will-change ya declarado en CSS,
-    //             sólo transform+opacity.
-    // ════════════════════════════════════════════════════
-    gsap.registerPlugin(ScrollTrigger);
-
-    // ── HERO ENTRADA ─────────────────────────────────────
-    // gsap.set() fija la posición inicial ANTES del primer frame
-    // (evita el flash que causaba fromTo)
-    // CSS ya tiene opacity:0; GSAP sólo añade el offset Y
-    gsap.set('.hero-tag',  { y: -18 });
-    gsap.set('.hero-h1',   { y:  30 });
-    gsap.set('.hero-p',    { y:  22 });
-    gsap.set('.hero-btns', { y:  16 });
-
-    gsap.to('.hero-tag',    { opacity: 1, y: 0, duration: .65, ease: 'power3.out', delay: .2  });
-    gsap.to('.hero-h1',     { opacity: 1, y: 0, duration: .82, ease: 'power3.out', delay: .36 });
-    gsap.to('.hero-p',      { opacity: 1, y: 0, duration: .72, ease: 'power3.out', delay: .58 });
-    gsap.to('.hero-btns',   { opacity: 1, y: 0, duration: .65, ease: 'power3.out', delay: .76 });
-    gsap.to('.scroll-hint', { opacity: 1,        duration: .5,  ease: 'power2.out', delay: 1.3 });
-
-    // ── HERO SCROLL — zoom + split parallax ──────────────
-    // Sólo en desktop; móvil usa autoplay
-    const heroOnDesktop = !window.matchMedia('(max-width: 768px)').matches &&
-                          !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (heroOnDesktop) {
-      // La barra de scroll del hero abarca ~30% del primer scroll
-      const heroTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: '#heroSec',
-          start: 'top top',
-          end: '28% top',    // termina mucho antes de que el hero acabe (500vh)
-          scrub: 1.3,
-        }
-      });
-
-      // Vídeo: zoom-in suave
-      heroTl.to('#heroVid', { scale: 1.12, ease: 'none' }, 0);
-      // Overlay: oscurece ligeramente para enfocar la transición
-      heroTl.to('.hero-overlay', { opacity: 0.7, ease: 'none' }, 0);
-      // Tag y h1 → salen hacia ARRIBA
-      heroTl.to('.hero-tag', { opacity: 0, y: -30, ease: 'none' }, 0);
-      heroTl.to('.hero-h1',  { opacity: 0, y: -52, ease: 'none' }, 0.05);
-      // Párrafo y botones → salen hacia ABAJO (efecto split)
-      heroTl.to('.hero-p',     { opacity: 0, y: 36, ease: 'none' }, 0.08);
-      heroTl.to('.hero-btns',  { opacity: 0, y: 28, ease: 'none' }, 0.12);
-      heroTl.to('.scroll-hint',{ opacity: 0,        ease: 'none' }, 0);
     }
+    if(!tipShown) tip.classList.remove('show');
 
-    // ── CONECTOR SVG EN METODOLOGÍA ───────────────────────
-    (function () {
-      const stepsEl = document.querySelector('.steps');
-      if (!stepsEl) return;
-      const ns = 'http://www.w3.org/2000/svg';
-      const svg = document.createElementNS(ns, 'svg');
-      svg.setAttribute('aria-hidden', 'true');
-      svg.style.cssText = 'position:absolute;top:43px;left:12%;width:76%;height:4px;overflow:visible;pointer-events:none;';
-      const defs = document.createElementNS(ns, 'defs');
-      const grad = document.createElementNS(ns, 'linearGradient');
-      grad.id = 'cgx'; grad.setAttribute('x1','0%'); grad.setAttribute('x2','100%');
-      [['0%','transparent'],['15%','#0057FF'],['85%','#00C2FF'],['100%','transparent']].forEach(([o,c]) => {
-        const s = document.createElementNS(ns,'stop');
-        s.setAttribute('offset', o); s.setAttribute('stop-color', c); grad.appendChild(s);
-      });
-      defs.appendChild(grad); svg.appendChild(defs);
-      const ln = document.createElementNS(ns,'line');
-      ln.setAttribute('x1','0'); ln.setAttribute('y1','0'); ln.setAttribute('x2','100%'); ln.setAttribute('y2','0');
-      ln.style.cssText = 'stroke:url(#cgx);stroke-width:2;stroke-dasharray:1000;stroke-dashoffset:1000;transition:stroke-dashoffset 1.5s cubic-bezier(.22,1,.36,1);';
-      svg.appendChild(ln);
-      stepsEl.insertBefore(svg, stepsEl.firstChild);
-      ScrollTrigger.create({
-        trigger: stepsEl, start: 'top 70%',
-        onEnter: () => { ln.style.strokeDashoffset = '0'; }
-      });
-    })();
+    // central sun (the business)
+    const sunR=minDim()*.038;
+    const pulse=1+Math.sin(now*.0016)*.06;
+    const sg=ctx.createRadialGradient(cx,cy,0,cx,cy,sunR*4*pulse);
+    sg.addColorStop(0,'rgba(255,255,255,.95)');
+    sg.addColorStop(.3,'rgba(120,200,255,.7)');
+    sg.addColorStop(1,'rgba(56,189,248,0)');
+    ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(cx,cy,sunR*4*pulse,0,6.28); ctx.fill();
+    ctx.fillStyle='#eaf6ff'; ctx.beginPath(); ctx.arc(cx,cy,sunR,0,6.28); ctx.fill();
 
-    // ── CTA FINAL — entrada limpia y potente ─────────────
-    gsap.from('#ctaInner > *', {
-      opacity: 0, y: 28, duration: .82, ease: 'power3.out',
-      stagger: .13, immediateRender: false,
-      scrollTrigger: {
-        trigger: '#cta-experto', start: 'top 68%',
-        toggleActions: 'play none none none'
-      }
+    canvas.style.cursor=hoverIdx>=0?'pointer':'default';
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+/* ─────────────────────────────────────────
+   WARP / HYPERSPACE TRANSITION (post-hero)
+   Activates as the hero exits & stats enter.
+   Stars streak into light-speed lines whose
+   length tracks scroll position + velocity.
+───────────────────────────────────────── */
+(function(){
+  if(prefersReduced) return;
+  const canvas=document.getElementById('warpCanvas');
+  const ctx=canvas.getContext('2d');
+  const heroEl=document.getElementById('hero');
+  const statsEl=document.getElementById('stats');
+  let W,H,DPR,cx,cy,running=false,raf=null;
+  let lastScroll=window.scrollY, vel=0, intensity=0;
+
+  function resize(){
+    DPR=Math.min(devicePixelRatio||1,2);
+    W=innerWidth; H=innerHeight;
+    canvas.width=W*DPR; canvas.height=H*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    cx=W/2; cy=H/2;
+  }
+  resize(); addEventListener('resize',resize);
+
+  // radial star layer for the warp
+  let stars=[];
+  function seed(){
+    stars=Array.from({length:220},()=>{
+      const a=Math.random()*Math.PI*2;
+      const r=Math.random()*Math.max(W,H)*0.75+10;
+      return {a, r, z:Math.random()*.8+.2, hue:Math.random()<.5?'#bfe7ff':'#7fd0ff'};
     });
+  }
+  seed();
 
-    // ── BLUEPRINT OVERLAY — sólo en metodología ──────────
-    ScrollTrigger.create({
-      trigger: '#metodologia', start: 'top 60%', end: 'bottom 40%', scrub: 2,
-      onUpdate: s => {
-        const ov = document.getElementById('blueprintOverlay');
-        if (ov) ov.style.opacity = (Math.sin(s.progress * Math.PI) * .28).toString();
+  // window where the warp is visible: from hero ~60% scrolled to stats fully passed
+  function computeWindow(){
+    const hRect=heroEl.getBoundingClientRect();
+    // progress 0 at hero bottom near viewport bottom, 1 once we've scrolled ~1 viewport past hero top
+    const heroH=heroEl.offsetHeight;
+    const scrolled=window.scrollY;
+    // start warping when 55% of hero is scrolled away, finish ~0.4 viewport later
+    const start=heroH*0.45, end=heroH*0.95;
+    let p=(scrolled-start)/(end-start);
+    return Math.max(0,Math.min(1,p));
+  }
+
+  function onScroll(){
+    const now=window.scrollY;
+    vel=Math.min(1,Math.abs(now-lastScroll)/45); // 0..1 from scroll speed
+    lastScroll=now;
+    const p=computeWindow();
+    const active = p>0 && p<1.0;
+    canvas.classList.toggle('on', p>0.02 && p<0.99);
+    if(active && !running){ running=true; loop(); }
+    if(!active && running && p>=0.99){ running=false; if(raf)cancelAnimationFrame(raf); ctx.clearRect(0,0,W,H); }
+  }
+  addEventListener('scroll',onScroll,{passive:true});
+
+  function loop(){
+    const p=computeWindow();
+    // intensity ramps with scroll position (p) and gets a kick from velocity
+    const targetI = Math.sin(Math.min(p,1)*Math.PI) /*peak mid-transition*/ * (0.5+vel*0.9);
+    intensity += (targetI-intensity)*0.18;
+    vel*=0.86;
+
+    ctx.clearRect(0,0,W,H);
+    if(intensity>0.01){
+      // dark vignette pulse
+      ctx.globalAlpha=intensity*0.5;
+      const g=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*0.7);
+      g.addColorStop(0,'rgba(56,189,248,0.05)');
+      g.addColorStop(1,'rgba(4,7,15,0)');
+      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+      ctx.globalAlpha=1;
+
+      const streak=intensity*Math.max(W,H)*0.18;
+      for(const s of stars){
+        s.r += (8+s.z*26)*intensity;             // fly outward
+        if(s.r>Math.max(W,H)*0.95){ s.r=Math.random()*60+8; s.a=Math.random()*Math.PI*2; }
+        const x1=cx+Math.cos(s.a)*s.r;
+        const y1=cy+Math.sin(s.a)*s.r;
+        const x2=cx+Math.cos(s.a)*(s.r+streak*s.z);
+        const y2=cy+Math.sin(s.a)*(s.r+streak*s.z);
+        const grad=ctx.createLinearGradient(x1,y1,x2,y2);
+        grad.addColorStop(0,'rgba(190,231,255,0)');
+        grad.addColorStop(1,s.hue);
+        ctx.strokeStyle=grad;
+        ctx.lineWidth=(0.6+s.z*1.4);
+        ctx.globalAlpha=Math.min(1,intensity*1.4)*(0.5+s.z*0.5);
+        ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
       }
-    });
+      ctx.globalAlpha=1;
+    }
+    if(running) raf=requestAnimationFrame(loop);
+  }
 
-    // ── BARRAS COMPARATIVAS ───────────────────────────────
-    new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting)
-          e.target.querySelectorAll('.cmp-bar-fill').forEach(b => { b.style.width = b.dataset.w + '%'; });
-      });
-    }, { threshold: .3 }).observe(document.getElementById('cmpCard') || document.createElement('div'));
+  // trigger the stat numbers' warp-in once when stats first enter
+  const statItems=[...document.querySelectorAll('.stat-item')];
+  const ioStats=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ statItems.forEach(si=>si.classList.add('warpIn')); ioStats.disconnect(); }});
+  },{threshold:.4});
+  if(statsEl) ioStats.observe(statsEl);
 
-    // ── Three.js CTA — objetos 3D interactivos ──────────
-    (function () {
-      if (typeof THREE === 'undefined') return;
-      const canvas  = document.getElementById('ctaThree');
-      const section = document.getElementById('cta-experto');
-      if (!canvas || !section) return;
+  onScroll();
+})();
 
-      let W = section.offsetWidth, H = section.offsetHeight;
+/* ─────────────────────────────────────────
+   GLOBAL DRIFTING STARFIELD
+   Shown across all sections; hidden over the
+   hero (it has its own orbital canvas) and
+   muted during the warp transition.
+───────────────────────────────────────── */
+(function(){
+  const canvas=document.getElementById('bgStars');
+  const ctx=canvas.getContext('2d');
+  const heroEl=document.getElementById('hero');
+  let W,H,DPR,stars=[],t0=performance.now();
+  let visible=false;
+  const reduce=prefersReduced;
 
-      /* ── Escena ── */
-      const scene    = new THREE.Scene();
-      const camera   = new THREE.PerspectiveCamera(52, W / H, 0.1, 100);
-      camera.position.set(0, 0, 10);
+  function resize(){
+    DPR=Math.min(devicePixelRatio||1,2);
+    W=innerWidth;H=innerHeight;
+    canvas.width=W*DPR;canvas.height=H*DPR;
+    canvas.style.width=W+'px';canvas.style.height=H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    seed();
+  }
+  function seed(){
+    const n=Math.min(150,Math.floor(W*H/8500));
+    stars=Array.from({length:n},()=>({
+      x:Math.random()*W, y:Math.random()*H,
+      r:Math.random()*1.3+.3,
+      // depth layer: closer stars drift faster & twinkle more
+      z:Math.random(),
+      vx:(Math.random()-.5),  // base horizontal drift
+      vy:(Math.random()*.4+.15), // gentle downward drift
+      tw:Math.random()*6.28,
+      sp:.4+Math.random()*1.1
+    }));
+  }
+  resize();
+  addEventListener('resize',resize);
 
-      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-      renderer.setSize(W, H);
-      renderer.setClearColor(0x000000, 0);
+  // hide while hero is on screen (its bottom still above viewport bottom)
+  const ioHero=new IntersectionObserver(es=>{
+    es.forEach(e=>{ visible = !e.isIntersecting; updateOn(); });
+  },{threshold:0, rootMargin:'-10% 0px 0px 0px'});
+  ioHero.observe(heroEl);
 
-      /* ── Luces ── */
-      scene.add(new THREE.AmbientLight(0x112244, 4));
+  const warpCanvas=document.getElementById('warpCanvas');
+  function warpActive(){ return warpCanvas && warpCanvas.classList.contains('on'); }
+  function updateOn(){
+    const show = visible && !warpActive();
+    canvas.classList.toggle('on', show);
+  }
 
-      const pl1 = new THREE.PointLight(0x0066ff, 60, 30);
-      pl1.position.set(5, 4, 7); scene.add(pl1);
-
-      const pl2 = new THREE.PointLight(0x00ccff, 45, 25);
-      pl2.position.set(-5, -3, 5); scene.add(pl2);
-
-      const pl3 = new THREE.PointLight(0x6600ff, 30, 20);
-      pl3.position.set(0, -5, 3); scene.add(pl3);
-
-      /* ── Objetos ── */
-      const defs = [
-        { g: new THREE.IcosahedronGeometry(0.78, 1),          c: 0x0088ff, em: 0x003388, x: -3.8, y:  1.8, z:  0.5 },
-        { g: new THREE.OctahedronGeometry(0.68, 0),           c: 0x00aaff, em: 0x003355, x:  3.4, y:  2.0, z: -0.3 },
-        { g: new THREE.TorusKnotGeometry(0.48, 0.16, 96, 8),  c: 0x3366ff, em: 0x001166, x: -1.0, y: -2.0, z:  0.8 },
-        { g: new THREE.BoxGeometry(1.0, 1.0, 1.0),            c: 0x0077ee, em: 0x002255, x:  2.4, y: -1.8, z: -0.5 },
-        { g: new THREE.DodecahedronGeometry(0.66, 0),         c: 0x44aaff, em: 0x001144, x: -2.9, y: -1.0, z:  0.2 },
-        { g: new THREE.TetrahedronGeometry(0.72, 0),          c: 0x00bbff, em: 0x002233, x:  0.6, y:  2.2, z: -0.8 },
-        { g: new THREE.TorusGeometry(0.56, 0.2, 20, 48),      c: 0x22ccff, em: 0x001122, x: -0.5, y:  0.2, z:  1.0 },
-        { g: new THREE.ConeGeometry(0.55, 1.1, 6),            c: 0x0055cc, em: 0x001133, x:  1.6, y:  0.8, z: -1.0 },
-      ];
-
-      const meshes = defs.map(d => {
-        const mat = new THREE.MeshStandardMaterial({
-          color: d.c, emissive: d.em, emissiveIntensity: 1.2,
-          metalness: 0.75, roughness: 0.18,
-          transparent: true, opacity: 0.90,
-        });
-        const mesh = new THREE.Mesh(d.g, mat);
-        mesh.position.set(d.x, d.y, d.z);
-
-        /* wireframe encima */
-        const wf = new THREE.Mesh(d.g, new THREE.MeshBasicMaterial({
-          color: 0x88ddff, wireframe: true, transparent: true, opacity: 0.22,
-        }));
-        mesh.add(wf);
-
-        mesh.userData = {
-          ox: d.x, oy: d.y,
-          vx: (Math.random() - .5) * .01,
-          vy: (Math.random() - .5) * .01,
-          rx: Math.random() * .010 + .003,
-          ry: Math.random() * .010 + .003,
-          rz: Math.random() * .005,
-          phase: Math.random() * Math.PI * 2,
-          dragging: false,
-        };
-        scene.add(mesh);
-        return mesh;
-      });
-
-      /* ── Drag con raycasting ── */
-      const raycaster  = new THREE.Raycaster();
-      const dragPlane  = new THREE.Plane();
-      const dragOffset = new THREE.Vector3();
-      const dragVel    = new THREE.Vector3();
-      let dragged = null, prevPos = new THREE.Vector3();
-
-      function ndcFromEvent(e) {
-        const t = e.touches ? e.touches[0] : e;
-        const r = canvas.getBoundingClientRect();
-        return new THREE.Vector2(
-          ((t.clientX - r.left) / r.width)  *  2 - 1,
-          ((t.clientY - r.top)  / r.height) * -2 + 1
-        );
-      }
-
-      function startDrag(ndc) {
-        raycaster.setFromCamera(ndc, camera);
-        const hits = raycaster.intersectObjects(meshes, true);
-        if (!hits.length) return;
-        let obj = hits[0].object;
-        while (obj.parent && !meshes.includes(obj)) obj = obj.parent;
-        if (!meshes.includes(obj)) return;
-        dragged = obj;
-        dragged.userData.dragging = true;
-        dragPlane.setFromNormalAndCoplanarPoint(
-          new THREE.Vector3(0, 0, 1), dragged.position
-        );
-        const pt = new THREE.Vector3();
-        raycaster.ray.intersectPlane(dragPlane, pt);
-        dragOffset.copy(dragged.position).sub(pt);
-        prevPos.copy(dragged.position);
-        canvas.style.cursor = 'grabbing';
-      }
-
-      function moveDrag(ndc) {
-        if (!dragged) return;
-        raycaster.setFromCamera(ndc, camera);
-        const pt = new THREE.Vector3();
-        raycaster.ray.intersectPlane(dragPlane, pt);
-        const np = pt.add(dragOffset);
-        dragVel.copy(np).sub(dragged.position);
-        dragged.position.copy(np);
-        prevPos.copy(np);
-      }
-
-      function endDrag() {
-        if (!dragged) return;
-        dragged.userData.vx = dragVel.x * 0.55;
-        dragged.userData.vy = dragVel.y * 0.55;
-        dragged.userData.dragging = false;
-        dragged = null;
-        canvas.style.cursor = 'grab';
-      }
-
-      canvas.addEventListener('mousedown',  e => startDrag(ndcFromEvent(e)));
-      window.addEventListener('mousemove',  e => moveDrag(ndcFromEvent(e)));
-      window.addEventListener('mouseup',    endDrag);
-      canvas.addEventListener('touchstart', e => { e.preventDefault(); startDrag(ndcFromEvent(e)); }, { passive: false });
-      window.addEventListener('touchmove',  e => moveDrag(ndcFromEvent(e)), { passive: true });
-      window.addEventListener('touchend',   endDrag);
-
-      /* hover cursor */
-      canvas.addEventListener('mousemove', e => {
-        if (dragged) return;
-        raycaster.setFromCamera(ndcFromEvent(e), camera);
-        canvas.style.cursor = raycaster.intersectObjects(meshes, true).length ? 'grab' : 'default';
-      });
-
-      /* ── Cursor parallax (desktop) ── */
-      let mx = 0, my = 0, tmx = 0, tmy = 0;
-      const isMobileDevice = window.matchMedia('(max-width:768px)').matches;
-      if (!isMobileDevice) {
-        section.addEventListener('mousemove', e => {
-          const r = section.getBoundingClientRect();
-          mx = ((e.clientX - r.left) / r.width  - .5) * 2;
-          my = ((e.clientY - r.top)  / r.height - .5) * 2;
-        });
-      }
-
-      /* ── Loop de animación ── */
-      let t = 0;
-      function animate() {
-        requestAnimationFrame(animate);
-        t += 0.007;
-
-        /* cursor parallax lerp */
-        tmx += (mx - tmx) * .04;
-        tmy += (my - tmy) * .04;
-
-        meshes.forEach(m => {
-          const u = m.userData;
-          if (!u.dragging) {
-            m.position.x += Math.sin(t * 0.38 + u.phase) * 0.004 + u.vx + tmx * .04;
-            m.position.y += Math.cos(t * 0.29 + u.phase) * 0.004 + u.vy - tmy * .03;
-            u.vx += (u.ox - m.position.x) * 0.0006;
-            u.vy += (u.oy - m.position.y) * 0.0006;
-            u.vx *= 0.97; u.vy *= 0.97;
-            m.position.x = Math.max(-5.5, Math.min(5.5, m.position.x));
-            m.position.y = Math.max(-3.2, Math.min(3.2, m.position.y));
-          }
-          m.rotation.x += u.rx;
-          m.rotation.y += u.ry;
-          m.rotation.z += u.rz;
-        });
-
-        pl1.position.set(Math.sin(t * 0.45) * 6 + tmx * .8, Math.cos(t * 0.32) * 5 - tmy * .6, 7);
-        pl2.position.set(Math.cos(t * 0.38) * 6 - tmx * .5, Math.sin(t * 0.55) * 4 + tmy * .4, 5);
-
-        renderer.render(scene, camera);
-      }
-      animate();
-
-      /* ── Resize ── */
-      function resize() {
-        W = section.offsetWidth; H = section.offsetHeight;
-        camera.aspect = W / H;
-        camera.updateProjectionMatrix();
-        renderer.setSize(W, H);
-      }
-      window.addEventListener('resize', resize);
-    })();
-
-    // ── Hero + CTA parallax ─────────────────────────────
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      // Hero content
-      const c = document.querySelector('.hero-content');
-      if (c && y < window.innerHeight) c.style.transform = 'translateY(' + (y * 0.18) + 'px)';
-      // CTA background
-      const ctaBg  = document.getElementById('ctaBg');
-      const ctaSec = document.getElementById('cta-experto');
-      if (ctaBg && ctaSec) {
-        const r = ctaSec.getBoundingClientRect();
-        if (r.bottom > 0 && r.top < window.innerHeight) {
-          const prog = (window.innerHeight - r.top) / (window.innerHeight + r.height);
-          ctaBg.style.transform = 'translateY(' + (prog * 80 - 20) + 'px)';
+  function frame(now){
+    const dt=Math.min((now-t0)/1000,.05); t0=now;
+    updateOn();
+    if(canvas.classList.contains('on')){
+      ctx.clearRect(0,0,W,H);
+      const speed = reduce?0:1;
+      for(const s of stars){
+        if(!reduce){
+          s.x += s.vx*(.2+s.z)*12*dt;
+          s.y += s.vy*(.2+s.z)*12*dt;
+          if(s.y>H+2){s.y=-2;s.x=Math.random()*W;}
+          if(s.x>W+2)s.x=-2; if(s.x<-2)s.x=W+2;
         }
+        const a=(.25+.55*Math.abs(Math.sin(now*.001*s.sp+s.tw)))*(.4+s.z*.6);
+        ctx.globalAlpha=a;
+        ctx.fillStyle = s.z>.7 ? '#bfe7ff' : '#7fb8e8';
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.r*(0.6+s.z*0.8),0,6.28); ctx.fill();
       }
-    }, { passive: true });
-
-    // ── FormSubmit AJAX ─────────────────────────────────
-    const FS_ENDPOINT = 'https://formsubmit.co/ajax/interemprex@gmail.com';
-
-    function enviarFormulario(payload, btnEl, onSuccess) {
-      btnEl.textContent = 'Enviando…';
-      btnEl.disabled = true;
-
-      fetch(FS_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success === 'true' || data.success === true) {
-          btnEl.textContent = '✓ Mensaje enviado — te contactamos pronto';
-          btnEl.style.background = '#00a67e';
-          if (onSuccess) onSuccess();
-        } else {
-          throw new Error('error');
-        }
-      })
-      .catch(() => {
-        btnEl.textContent = 'Error al enviar — escríbenos a interemprex@gmail.com';
-        btnEl.style.background = 'rgba(255,80,80,.4)';
-        btnEl.disabled = false;
-      });
+      ctx.globalAlpha=1;
     }
-
-    // ── Formulario inferior — POST nativo (FormSubmit) ──
-    // El formulario usa action/method POST directamente, sin JS.
-
-    // ── Modal ───────────────────────────────────────────
-    function openModal() {
-      document.getElementById('modalOverlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModal() {
-      document.getElementById('modalOverlay').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    function closeOnBackdrop(e) {
-      if (e.target === document.getElementById('modalOverlay')) closeModal();
-    }
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-    // ── Formulario del modal ────────────────────────────
-    function submitModal(e) {
-      e.preventDefault();
-      enviarFormulario({
-        _subject: 'Experto web — ' + document.getElementById('m-nombre').value,
-        Nombre:   document.getElementById('m-nombre').value,
-        Empresa:  document.getElementById('m-empresa').value,
-        Email:    document.getElementById('m-email').value,
-        Teléfono: document.getElementById('m-tel').value,
-        Mensaje:  document.getElementById('m-msg').value
-      }, document.getElementById('mBtn'), () => setTimeout(closeModal, 2000));
-    }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Inicio",
-        "item": "https://www.interemprex.com/"
-      }
-    ]
+    requestAnimationFrame(frame);
   }
-  </script>
+  requestAnimationFrame(frame);
+})();
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "url": "https://www.interemprex.com/",
-    "name": "INTEREMPREX — Digitalización del Comercio Internacional",
-    "description": "Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional. Gestión de pedidos, coordinación con proveedores y automatización de procesos.",
-    "inLanguage": "es-ES",
-    "isPartOf": {"@type": "WebSite", "url": "https://www.interemprex.com"},
-    "about": {"@type": "Organization", "name": "INTEREMPREX"},
-    "breadcrumb": {
-      "@type": "BreadcrumbList",
-      "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://www.interemprex.com/"}]
-    }
+/* ───────── FORM ───────── */
+document.getElementById('sendBtn').addEventListener('click',async()=>{
+  const n=document.getElementById('fName'),m=document.getElementById('fMail'),c=document.getElementById('fComp'),s=document.getElementById('fService'),msg=document.getElementById('fMsg'),btn=document.getElementById('sendBtn');
+  let ok=true;
+  [n,m].forEach(f=>{const bad=f===m?(!f.value.trim()||!/.+@.+\..+/.test(f.value)):!f.value.trim();f.classList.toggle('err',bad);if(bad)ok=false;setTimeout(()=>f.classList.remove('err'),1800);});
+  if(!ok)return;
+  const showSuccess=()=>{document.getElementById('formBody').style.display='none';document.getElementById('formSuccess').style.display='block';};
+  if(WEB3FORMS_KEY && !WEB3FORMS_KEY.startsWith('PEGA')){
+    btn.disabled=true;btn.textContent=T[lang].sending;
+    try{
+      const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:WEB3FORMS_KEY,subject:`[INTEREMPREX web] ${n.value} — ${s.value||'Consulta'}`,from_name:'Web INTEREMPREX',name:n.value,company:c.value,email:m.value,service:s.value,message:msg.value})});
+      const j=await r.json(); if(j.success){showSuccess();return;}
+    }catch(e){}
+    btn.disabled=false;btn.textContent=T[lang].sendBtn;
   }
-  </script>
+  const body=encodeURIComponent(`${T[lang].fName}: ${n.value}\n${T[lang].fComp}: ${c.value}\nEmail: ${m.value}\n${T[lang].fService}: ${s.value}\n\n${msg.value}`);
+  showSuccess();
+  location.href=`mailto:Interemprex@gmail.com?subject=${encodeURIComponent('[INTEREMPREX] '+n.value)}&body=${body}`;
+});
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "INTEREMPREX",
-    "url": "https://www.interemprex.com",
-    "description": "Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional.",
-    "inLanguage": "es-ES",
-    "publisher": {
-      "@type": "Organization",
-      "name": "INTEREMPREX",
-      "url": "https://www.interemprex.com"
-    }
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "INTEREMPREX",
-    "url": "https://www.interemprex.com",
-    "logo": "https://www.interemprex.com/assets/favicon.svg",
-    "description": "Partner operativo especializado en digitalizar y optimizar operaciones de comercio internacional. Gestión de pedidos, coordinación con proveedores y automatización de procesos.",
-    "email": "Interemprex@gmail.com",
-    "telephone": "+34656718916",
-    "areaServed": "ES",
-    "foundingLocation": {
-      "@type": "Place",
-      "addressCountry": "ES"
-    },
-    "serviceType": [
-      "Gestión de pedidos internacionales",
-      "Coordinación con proveedores",
-      "Control de tiempos de tránsito",
-      "Organización y explotación de datos logísticos",
-      "Automatización de procesos operativos"
-    ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+34656718916",
-      "email": "Interemprex@gmail.com",
-      "contactType": "customer service",
-      "availableLanguage": "Spanish",
-      "areaServed": "ES"
-    },
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Servicios de digitalización operativa para comercio internacional",
-      "itemListElement": [
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Gestión de pedidos internacionales", "description": "Estructuramos y centralizamos el ciclo completo de pedidos con control en tiempo real."}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Coordinación con proveedores", "description": "Sistemas de comunicación y seguimiento que eliminan dependencias y reducen errores."}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Control de tiempos de tránsito", "description": "Herramientas de monitorización de plazos logísticos que anticipan desviaciones."}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Organización y explotación de datos logísticos", "description": "Transformamos datos dispersos en información estructurada y KPIs accionables."}},
-        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Automatización de procesos operativos", "description": "Automatizamos tareas repetitivas en Excel, ERPs y herramientas internas."}}
-      ]
-    }
-  }
-  </script>
+/* ───────── MODALS ───────── */
+const modalBg=document.getElementById('modalBg');
+function openModal(tab){modalBg.classList.add('open');document.body.style.overflow='hidden';document.querySelectorAll('.modal-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));document.querySelectorAll('.modal-content').forEach(c=>c.classList.toggle('active',c.id==='tab-'+tab));modalBg.scrollTop=0;}
+document.querySelectorAll('.policy-link').forEach(l=>l.addEventListener('click',()=>openModal(l.dataset.modal)));
+document.querySelectorAll('.modal-tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.modal-tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.modal-content').forEach(x=>x.classList.remove('active'));t.classList.add('active');document.getElementById('tab-'+t.dataset.tab).classList.add('active');}));
+document.getElementById('modalClose').addEventListener('click',()=>{modalBg.classList.remove('open');document.body.style.overflow='';});
+modalBg.addEventListener('click',e=>{if(e.target===modalBg){modalBg.classList.remove('open');document.body.style.overflow='';}});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&modalBg.classList.contains('open')){modalBg.classList.remove('open');document.body.style.overflow='';}});
+</script>
 </body>
 </html>
