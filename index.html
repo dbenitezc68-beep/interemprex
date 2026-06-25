@@ -668,7 +668,7 @@ footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:cla
 </div>
 
 <script>
-const WEB3FORMS_KEY = 'PEGA_AQUI_TU_ACCESS_KEY';
+const WEB3FORMS_KEY = '4b4cd025-d3e5-4183-aa61-641d6197a862';
 const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ───────── I18N ───────── */
@@ -1117,7 +1117,16 @@ document.getElementById('sendBtn').addEventListener('click',async()=>{
   if(WEB3FORMS_KEY && !WEB3FORMS_KEY.startsWith('PEGA')){
     btn.disabled=true;btn.textContent=T[lang].sending;
     try{
-      const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({access_key:WEB3FORMS_KEY,subject:`[INTEREMPREX web] ${n.value} — ${s.value||'Consulta'}`,from_name:'Web INTEREMPREX',name:n.value,company:c.value,email:m.value,service:s.value,message:msg.value})});
+      const fd=new FormData();
+      fd.append('access_key',WEB3FORMS_KEY);
+      fd.append('subject',`[INTEREMPREX web] ${n.value} — ${s.value||'Consulta'}`);
+      fd.append('from_name','Web INTEREMPREX');
+      fd.append('name',n.value);
+      fd.append('company',c.value);
+      fd.append('email',m.value);
+      fd.append('service',s.value);
+      fd.append('message',msg.value);
+      const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Accept':'application/json'},body:fd});
       const j=await r.json(); if(j.success){showSuccess();return;}
     }catch(e){}
     btn.disabled=false;btn.textContent=T[lang].sendBtn;

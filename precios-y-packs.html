@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>INTEREMPREX — Precios y Packs 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04070F; --bg2:#080D18;
+  --surface:#0A1120; --surface2:#0D1526;
+  --line:rgba(56,189,248,.22); --line2:rgba(255,255,255,.08);
+  --ink:#EAF2FB; --ink2:rgba(220,234,248,.78); --ink3:rgba(180,204,228,.5);
+  --blue:#38bdf8; --blue2:#0ea5e9; --cyan:#22d3ee; --teal:#2dd4bf; --violet:#a78bfa; --amber:#fbbf24; --green:#4ade80;
+  --display:'Space Grotesk',system-ui,sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:13.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.page{padding:30px 46px 40px;page-break-after:always;position:relative;min-height:1000px}
+.page:last-child{page-break-after:auto}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.01em}
+
+/* ===== brand header on every page ===== */
+.brandbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line2)}
+.brand{display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.12em;color:var(--ink)}
+.brand .dot{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue)}
+.brandbar .doctitle{font-size:11px;color:var(--ink3);letter-spacing:.06em;text-transform:uppercase}
+
+.ribbon{display:flex;align-items:center;gap:8px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:8px 14px;margin-bottom:22px;font-size:11.5px;color:var(--green);font-weight:600}
+.ribbon .b{font-family:var(--display);font-weight:700;background:var(--green);color:#04150c;border-radius:6px;padding:1px 7px;font-size:10.5px;letter-spacing:.02em}
+
+/* ===== cover ===== */
+.cover{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:920px;position:relative;overflow:hidden}
+.cover::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;border-radius:50%;
+  background:radial-gradient(circle,rgba(74,222,128,.14),transparent 60%);}
+.cover .pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--green);border:1px solid rgba(74,222,128,.35);border-radius:999px;padding:7px 18px;margin-bottom:30px;position:relative;z-index:1}
+.cover .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
+.cover h1{font-size:46px;line-height:1.08;margin-bottom:18px;position:relative;z-index:1}
+.cover h1 em{font-style:normal;color:var(--blue)}
+.cover .bigbadge{font-family:var(--display);font-weight:700;font-size:20px;color:var(--green);position:relative;z-index:1;margin-bottom:18px}
+.cover p.sub{font-size:16px;color:var(--ink2);max-width:580px;margin-bottom:46px;position:relative;z-index:1}
+.cover .meta{display:flex;gap:34px;position:relative;z-index:1}
+.cover .meta div{text-align:left}
+.cover .meta .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.cover .meta .v{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink)}
+.cover .meta .v.green{color:var(--green)}
+.cover .footnote{position:absolute;bottom:36px;font-size:11px;color:var(--ink3);max-width:520px;z-index:1}
+
+/* ===== section heading ===== */
+.sec-eyebrow{font-family:var(--display);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+.sec-h{font-size:25px;margin-bottom:6px}
+.sec-sub{color:var(--ink2);font-size:13px;margin-bottom:22px;max-width:640px}
+
+/* ===== pack cards ===== */
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+.packs.cols-2{grid-template-columns:repeat(2,1fr)}
+.packs.cols-4{grid-template-columns:repeat(4,1fr)}
+.pack{background:var(--surface);border:1px solid var(--line2);border-radius:14px;padding:18px 16px;position:relative;overflow:hidden}
+.pack::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--acc,var(--blue)),transparent)}
+.pack .name{font-family:var(--display);font-weight:600;font-size:13px;color:var(--ink);margin-bottom:4px}
+.pack .desc{font-size:11px;color:var(--ink3);margin-bottom:12px;min-height:28px}
+.pack .oldprice{font-family:var(--display);font-size:12px;color:var(--ink3);text-decoration:line-through;margin-bottom:1px}
+.pack .price{font-family:var(--display);font-weight:700;font-size:22px;color:var(--acc,var(--blue))}
+.pack .price .unit{font-family:var(--body);font-weight:500;font-size:11px;color:var(--ink3);margin-left:3px}
+.pack .save{display:inline-block;margin-top:9px;font-size:9.5px;font-weight:700;letter-spacing:.03em;color:var(--green);background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.35);border-radius:6px;padding:2px 7px}
+.pack .flag{display:block;width:max-content;margin-top:7px;font-size:9.5px;font-weight:600;letter-spacing:.04em;color:var(--amber);background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:6px;padding:2px 7px}
+
+/* ===== table style (for summary) ===== */
+table{width:100%;border-collapse:collapse;margin-bottom:18px}
+th{text-align:left;font-family:var(--display);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:9px 12px;border-bottom:1px solid var(--line2)}
+td{padding:11px 12px;border-bottom:1px solid var(--line2);font-size:12.5px;color:var(--ink2)}
+td.price-cell{font-family:var(--display);font-weight:700;color:var(--green);font-size:13.5px}
+td .old{font-family:var(--display);font-weight:500;color:var(--ink3);text-decoration:line-through;font-size:11.5px;margin-right:6px}
+tr:last-child td{border-bottom:none}
+
+.note{background:rgba(56,189,248,.05);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:12px;color:var(--ink2);margin-bottom:20px}
+.note b{color:var(--ink)}
+.note.warn{background:rgba(251,191,36,.06);border-color:rgba(251,191,36,.3)}
+.note.good{background:rgba(74,222,128,.06);border-color:rgba(74,222,128,.3)}
+
+.callout{display:flex;gap:14px;background:var(--surface2);border:1px solid var(--line2);border-radius:14px;padding:18px;margin-top:6px}
+.callout .num{font-family:var(--display);font-weight:700;font-size:20px;color:var(--green);flex:none;width:34px}
+.callout .txt{font-size:12px;color:var(--ink2)}
+.callout .txt b{color:var(--ink);display:block;margin-bottom:2px;font-family:var(--display);font-size:13px}
+
+.pagefoot{position:absolute;bottom:24px;left:46px;right:46px;display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);border-top:1px solid var(--line2);padding-top:10px}
+
+.sources{font-size:10.5px;color:var(--ink3);line-height:1.7}
+.sources b{color:var(--ink2);font-family:var(--display);font-size:11px;display:block;margin:14px 0 5px}
+.sources a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="page cover">
+  <div class="pill">Documento interno · Estrategia comercial</div>
+  <h1>Precios y Packs<br><em>INTEREMPREX</em> 2026</h1>
+  <div class="bigbadge">− 25% frente a la media del mercado</div>
+  <p class="sub">Estructura de precios para las 4 líneas de servicio. Cada pack se fija un 25% por debajo del precio medio del mercado español (2025-2026), para entrar con ventaja competitiva clara frente a agencias y freelancers equivalentes.</p>
+  <div class="meta">
+    <div><div class="k">Líneas de servicio</div><div class="v">4</div></div>
+    <div><div class="k">Packs definidos</div><div class="v">19</div></div>
+    <div><div class="k">Posicionamiento</div><div class="v green">−25% vs. mercado</div></div>
+    <div><div class="k">Fecha</div><div class="v">Junio 2026</div></div>
+  </div>
+  <div class="footnote">Precios calculados a partir del precio medio de mercado (investigación pública: agencias, freelancers y guías sectoriales en España), reducido un 25% en todos los servicios y packs. Fuentes detalladas en la última página.</div>
+</section>
+
+<!-- ============ WEB & ECOMMERCE ============ -->
+<section class="page">
+  <div class="brandbar"><div class="brand"><span class="dot"></span>INTEREMPREX</div><div class="doctitle">Precios &amp; Packs 2026 · −25% vs. mercado</div></div>
+  <div class="ribbon"><span class="b">−25%</span> Todos los precios de esta página son un 25% más bajos que la media del mercado español</div>
+
+  <div class="sec-eyebrow">01 · Propulsión digital</div>
+  <h2 class="sec-h">Desarrollo Web &amp; Ecommerce</h2>
+  <p class="sec-sub">Landing pages, webs corporativas y tiendas online — pago único por proyecto, más mantenimiento mensual opcional tras la entrega.</p>
+
+  <div class="packs">
+    <div class="pack" style="--acc:#38bdf8"><div class="name">Landing Page</div><div class="desc">1 página de alta conversión</div><div class="oldprice">1.000 €</div><div class="price">750 € <span class="unit">pago único</span></div><div class="save">−25% vs. media (1.000 €)</div></div>
+    <div class="pack" style="--acc:#38bdf8"><div class="name">Web Corporativa</div><div class="desc">Web de varias secciones (5-7 págs.)</div><div class="oldprice">1.500 €</div><div class="price">1.125 € <span class="unit">pago único</span></div><div class="save">−25% vs. media (1.500 €)</div></div>
+    <div class="pack" style="--acc:#22d3ee"><div class="name">Tienda Online Estándar</div><div class="desc">Ecommerce catálogo medio (Shopify/Woo)</div><div class="oldprice">3.500 €</div><div class="price">2.625 € <span class="unit">pago único</span></div><div class="save">−25% vs. media (3.500 €)</div></div>
+    <div class="pack" style="--acc:#22d3ee"><div class="name">Tienda Online Avanzada</div><div class="desc">Ecommerce premium a medida</div><div class="oldprice">10.000 €</div><div class="price">7.500 € <span class="unit">pago único</span></div><div class="save">−25% vs. media (10.000 €)</div></div>
+    <div class="pack" style="--acc:#2dd4bf"><div class="name">Ecommerce Enterprise</div><div class="desc">100% a medida + integraciones ERP/CRM</div><div class="oldprice">22.500 €</div><div class="price">16.875 € <span class="unit">pago único</span></div><div class="save">−25% vs. media (22.500 €)</div></div>
+  </div>
+
+  <div class="sec-eyebrow" style="margin-top:8px">Mantenimiento (recurrente)</div>
+  <div class="packs cols-2">
+    <div class="pack" style="--acc:#a78bfa"><div class="name">Mantenimiento Básico</div><div class="desc">Backups, actualizaciones, soporte limitado</div><div class="oldprice">50 €</div><div class="price">38 € <span class="unit">/ mes</span></div><div class="save">−25% vs. media (50 €/mes)</div></div>
+    <div class="pack" style="--acc:#a78bfa"><div class="name">Mantenimiento Intermedio</div><div class="desc">Seguridad, velocidad, soporte técnico</div><div class="oldprice">105 €</div><div class="price">79 € <span class="unit">/ mes</span></div><div class="save">−25% vs. media (105 €/mes)</div></div>
+  </div>
+  <div class="packs cols-2">
+    <div class="pack" style="--acc:#a78bfa"><div class="name">Mantenimiento Avanzado</div><div class="desc">Monitorización, soporte prioritario, mejoras</div><div class="oldprice">170 €</div><div class="price">128 € <span class="unit">/ mes</span></div><div class="save">−25% vs. media (170 €/mes)</div></div>
+  </div>
+
+  <div class="pagefoot"><span>INTEREMPREX · Precios y Packs 2026</span><span>01 · Web &amp; Ecommerce</span></div>
+</section>
+
+<!-- ============ AUTOMATIZACIÓN ============ -->
+<section class="page">
+  <div class="brandbar"><div class="brand"><span class="dot"></span>INTEREMPREX</div><div class="doctitle">Precios &amp; Packs 2026 · −25% vs. mercado</div></div>
+  <div class="ribbon"><span class="b">−25%</span> Todos los precios de esta página son un 25% más bajos que la media del mercado español</div>
+
+  <div class="sec-eyebrow">02 · Piloto automático</div>
+  <h2 class="sec-h">Automatización de procesos</h2>
+  <p class="sec-sub">Eliminación de tareas repetitivas en Excel, ERPs y herramientas internas — por hora, por proyecto o con soporte continuo.</p>
+
+  <div class="packs cols-4">
+    <div class="pack" style="--acc:#22d3ee"><div class="name">Automatización Estándar</div><div class="desc">Excel, ERP, flujos de pedido, integraciones simples</div><div class="oldprice">55 €</div><div class="price">41 € <span class="unit">/ hora</span></div><div class="save">−25% vs. media (55 €/h)</div></div>
+    <div class="pack" style="--acc:#a78bfa"><div class="name">Automatización Avanzada / IA</div><div class="desc">Procesos complejos, IA aplicada</div><div class="oldprice">140 €</div><div class="price">105 € <span class="unit">/ hora</span></div><div class="save">−25% vs. media (140 €/h)</div></div>
+    <div class="pack" style="--acc:#38bdf8"><div class="name">Proyecto Completo</div><div class="desc">Bot/integración desde cero</div><div class="oldprice">9.500 €</div><div class="price">7.125 € <span class="unit">proyecto</span></div><div class="save">−25% vs. media (9.500 €)</div></div>
+    <div class="pack" style="--acc:#2dd4bf"><div class="name">Soporte continuo</div><div class="desc">Mantenimiento de automatizaciones activas</div><div class="oldprice">300 €</div><div class="price">225 € <span class="unit">/ mes</span></div><div class="save">−25% vs. media (300 €/mes)</div><div class="flag">MEDIA = MÍN. DE MERCADO</div></div>
+  </div>
+
+  <div class="note good">Nuestro precio para el proyecto completo (<b>7.125 €</b>) es un 25% más competitivo que la media de mercado para crear una automatización/robot desde cero (9.500 €, rango 4.000 € – 15.000 € según complejidad e integraciones).</div>
+
+  <div class="pagefoot"><span>INTEREMPREX · Precios y Packs 2026</span><span>02 · Automatización</span></div>
+</section>
+
+<!-- ============ MARKETING DIGITAL ============ -->
+<section class="page">
+  <div class="brandbar"><div class="brand"><span class="dot"></span>INTEREMPREX</div><div class="doctitle">Precios &amp; Packs 2026 · −25% vs. mercado</div></div>
+  <div class="ribbon"><span class="b">−25%</span> Todos los precios de esta página son un 25% más bajos que la media del mercado español</div>
+
+  <div class="sec-eyebrow">03 · Señal, no ruido</div>
+  <h2 class="sec-h">Marketing digital</h2>
+  <p class="sec-sub">SEO y Google Ads — captación medible, con fee mensual recurrente o proyectos puntuales.</p>
+
+  <div class="sec-eyebrow" style="margin-top:4px">SEO · recurrente</div>
+  <div class="packs">
+    <div class="pack" style="--acc:#38bdf8"><div class="name">SEO Local</div><div class="desc">Autónomos / negocio local</div><div class="oldprice">550 €</div><div class="price">413 € <span class="unit">/ mes</span></div><div class="save">−25% vs. media (550 €/mes)</div></div>
+    <div class="pack" style="--acc:#22d3ee"><div class="name">SEO Crecimiento</div><div class="desc">PYME en expansión</div><div class="oldprice">1.150 €</div><div class="price">863 € <span class="unit">/ mes</span></div><div class="save">−25% vs. media (1.150 €/mes)</div></div>
+    <div class="pack" style="--acc:#2dd4bf"><div class="name">SEO Ecommerce</div><div class="desc">Ecommerce / sector competido</div><div class="oldprice">1.600 €</div><div class="price">1.200 € <span class="unit">/ mes</span></div><div class="save">−25% vs. media (1.600 €/mes)</div><div class="flag">MEDIA = MÍN. DE MERCADO</div></div>
+  </div>
+
+  <div class="sec-eyebrow">SEO · puntual</div>
+  <div class="packs cols-2">
+    <div class="pack" style="--acc:#a78bfa"><div class="name">Auditoría SEO</div><div class="desc">Diagnóstico técnico + on-page completo</div><div class="oldprice">1.700 €</div><div class="price">1.275 € <span class="unit">pago único</span></div><div class="save">−25% vs. media (1.700 €)</div></div>
+    <div class="pack" style="--acc:#a78bfa"><div class="name">Consultoría SEO puntual</div><div class="desc">Asesoría de estrategia sin ejecución</div><div class="oldprice">1.250 €</div><div class="price">938 € <span class="unit">pago único</span></div><div class="save">−25% vs. media (1.250 €)</div></div>
+  </div>
+
+  <div class="sec-eyebrow">Google Ads / SEM · recurrente</div>
+  <div class="packs cols-4">
+    <div class="pack" style="--acc:#38bdf8"><div class="name">Gestión Básica</div><div class="desc">1-2 campañas</div><div class="oldprice">400 €</div><div class="price">300 € <span class="unit">/ mes</span></div><div class="save">−25% vs. media (400 €/mes)</div></div>
+    <div class="pack" style="--acc:#22d3ee"><div class="name">Gestión con Estrategia</div><div class="desc">Multi-campaña + A/B testing</div><div class="oldprice">850 €</div><div class="price">638 € <span class="unit">/ mes</span></div><div class="save">−25% vs. media (850 €/mes)</div></div>
+    <div class="pack" style="--acc:#2dd4bf"><div class="name">Gestión Multicanal</div><div class="desc">Google + Meta + LinkedIn</div><div class="oldprice">1.850 €</div><div class="price">1.388 € <span class="unit">/ mes</span></div><div class="save">−25% vs. media (1.850 €/mes)</div></div>
+    <div class="pack" style="--acc:#a78bfa"><div class="name">% sobre inversión</div><div class="desc">Alternativa al fee fijo</div><div class="oldprice">15%</div><div class="price">11,25% <span class="unit">del gasto</span></div><div class="save">−25% vs. media (15%)</div></div>
+  </div>
+
+  <div class="pagefoot"><span>INTEREMPREX · Precios y Packs 2026</span><span>03 · Marketing digital</span></div>
+</section>
+
+<!-- ============ INTERNACIONALIZACIÓN + RESUMEN ============ -->
+<section class="page">
+  <div class="brandbar"><div class="brand"><span class="dot"></span>INTEREMPREX</div><div class="doctitle">Precios &amp; Packs 2026 · −25% vs. mercado</div></div>
+  <div class="ribbon"><span class="b">−25%</span> Todos los precios de esta página son un 25% más bajos que la media del mercado español</div>
+
+  <div class="sec-eyebrow">04 · Órbita global</div>
+  <h2 class="sec-h">Escalado e internacionalización</h2>
+  <p class="sec-sub">Pedidos, proveedores y tránsitos internacionales — consultoría de import/export.</p>
+
+  <div class="note warn"><b>Aviso de mercado:</b> esta línea de servicio no tiene un precio público estandarizado como web, SEO o Ads — las consultoras de comercio internacional cotizan caso a caso. La cifra base usada aquí es la tarifa horaria media de consultoría empresarial en España (140 €/h), ya reducida un 25%.</div>
+
+  <div class="packs cols-2">
+    <div class="pack" style="--acc:#2dd4bf"><div class="name">Consultoría de Internacionalización</div><div class="desc">Diagnóstico, proveedores, trazabilidad</div><div class="oldprice">140 €</div><div class="price">105 € <span class="unit">/ hora</span></div><div class="save">−25% vs. media (140 €/h)</div></div>
+    <div class="pack" style="--acc:#2dd4bf"><div class="name">Asesoramiento continuo</div><div class="desc">Retainer mensual: nº horas × 105 €/h</div><div class="price">A medida <span class="unit">mensual</span></div></div>
+  </div>
+
+  <div class="sec-eyebrow" style="margin-top:26px">Resumen ejecutivo</div>
+  <h2 class="sec-h" style="font-size:19px">Un precio de referencia por servicio, −25% vs. mercado</h2>
+  <table>
+    <tr><th>Servicio</th><th>Precio INTEREMPREX (media de mercado)</th></tr>
+    <tr><td>Web &amp; Ecommerce</td><td class="price-cell"><span class="old">1.500 €</span>1.125 € <span style="color:var(--ink3);font-weight:500;font-size:11px"> (web corporativa estándar)</span></td></tr>
+    <tr><td>Automatización de procesos</td><td class="price-cell"><span class="old">55-140 €/h</span>41-105 €/h <span style="color:var(--ink3);font-weight:500;font-size:11px"> según complejidad</span></td></tr>
+    <tr><td>Marketing digital</td><td class="price-cell"><span class="old">950+850 €/mes</span>713 €/mes SEO + 638 €/mes Ads</td></tr>
+    <tr><td>Internacionalización</td><td class="price-cell"><span class="old">140 €/h</span>105 €/h</td></tr>
+  </table>
+
+  <div class="callout">
+    <div class="num">−25%</div>
+    <div class="txt"><b>Por qué este posicionamiento</b>Precios un 25% por debajo de la media para entrar con ventaja competitiva clara en cada línea de servicio. Próximos pasos: cargar los packs como Productos/Precios en Stripe para generar links de pago desde el dashboard · revisar el descuento tras los primeros clientes · añadir esta tabla a la web pública.</div>
+  </div>
+
+  <div class="pagefoot"><span>INTEREMPREX · Precios y Packs 2026</span><span>04 · Internacionalización &amp; Resumen</span></div>
+</section>
+
+<!-- ============ FUENTES ============ -->
+<section class="page">
+  <div class="brandbar"><div class="brand"><span class="dot"></span>INTEREMPREX</div><div class="doctitle">Precios &amp; Packs 2026 · −25% vs. mercado</div></div>
+  <div class="sec-eyebrow">Metodología</div>
+  <h2 class="sec-h">Fuentes consultadas</h2>
+  <p class="sec-sub">Investigación de mercado público, España, 2025-2026. Donde el mercado publica un rango, la "media de mercado" usada como base es el punto medio de ese rango (o la cifra de "precio medio" cuando la fuente la da directamente). El precio final INTEREMPREX es esa media reducida un 25%.</p>
+
+  <div class="sources">
+    <b>Web &amp; Ecommerce</b>
+    <a href="https://creasitios.com/precio-diseno-web-en-espana-2026/">creasitios.com — Precio Diseño Web en España 2026</a><br>
+    <a href="https://astracodelab.com/blog/precio-pagina-web-espana/">astracodelab.com — ¿Cuánto cuesta una página web en España en 2026?</a><br>
+    <a href="https://bossbyte.es/landing-page-precio-espana-2026/">bossbyte.es — Precio de una landing page en España (2026)</a><br>
+    <a href="https://sprintmarkt.com/coste-tienda-online-espana-2025/">sprintmarkt.com — Coste de una tienda online en España (2025)</a><br>
+    <a href="https://www.doofinder.com/en/blog/how-much-cost-ecommerce">doofinder.com — ¿Cuánto cuesta una tienda online? Precios 2025</a><br>
+    <a href="https://yeeply.com/cuanto-cuesta/precios-desarrollo-ecommerce-a-medida/">yeeply.com — Desarrollo de ecommerce a medida</a><br>
+    <a href="https://nerade.com/blog/mantenimiento-web-wordpress-precio/">nerade.com — Precios de Mantenimiento Web WordPress 2025</a><br>
+    <a href="https://nexumark.es/mantenimiento-pagina-web-madrid/">nexumark.es — Mantenimiento página web | Precios 2025</a>
+
+    <b>Automatización</b>
+    <a href="https://flowmatic.es/automatizacion/cuanto-cuesta-automatizar/">flowmatic.es — Cuánto cuesta automatizar tu empresa (2026)</a><br>
+    <a href="https://www.aimoova.com/post/cuanto-cuesta-automatizar-procesos-pyme-2026">aimoova.com — ¿Cuánto Cuesta Automatizar Procesos en una Pyme?</a><br>
+    <a href="https://clockify.me/average-hourly-rates">clockify.me — Tarifas horarias medias (2025)</a>
+
+    <b>Marketing digital — SEO</b>
+    <a href="https://www.clickstudio.es/precio-agencia-seo-mensual-2025">clickstudio.es — Precio Agencia SEO Mensual 2025</a><br>
+    <a href="https://gestomarketing.com/cuanto-cuesta-seo-espana-precios/">gestomarketing.com — ¿Cuánto cuesta el SEO en España?</a><br>
+    <a href="https://dinorank.com/blog/cuanto-cobra-un-seo/">dinorank.com — ¿Cuánto cobra un SEO en España? (2025)</a>
+
+    <b>Marketing digital — Google Ads</b>
+    <a href="https://vincimedia.es/cuanto-cuesta-una-agencia-de-google-ads-en-2025-guia-de-precios-realista/">vincimedia.es — Cuánto cuesta una agencia de Google Ads en 2025</a><br>
+    <a href="https://www.cyberclick.es/numerical-blog/cuanto-cuesta-contratar-una-agencia-google-ads-en-espana">cyberclick.es — Cuánto cuesta contratar una agencia Google Ads en España</a>
+
+    <b>Internacionalización / consultoría</b>
+    <a href="https://www.cronoshare.com/cuanto-cuesta/consultoria-empresarial">cronoshare.com — ¿Cuánto cuesta una consultoría empresarial?</a><br>
+    <a href="https://www.zaask.es/cuanto-cuesta/consultores-consultoras">zaask.es — Contrata Profesionales Cualificados</a>
+  </div>
+</section>
+
+</body>
+</html>
