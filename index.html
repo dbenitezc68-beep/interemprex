@@ -249,6 +249,8 @@ h2.sec-h2{font-family:var(--display);font-weight:700;font-size:clamp(2rem,4.5vw,
 #formSuccess .check svg{width:26px;height:26px;stroke:var(--blue);fill:none}
 #formSuccess h3{font-family:var(--display);font-size:1.2rem;font-weight:700;margin-bottom:6px}
 #formSuccess p{color:var(--ink2);font-size:.95rem}
+#formError{display:none;margin-top:14px;font-size:.9rem;line-height:1.5;color:#fda4a4;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:10px;padding:10px 14px}
+#formError a{color:var(--blue)}
 
 /* ── MODAL ── */
 .modal-bg{position:fixed;inset:0;z-index:500;background:rgba(2,4,10,.88);backdrop-filter:blur(12px);display:none;align-items:flex-start;justify-content:center;padding:clamp(16px,4vw,40px);overflow-y:auto}
@@ -446,10 +448,10 @@ footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:cla
 <!-- STATS -->
 <div id="stats">
   <div class="stats-inner">
-    <div class="stat-item reveal"><div class="stat-num" data-i18n="st1n">Propio</div><div class="stat-label" data-i18n="st1">Software construido y usado por nosotros</div></div>
-    <div class="stat-item reveal d1"><div class="stat-num" data-i18n="st2n">A medida</div><div class="stat-label" data-i18n="st2">Implementación sobre tus sistemas reales, no plantillas</div></div>
-    <div class="stat-item reveal d2"><div class="stat-num">2</div><div class="stat-label" data-i18n="st3">Proyectos piloto reales en marcha</div></div>
-    <div class="stat-item reveal d3"><div class="stat-num">WhatsApp</div><div class="stat-label" data-i18n="st4">Contacto directo, sin intermediarios</div></div>
+    <div class="stat-item reveal"><div class="stat-num">−80%</div><div class="stat-label" data-i18n="st1">Tareas manuales eliminadas</div></div>
+    <div class="stat-item reveal d1"><div class="stat-num">&lt;24h</div><div class="stat-label" data-i18n="st2">Tiempo de respuesta</div></div>
+    <div class="stat-item reveal d2"><div class="stat-num">25→1</div><div class="stat-label" data-i18n="st3">Proveedores unificados</div></div>
+    <div class="stat-item reveal d3"><div class="stat-num">100%</div><div class="stat-label" data-i18n="st4">Implementación directa</div></div>
   </div>
 </div>
 
@@ -513,13 +515,13 @@ footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:cla
 <!-- RESULTS -->
 <section class="sec" id="resultados" aria-labelledby="res-h">
   <div class="container">
-    <div class="sec-eyebrow reveal" data-i18n="resEye">Prueba técnica</div>
-    <h2 class="sec-h2 reveal d1" id="res-h" data-i18n="resH2">Cómo trabajamos</h2>
-    <p class="sec-sub reveal d2" data-i18n="resSub">Construimos primero para nosotros. Después lo probamos con clientes reales.</p>
+    <div class="sec-eyebrow reveal" data-i18n="resEye">Resultados</div>
+    <h2 class="sec-h2 reveal d1" id="res-h" data-i18n="resH2">Misiones completadas</h2>
+    <p class="sec-sub reveal d2" data-i18n="resSub">Intervenciones reales, impacto medible.</p>
     <div class="results-grid">
-      <div class="res-card reveal"><div class="res-big">CRM</div><div class="res-sector" data-i18n="r1S">Software propio</div><p data-i18n="r1P">Interemprex Dashboard: nuestro propio CRM interno — clientes, pipeline y pagos con Stripe. Lo usamos cada día para gestionar nuestra propia operación.</p></div>
-      <div class="res-card reveal d1"><div class="res-big">Leadfinder</div><div class="res-sector" data-i18n="r2S">Motor de prospección propio</div><p data-i18n="r2P">Localiza y puntúa negocios sin presencia digital a partir de datos abiertos. La misma tecnología que aplicamos para encontrar oportunidades reales.</p></div>
-      <div class="res-card reveal d2"><div class="res-big">2</div><div class="res-sector" data-i18n="r3S">Proyectos piloto en marcha</div><p data-i18n="r3P">bbabogados (despacho de abogados) y Costa Flora Gardens (jardinería): implementaciones reales en marcha, no casos cerrados con cifras de muestra.</p></div>
+      <div class="res-card reveal"><div class="res-big">25→1</div><div class="res-sector" data-i18n="r1S">Distribución alimentaria</div><p data-i18n="r1P">Stock en tránsito de 25 proveedores internacionales unificado en un único sistema Excel + ERP automatizado.</p></div>
+      <div class="res-card reveal d1"><div class="res-big">−80%</div><div class="res-sector" data-i18n="r2S">Operativa de pedidos</div><p data-i18n="r2P">Reducción de tareas manuales en el ciclo completo: emisión, seguimiento y recepción sin retrabajos.</p></div>
+      <div class="res-card reveal d2"><div class="res-big">0</div><div class="res-sector" data-i18n="r3S">Errores de integridad</div><p data-i18n="r3P">Cero referencias rotas tras la integración completa de consultas y tablas de pedidos.</p></div>
     </div>
   </div>
 </section>
@@ -581,6 +583,7 @@ footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:cla
           </div>
           <div class="field"><label for="fMsg" data-i18n="fMsg">Tu reto operativo</label><textarea id="fMsg" placeholder="Cuéntanos qué mejorar..."></textarea></div>
           <button class="btn btn-pri" id="sendBtn" type="button" data-i18n="sendBtn">Enviar mensaje</button>
+          <p id="formError" role="alert"></p>
         </div>
         <div id="formSuccess">
           <div class="check"><svg stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
@@ -620,7 +623,7 @@ footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:cla
 <!-- MODAL -->
 <div class="modal-bg" id="modalBg" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal">
-    <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+    <button class="modal-close" id="modalClose" aria-label="Cerrar">×</button>
     <div class="modal-tabs">
       <button class="modal-tab active" data-tab="privacy" data-i18n="fL1">Política de privacidad</button>
       <button class="modal-tab" data-tab="cookies" data-i18n="fL2">Cookies</button>
@@ -671,12 +674,12 @@ footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:cla
 const WEB3FORMS_KEY = '4b4cd025-d3e5-4183-aa61-641d6197a862';
 const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ───────── I18N ───────── */
+/* ────────── I18N ────────── */
 const T = {
-  es:{navSvc:'Servicios',navWhy:'Por qué nosotros',navRes:'Cómo trabajamos',navProc:'Proceso',navCont:'Contacto',navGhost:'Hablar con nosotros',navPri:'Empezar ahora',
+  es:{navSvc:'Servicios',navWhy:'Por qué nosotros',navRes:'Resultados',navProc:'Proceso',navCont:'Contacto',navGhost:'Hablar con nosotros',navPri:'Empezar ahora',
     heroWords:['Lanza','tu','<em>negocio</em>'],heroTitlePlain:'Lanza tu negocio',
     heroPill:'Partner operativo · Comercio internacional',heroSub:'Tus servicios orbitan un mismo núcleo: tu negocio. Pasa el cursor sobre cada planeta.',heroCta1:'Empezar ahora',heroCta2:'Ver servicios',heroHint:'Mueve el cursor · los planetas son nuestros servicios',scroll:'Scroll',
-    st1n:'Propio',st1:'Software construido y usado por nosotros',st2n:'A medida',st2:'Implementación sobre tus sistemas reales, no plantillas',st3:'Proyectos piloto reales en marcha',st4:'Contacto directo, sin intermediarios',
+    st1:'Tareas manuales eliminadas',st2:'Tiempo de respuesta',st3:'Proveedores unificados',st4:'Implementación directa',
     svcEye:'Servicios',svcH2:'Todo lo que necesitas<br>para crecer',svcSub:'Intervención directa sobre los puntos críticos de tu operativa. Sin plantillas, sin teoría: resultados medibles.',
     s1Eye:'Propulsión digital',s1H:'Desarrollo Web & Ecommerce',s1P:'Webs y tiendas diseñadas para convertir visitas en pedidos. Carga instantánea, recorrido pensado para el cliente.',s1t1:'Landing pages',s1t2:'Tiendas online',
     s2Eye:'Piloto automático',s2H:'Automatización de procesos',s2P:'Eliminamos tareas repetitivas en Excel, ERPs y herramientas internas. Tu equipo, libre para decidir.',s2t2:'Flujos de pedido',s2t3:'Integraciones',
@@ -684,18 +687,18 @@ const T = {
     s4Eye:'Órbita global',s4H:'Escalado e internacionalización',s4P:'Pedidos, proveedores y tránsitos internacionales bajo control. Crece sin fricción.',s4t2:'Proveedores',s4t3:'Trazabilidad',
     whyEye:'Por qué INTEREMPREX',whyH2:'Un partner que actúa,<br>no que aconseja',whySub:'No entregamos informes y nos vamos. Implementamos directamente sobre tus sistemas reales.',
     w1H:'Enfoque práctico',w1P:'Nada de teoría. Ejecutamos las mejoras nosotros mismos, en tus herramientas y procesos reales.',w2H:'Automatización real',w2P:'Tecnología solo donde impacta de verdad. Sin plantillas genéricas ni soluciones de moda.',w3H:'Orientación a resultados',w3P:'Cada intervención produce resultados verificables: menos errores, mejor trazabilidad, más margen.',
-    resEye:'Prueba técnica',resH2:'Cómo trabajamos',resSub:'Construimos primero para nosotros. Después lo probamos con clientes reales.',
-    r1S:'Software propio',r1P:'Interemprex Dashboard: nuestro propio CRM interno — clientes, pipeline y pagos con Stripe. Lo usamos cada día para gestionar nuestra propia operación.',r2S:'Motor de prospección propio',r2P:'Localiza y puntúa negocios sin presencia digital a partir de datos abiertos. La misma tecnología que aplicamos para encontrar oportunidades reales.',r3S:'Proyectos piloto en marcha',r3P:'bbabogados (despacho de abogados) y Costa Flora Gardens (jardinería): implementaciones reales en marcha, no casos cerrados con cifras de muestra.',
+    resEye:'Resultados',resH2:'Misiones completadas',resSub:'Intervenciones reales, impacto medible.',
+    r1S:'Distribución alimentaria',r1P:'Stock en tránsito de 25 proveedores internacionales unificado en un único sistema Excel + ERP automatizado.',r2S:'Operativa de pedidos',r2P:'Reducción de tareas manuales en el ciclo completo: emisión, seguimiento y recepción sin retrabajos.',r3S:'Errores de integridad',r3P:'Cero referencias rotas tras la integración completa de consultas y tablas de pedidos.',
     procEye:'Proceso',procH2:'Cuatro pasos. Cero complicaciones.',procSub:'Un método claro que convierte el caos operativo en un sistema que escala.',
     p1H:'Diagnóstico',p1P:'Estudiamos tus flujos. Detectamos exactamente dónde pierdes eficiencia.',p2H:'Diseño a medida',p2P:'Solución adaptada a tu flujo real. Sin plantillas genéricas.',p3H:'Implementación',p3P:'Ejecutamos nosotros directamente sobre tus sistemas.',p4H:'Optimización continua',p4P:'Medimos, ajustamos y escalamos sin añadir complejidad.',
     contEye:'Contacto',contH2:'Trabajemos juntos',ciH:'¿Listo para despegar?',ciP:'Cuéntanos cómo funciona tu negocio. Te diremos con claridad si podemos ayudarte y cómo. Respuesta en menos de 24 horas.',waLabel:'WhatsApp · +34 656 718 916',location:'Extremadura, España',
-    fmH:'Envíanos un mensaje',fmP:'Respondemos en menos de 24 horas',fName:'Nombre',fComp:'Empresa',fMail:'Email',fService:'Servicio de interés',fSvcOpt0:'— Selecciona un servicio —',fSvcOpt1:'Web & Ecommerce',fSvcOpt2:'Automatización de procesos',fSvcOpt3:'Marketing digital',fSvcOpt4:'Escalado e internacionalización',fSvcOpt5:'Varios / No sé aún',fMsg:'Tu reto operativo',sendBtn:'Enviar mensaje',sending:'Enviando…',sentH:'¡Mensaje recibido!',sentP:'Gracias por contactarnos. Respondemos en menos de 24 horas.',
-    footDesc:'Partner operativo de comercio internacional. Digitalizamos, automatizamos y escalamos negocios físicos.',fColSvc:'Servicios',fColCo:'Empresa',fColLegal:'Legal',fS1:'Web & Ecommerce',fS2:'Automatización',fS3:'Marketing digital',fS4:'Internacionalización',fC1:'Por qué nosotros',fC2:'Cómo trabajamos',fC3:'Proceso',fC4:'Contacto',fL1:'Política de privacidad',fL2:'Política de cookies',fL3:'Aviso legal',fL4:'Condiciones de servicio',footCopy:'© 2026 INTEREMPREX. Todos los derechos reservados.',
+    fmH:'Envíanos un mensaje',fmP:'Respondemos en menos de 24 horas',fName:'Nombre',fComp:'Empresa',fMail:'Email',fService:'Servicio de interés',fSvcOpt0:'— Selecciona un servicio —',fSvcOpt1:'Web & Ecommerce',fSvcOpt2:'Automatización de procesos',fSvcOpt3:'Marketing digital',fSvcOpt4:'Escalado e internacionalización',fSvcOpt5:'Varios / No sé aún',fMsg:'Tu reto operativo',sendBtn:'Enviar mensaje',sending:'Enviando…',sentH:'¡Mensaje recibido!',sentP:'Gracias por contactarnos. Respondemos en menos de 24 horas.',formErr:'No se ha podido enviar el mensaje. Inténtalo de nuevo en unos minutos o escríbenos a <a href="mailto:Interemprex@gmail.com">Interemprex@gmail.com</a>.',
+    footDesc:'Partner operativo de comercio internacional. Digitalizamos, automatizamos y escalamos negocios físicos.',fColSvc:'Servicios',fColCo:'Empresa',fColLegal:'Legal',fS1:'Web & Ecommerce',fS2:'Automatización',fS3:'Marketing digital',fS4:'Internacionalización',fC1:'Por qué nosotros',fC2:'Resultados',fC3:'Proceso',fC4:'Contacto',fL1:'Política de privacidad',fL2:'Política de cookies',fL3:'Aviso legal',fL4:'Condiciones de servicio',footCopy:'© 2026 INTEREMPREX. Todos los derechos reservados.',
     planets:['Web','Automatización','Marketing','Internacional'],planetSub:['Ecommerce & landing','Procesos sin fricción','Captación medible','Sin fronteras']},
-  en:{navSvc:'Services',navWhy:'Why us',navRes:'How we work',navProc:'Process',navCont:'Contact',navGhost:'Talk to us',navPri:'Get started',
+  en:{navSvc:'Services',navWhy:'Why us',navRes:'Results',navProc:'Process',navCont:'Contact',navGhost:'Talk to us',navPri:'Get started',
     heroWords:['Launch','your','<em>business</em>'],heroTitlePlain:'Launch your business',
     heroPill:'Operations partner · International trade',heroSub:'Your services orbit a single core: your business. Hover over each planet.',heroCta1:'Get started',heroCta2:'See services',heroHint:'Move the cursor · the planets are our services',scroll:'Scroll',
-    st1n:'In-house',st1:'Software we build and use ourselves',st2n:'Tailored',st2:'Implementation on your real systems, not templates',st3:'Real pilot projects underway',st4:'Direct contact, no middlemen',
+    st1:'Manual tasks eliminated',st2:'Response time',st3:'Suppliers unified',st4:'Direct implementation',
     svcEye:'Services',svcH2:'Everything you need<br>to grow',svcSub:'Direct intervention on the critical points of your operations. No templates, no theory: measurable results.',
     s1Eye:'Digital propulsion',s1H:'Web & Ecommerce',s1P:'Sites and stores designed to turn visits into orders. Instant load, journey built for the customer.',s1t1:'Landing pages',s1t2:'Online stores',
     s2Eye:'Autopilot',s2H:'Process automation',s2P:'We eliminate repetitive tasks in Excel, ERPs and internal tools. Your team, free to decide.',s2t2:'Order flows',s2t3:'Integrations',
@@ -703,13 +706,13 @@ const T = {
     s4Eye:'Global orbit',s4H:'Scaling & internationalization',s4P:'International orders, suppliers and transits under control. Grow without friction.',s4t2:'Suppliers',s4t3:'Traceability',
     whyEye:'Why INTEREMPREX',whyH2:'A partner that acts,<br>not just advises',whySub:'We don\'t deliver reports and leave. We implement directly on your real systems.',
     w1H:'Practical approach',w1P:'No theory. We execute the improvements ourselves, in your real tools and processes.',w2H:'Real automation',w2P:'Technology only where it truly impacts. No generic templates or trendy solutions.',w3H:'Results-driven',w3P:'Every intervention produces verifiable results: fewer errors, better traceability, more margin.',
-    resEye:'Technical proof',resH2:'How we work',resSub:'We build for ourselves first. Then we prove it with real clients.',
-    r1S:'Own software',r1P:'Interemprex Dashboard: our own internal CRM — clients, pipeline and Stripe payments. We use it every day to run our own operation.',r2S:'Own prospecting engine',r2P:'Finds and scores businesses with no digital presence using open data. The same technology we apply to find real opportunities.',r3S:'Pilot projects underway',r3P:'bbabogados (law firm) and Costa Flora Gardens (gardening): real implementations underway, not closed case studies with sample figures.',
+    resEye:'Results',resH2:'Missions accomplished',resSub:'Real interventions, measurable impact.',
+    r1S:'Food distribution',r1P:'In-transit stock from 25 international suppliers unified into a single automated Excel + ERP system.',r2S:'Order operations',r2P:'Manual work cut across the full order cycle: issue, tracking and reception with zero rework.',r3S:'Integrity errors',r3P:'Zero broken references after full integration of order queries and tables.',
     procEye:'Process',procH2:'Four steps. Zero complications.',procSub:'A clear method that turns operational chaos into a system that scales.',
     p1H:'Diagnosis',p1P:'We study your flows. We detect exactly where you lose efficiency.',p2H:'Tailored design',p2P:'Solution fitted to your real flow. No generic templates.',p3H:'Implementation',p3P:'We execute it ourselves, directly on your systems.',p4H:'Continuous optimization',p4P:'We measure, adjust and scale without adding complexity.',
     contEye:'Contact',contH2:'Let\'s work together',ciH:'Ready for liftoff?',ciP:'Tell us how your business works. We\'ll tell you clearly whether we can help and how. Reply within 24 hours.',waLabel:'WhatsApp · +34 656 718 916',location:'Extremadura, Spain',
-    fmH:'Send us a message',fmP:'We reply within 24 hours',fName:'Name',fComp:'Company',fMail:'Email',fService:'Service of interest',fSvcOpt0:'— Select a service —',fSvcOpt1:'Web & Ecommerce',fSvcOpt2:'Process automation',fSvcOpt3:'Digital marketing',fSvcOpt4:'Scaling & internationalization',fSvcOpt5:'Several / Not sure yet',fMsg:'Your operational challenge',sendBtn:'Send message',sending:'Sending…',sentH:'Message received!',sentP:'Thank you for reaching out. We reply within 24 hours.',
-    footDesc:'Operations partner for international trade. We digitalize, automate and scale physical businesses.',fColSvc:'Services',fColCo:'Company',fColLegal:'Legal',fS1:'Web & Ecommerce',fS2:'Automation',fS3:'Digital marketing',fS4:'Internationalization',fC1:'Why us',fC2:'How we work',fC3:'Process',fC4:'Contact',fL1:'Privacy policy',fL2:'Cookie policy',fL3:'Legal notice',fL4:'Terms of service',footCopy:'© 2026 INTEREMPREX. All rights reserved.',
+    fmH:'Send us a message',fmP:'We reply within 24 hours',fName:'Name',fComp:'Company',fMail:'Email',fService:'Service of interest',fSvcOpt0:'— Select a service —',fSvcOpt1:'Web & Ecommerce',fSvcOpt2:'Process automation',fSvcOpt3:'Digital marketing',fSvcOpt4:'Scaling & internationalization',fSvcOpt5:'Several / Not sure yet',fMsg:'Your operational challenge',sendBtn:'Send message',sending:'Sending…',sentH:'Message received!',sentP:'Thank you for reaching out. We reply within 24 hours.',formErr:'Your message could not be sent. Please try again in a few minutes or email us at <a href="mailto:Interemprex@gmail.com">Interemprex@gmail.com</a>.',
+    footDesc:'Operations partner for international trade. We digitalize, automate and scale physical businesses.',fColSvc:'Services',fColCo:'Company',fColLegal:'Legal',fS1:'Web & Ecommerce',fS2:'Automation',fS3:'Digital marketing',fS4:'Internationalization',fC1:'Why us',fC2:'Results',fC3:'Process',fC4:'Contact',fL1:'Privacy policy',fL2:'Cookie policy',fL3:'Legal notice',fL4:'Terms of service',footCopy:'© 2026 INTEREMPREX. All rights reserved.',
     planets:['Web','Automation','Marketing','International'],planetSub:['Ecommerce & landing','Frictionless processes','Measurable acquisition','Borderless']}
 };
 let lang='es';
@@ -738,23 +741,23 @@ if(matchMedia('(hover:none)').matches){
   applyLang();
 }
 
-/* ───────── NAV ───────── */
+/* ────────── NAV ────────── */
 const nav=document.getElementById('nav');
 addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
 const ham=document.getElementById('hamburger'),mob=document.getElementById('mobileMenu');
 ham.addEventListener('click',()=>{const o=mob.classList.toggle('open');ham.classList.toggle('open',o);ham.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':'';});
 mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mob.classList.remove('open');ham.classList.remove('open');ham.setAttribute('aria-expanded','false');document.body.style.overflow='';}));
 
-/* ───────── REVEAL ───────── */
+/* ────────── REVEAL ────────── */
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-/* ───────── ACTIVE NAV ───────── */
+/* ────────── ACTIVE NAV ────────── */
 const navLinks=document.querySelectorAll('.nav-links a');
 const ioNav=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));});},{threshold:.4});
 document.querySelectorAll('section[id],#stats').forEach(s=>ioNav.observe(s));
 
-/* ───────── CURSOR HALO ───────── */
+/* ────────── CURSOR HALO ────────── */
 const halo=document.getElementById('cursorHalo');
 if(matchMedia('(pointer:fine)').matches && !prefersReduced){
   halo.style.display='block';
@@ -767,7 +770,7 @@ if(matchMedia('(pointer:fine)').matches && !prefersReduced){
   (function loop(){cx+=(hx-cx)*.18;cy+=(hy-cy)*.18;halo.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
 }
 
-/* ───────── CARD GLOW + 3D TILT ───────── */
+/* ────────── CARD GLOW + 3D TILT ────────── */
 document.querySelectorAll('.svc-card').forEach(c=>{
   c.addEventListener('mousemove',e=>{
     const r=c.getBoundingClientRect();
@@ -778,9 +781,9 @@ document.querySelectorAll('.svc-card').forEach(c=>{
   c.addEventListener('mouseleave',()=>{c.style.transform='';});
 });
 
-/* ─────────────────────────────────────────
+/* ──────────────────────────────────────────
    HERO ORBITAL SYSTEM (canvas)
-───────────────────────────────────────── */
+────────────────────────────────────────── */
 (function(){
   const canvas=document.getElementById('orbitCanvas');
   const ctx=canvas.getContext('2d');
@@ -924,12 +927,12 @@ document.querySelectorAll('.svc-card').forEach(c=>{
   requestAnimationFrame(draw);
 })();
 
-/* ─────────────────────────────────────────
+/* ──────────────────────────────────────────
    WARP / HYPERSPACE TRANSITION (post-hero)
    Activates as the hero exits & stats enter.
    Stars streak into light-speed lines whose
    length tracks scroll position + velocity.
-───────────────────────────────────────── */
+────────────────────────────────────────── */
 (function(){
   if(prefersReduced) return;
   const canvas=document.getElementById('warpCanvas');
@@ -1031,12 +1034,12 @@ document.querySelectorAll('.svc-card').forEach(c=>{
   onScroll();
 })();
 
-/* ─────────────────────────────────────────
+/* ──────────────────────────────────────────
    GLOBAL DRIFTING STARFIELD
    Shown across all sections; hidden over the
    hero (it has its own orbital canvas) and
    muted during the warp transition.
-───────────────────────────────────────── */
+────────────────────────────────────────── */
 (function(){
   const canvas=document.getElementById('bgStars');
   const ctx=canvas.getContext('2d');
@@ -1107,12 +1110,13 @@ document.querySelectorAll('.svc-card').forEach(c=>{
   requestAnimationFrame(frame);
 })();
 
-/* ───────── FORM ───────── */
+/* ────────── FORM ────────── */
 document.getElementById('sendBtn').addEventListener('click',async()=>{
-  const n=document.getElementById('fName'),m=document.getElementById('fMail'),c=document.getElementById('fComp'),s=document.getElementById('fService'),msg=document.getElementById('fMsg'),btn=document.getElementById('sendBtn');
+  const n=document.getElementById('fName'),m=document.getElementById('fMail'),c=document.getElementById('fComp'),s=document.getElementById('fService'),msg=document.getElementById('fMsg'),btn=document.getElementById('sendBtn'),err=document.getElementById('formError');
   let ok=true;
   [n,m].forEach(f=>{const bad=f===m?(!f.value.trim()||!/.+@.+\..+/.test(f.value)):!f.value.trim();f.classList.toggle('err',bad);if(bad)ok=false;setTimeout(()=>f.classList.remove('err'),1800);});
   if(!ok)return;
+  err.style.display='none';
   const showSuccess=()=>{document.getElementById('formBody').style.display='none';document.getElementById('formSuccess').style.display='block';};
   if(WEB3FORMS_KEY && !WEB3FORMS_KEY.startsWith('PEGA')){
     btn.disabled=true;btn.textContent=T[lang].sending;
@@ -1130,13 +1134,16 @@ document.getElementById('sendBtn').addEventListener('click',async()=>{
       const j=await r.json(); if(j.success){showSuccess();return;}
     }catch(e){}
     btn.disabled=false;btn.textContent=T[lang].sendBtn;
+    err.innerHTML=T[lang].formErr;
+    err.style.display='block';
+    return;
   }
+  /* Sin clave de Web3Forms configurada (solo entorno local): abrir el cliente de correo */
   const body=encodeURIComponent(`${T[lang].fName}: ${n.value}\n${T[lang].fComp}: ${c.value}\nEmail: ${m.value}\n${T[lang].fService}: ${s.value}\n\n${msg.value}`);
-  showSuccess();
   location.href=`mailto:Interemprex@gmail.com?subject=${encodeURIComponent('[INTEREMPREX] '+n.value)}&body=${body}`;
 });
 
-/* ───────── MODALS ───────── */
+/* ────────── MODALS ────────── */
 const modalBg=document.getElementById('modalBg');
 function openModal(tab){modalBg.classList.add('open');document.body.style.overflow='hidden';document.querySelectorAll('.modal-tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));document.querySelectorAll('.modal-content').forEach(c=>c.classList.toggle('active',c.id==='tab-'+tab));modalBg.scrollTop=0;}
 document.querySelectorAll('.policy-link').forEach(l=>l.addEventListener('click',()=>openModal(l.dataset.modal)));
