@@ -243,6 +243,12 @@ h2.sec-h2{font-family:var(--display);font-weight:700;font-size:clamp(2rem,4.5vw,
 .field select option{background:#080D18;color:var(--ink)}
 .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(56,189,248,.14),0 0 24px -8px rgba(56,189,248,.5)}
 .field input.err,.field textarea.err{border-color:#f87171}
+.field-error{color:#fda4a4;font-size:.85rem;line-height:1.5;margin-top:6px}
+#formFields{border:0;min-width:0}
+#formFields:disabled{opacity:.65}
+.form-panel.reveal{opacity:1;transform:none;filter:none}
+.form-fallback,#formStatus{font-size:.9rem;color:var(--ink2);margin-top:14px}
+.form-fallback a{text-decoration:underline;color:var(--blue)}
 .form-panel .btn-pri{width:100%;justify-content:center;margin-top:6px;font-size:15px;padding:14px}
 #formSuccess{display:none;text-align:center;padding:50px 10px}
 #formSuccess .check{width:58px;height:58px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3)}
@@ -567,12 +573,13 @@ footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:cla
       </div>
       <div class="form-panel reveal d2">
         <div class="form-head"><h3 data-i18n="fmH">Envíanos un mensaje</h3><p data-i18n="fmP">Respondemos en menos de 24 horas</p></div>
-        <div id="formBody">
-          <div class="field"><label for="fName" data-i18n="fName">Nombre</label><input id="fName" type="text" autocomplete="name"></div>
-          <div class="field"><label for="fComp" data-i18n="fComp">Empresa</label><input id="fComp" type="text" autocomplete="organization"></div>
-          <div class="field"><label for="fMail" data-i18n="fMail">Email</label><input id="fMail" type="email" autocomplete="email"></div>
+        <form id="formBody" method="post" novalidate>
+          <fieldset id="formFields" disabled>
+          <div class="field"><label for="fName" data-i18n="fName">Nombre</label><input id="fName" name="name" type="text" autocomplete="name" required aria-describedby="fNameError"><p class="field-error" id="fNameError" hidden></p></div>
+          <div class="field"><label for="fComp" data-i18n="fComp">Empresa</label><input id="fComp" name="company" type="text" autocomplete="organization"></div>
+          <div class="field"><label for="fMail" data-i18n="fMail">Email</label><input id="fMail" name="email" type="email" autocomplete="email" required aria-describedby="fMailError"><p class="field-error" id="fMailError" hidden></p></div>
           <div class="field"><label for="fService" data-i18n="fService">Servicio de interés</label>
-            <select id="fService">
+            <select id="fService" name="service">
               <option value="" data-i18n="fSvcOpt0">— Selecciona un servicio —</option>
               <option value="web" data-i18n="fSvcOpt1">Web &amp; Ecommerce</option>
               <option value="auto" data-i18n="fSvcOpt2">Automatización de procesos</option>
@@ -581,15 +588,19 @@ footer{border-top:1px solid var(--line2);background:rgba(4,7,15,.95);padding:cla
               <option value="all" data-i18n="fSvcOpt5">Varios / No sé aún</option>
             </select>
           </div>
-          <div class="field"><label for="fMsg" data-i18n="fMsg">Tu reto operativo</label><textarea id="fMsg" placeholder="Cuéntanos qué mejorar..."></textarea></div>
-          <button class="btn btn-pri" id="sendBtn" type="button" data-i18n="sendBtn">Enviar mensaje</button>
+          <div class="field"><label for="fMsg" data-i18n="fMsg">Tu reto operativo</label><textarea id="fMsg" name="message" placeholder="Cuéntanos qué mejorar..."></textarea></div>
+          <button class="btn btn-pri" id="sendBtn" type="submit" data-i18n="sendBtn">Enviar mensaje</button>
+          </fieldset>
           <p id="formError" role="alert"></p>
-        </div>
-        <div id="formSuccess">
+        </form>
+        <p id="formStatus" role="status" aria-live="polite"></p>
+        <div id="formSuccess" role="status" aria-live="polite">
           <div class="check"><svg stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
-          <h3 data-i18n="sentH">¡Mensaje recibido!</h3>
+          <h3 id="formSuccessTitle" tabindex="-1" data-i18n="sentH">¡Mensaje recibido!</h3>
           <p data-i18n="sentP">Gracias por contactarnos. Te respondemos en menos de 24 horas.</p>
         </div>
+        <p class="form-fallback"><span data-i18n="formFallback">También puedes escribirnos a</span> <a href="mailto:Interemprex@gmail.com">Interemprex@gmail.com</a>.</p>
+        <noscript><p class="form-fallback">Activa JavaScript para usar el formulario o escríbenos al correo anterior.</p></noscript>
       </div>
     </div>
   </div>
@@ -728,6 +739,7 @@ function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(d[k]!==undefined) el.innerHTML=d[k]; });
   document.getElementById('langToggle').textContent=lang==='es'?'EN':'ES';
   var __mml=document.getElementById('mmLang'); if(__mml) __mml.textContent=lang==='es'?'EN':'ES';
+  document.dispatchEvent(new Event('languagechange'));
 }
 function toggleLang(){lang=lang==='es'?'en':'es';applyLang();buildTitle();}
 document.getElementById('langToggle').addEventListener('click',toggleLang);
@@ -1111,37 +1123,76 @@ document.querySelectorAll('.svc-card').forEach(c=>{
 })();
 
 /* ────────── FORM ────────── */
-document.getElementById('sendBtn').addEventListener('click',async()=>{
-  const n=document.getElementById('fName'),m=document.getElementById('fMail'),c=document.getElementById('fComp'),s=document.getElementById('fService'),msg=document.getElementById('fMsg'),btn=document.getElementById('sendBtn'),err=document.getElementById('formError');
-  let ok=true;
-  [n,m].forEach(f=>{const bad=f===m?(!f.value.trim()||!/.+@.+\..+/.test(f.value)):!f.value.trim();f.classList.toggle('err',bad);if(bad)ok=false;setTimeout(()=>f.classList.remove('err'),1800);});
-  if(!ok)return;
-  err.style.display='none';
-  const showSuccess=()=>{document.getElementById('formBody').style.display='none';document.getElementById('formSuccess').style.display='block';};
-  if(WEB3FORMS_KEY && !WEB3FORMS_KEY.startsWith('PEGA')){
-    btn.disabled=true;btn.textContent=T[lang].sending;
-    try{
-      const fd=new FormData();
-      fd.append('access_key',WEB3FORMS_KEY);
-      fd.append('subject',`[INTEREMPREX web] ${n.value} — ${s.value||'Consulta'}`);
-      fd.append('from_name','Web INTEREMPREX');
-      fd.append('name',n.value);
-      fd.append('company',c.value);
-      fd.append('email',m.value);
-      fd.append('service',s.value);
-      fd.append('message',msg.value);
-      const r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Accept':'application/json'},body:fd});
-      const j=await r.json(); if(j.success){showSuccess();return;}
-    }catch(e){}
-    btn.disabled=false;btn.textContent=T[lang].sendBtn;
-    err.innerHTML=T[lang].formErr;
-    err.style.display='block';
-    return;
+(()=>{
+  const form=document.getElementById('formBody'),fields=document.getElementById('formFields');
+  const n=document.getElementById('fName'),m=document.getElementById('fMail'),c=document.getElementById('fComp'),s=document.getElementById('fService'),msg=document.getElementById('fMsg');
+  const btn=document.getElementById('sendBtn'),err=document.getElementById('formError'),status=document.getElementById('formStatus');
+  const copy={
+    es:{name:'Escribe tu nombre.',email:'Escribe un email válido, por ejemplo nombre@empresa.com.',unknown:'No hemos podido confirmar el envío. Tus datos se conservan. Para evitar duplicados, espera unos minutos antes de reenviarlo o escríbenos a <a href="mailto:Interemprex@gmail.com">Interemprex@gmail.com</a>.',fallback:'También puedes escribirnos a'},
+    en:{name:'Enter your name.',email:'Enter a valid email, for example name@company.com.',unknown:'We could not confirm delivery. Your entries have been kept. To avoid duplicates, wait a few minutes before resending or email us at <a href="mailto:Interemprex@gmail.com">Interemprex@gmail.com</a>.',fallback:'You can also email us at'}
+  };
+  let inFlight=false,errorState='';
+  function validateField(field){
+    const bad=field===n?!field.value.trim():!field.validity.valid;
+    const error=document.getElementById(field.id+'Error');
+    field.classList.toggle('err',bad);
+    field.setAttribute('aria-invalid',String(bad));
+    error.textContent=bad?copy[lang][field===n?'name':'email']:'';
+    error.hidden=!bad;
+    return !bad;
   }
-  /* Sin clave de Web3Forms configurada (solo entorno local): abrir el cliente de correo */
-  const body=encodeURIComponent(`${T[lang].fName}: ${n.value}\n${T[lang].fComp}: ${c.value}\nEmail: ${m.value}\n${T[lang].fService}: ${s.value}\n\n${msg.value}`);
-  location.href=`mailto:Interemprex@gmail.com?subject=${encodeURIComponent('[INTEREMPREX] '+n.value)}&body=${body}`;
-});
+  function renderState(){
+    btn.textContent=inFlight?T[lang].sending:T[lang].sendBtn;
+    status.textContent=inFlight?T[lang].sending:'';
+    err.innerHTML=errorState==='unknown'?copy[lang].unknown:errorState==='rejected'?T[lang].formErr:'';
+    err.style.display=errorState?'block':'none';
+    document.querySelector('[data-i18n="formFallback"]').textContent=copy[lang].fallback;
+    [n,m].filter(field=>field.getAttribute('aria-invalid')==='true').forEach(validateField);
+  }
+  [n,m].forEach(field=>field.addEventListener('input',()=>{
+    if(field.getAttribute('aria-invalid')==='true')validateField(field);
+  }));
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();
+    if(inFlight||form.hidden)return;
+    n.value=n.value.trim();m.value=m.value.trim();
+    const invalid=[n,m].filter(field=>!validateField(field));
+    if(invalid.length){invalid[0].focus();return;}
+    errorState='';renderState();
+    if(!WEB3FORMS_KEY||WEB3FORMS_KEY.startsWith('PEGA')){
+      const body=encodeURIComponent(`${T[lang].fName}: ${n.value}\n${T[lang].fComp}: ${c.value}\nEmail: ${m.value}\n${T[lang].fService}: ${s.value}\n\n${msg.value}`);
+      location.href=`mailto:Interemprex@gmail.com?subject=${encodeURIComponent('[INTEREMPREX] '+n.value)}&body=${body}`;
+      return;
+    }
+    const fd=new FormData(form);
+    fd.append('access_key',WEB3FORMS_KEY);
+    fd.append('subject',`[INTEREMPREX web] ${n.value} — ${s.value||'Consulta'}`);
+    fd.append('from_name','Web INTEREMPREX');
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),15000);
+    inFlight=true;fields.disabled=true;form.setAttribute('aria-busy','true');renderState();
+    try{
+      const response=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Accept':'application/json'},body:fd,signal:controller.signal});
+      const result=await response.json();
+      if(response.ok&&result.success===true){
+        form.hidden=true;
+        document.getElementById('formSuccess').style.display='block';
+        document.getElementById('formSuccessTitle').focus();
+      }else{
+        errorState=result.success===false?'rejected':'unknown';
+      }
+    }catch(e){
+      errorState='unknown';
+    }finally{
+      clearTimeout(timeout);
+      inFlight=false;fields.disabled=false;form.removeAttribute('aria-busy');renderState();
+    }
+  });
+  document.addEventListener('languagechange',renderState);
+  renderState();
+  // Only enable native submission once its handler is installed.
+  fields.disabled=false;
+})();
 
 /* ────────── MODALS ────────── */
 const modalBg=document.getElementById('modalBg');
