@@ -1133,7 +1133,7 @@ document.querySelectorAll('.svc-card').forEach(c=>{
   };
   let inFlight=false,errorState='';
   function validateField(field){
-    const bad=field===n?!field.value.trim():!field.validity.valid;
+    const bad=field===n?!field.value.trim():(!field.validity.valid||!/@[^@\s]+\.[^@\s]+$/.test(field.value));
     const error=document.getElementById(field.id+'Error');
     field.classList.toggle('err',bad);
     field.setAttribute('aria-invalid',String(bad));
@@ -1186,6 +1186,8 @@ document.querySelectorAll('.svc-card').forEach(c=>{
     }finally{
       clearTimeout(timeout);
       inFlight=false;fields.disabled=false;form.removeAttribute('aria-busy');renderState();
+      // Disabling the fieldset drops focus to <body>; return it to the retry control.
+      if(errorState&&document.activeElement===document.body)btn.focus();
     }
   });
   document.addEventListener('languagechange',renderState);
