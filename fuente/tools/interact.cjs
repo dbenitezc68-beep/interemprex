@@ -110,6 +110,8 @@ const check = (name, ok, extra = '') => {
   }
   await shot('i01-planeta');
   check('Cursor sobre un planeta muestra su ficha', planetHover, await page.textContent('#orbitTip .ot-t'));
+  const ptr = await page.evaluate(() => ({ custom: !!document.querySelector('.cursor'), hero: getComputedStyle(document.getElementById('despegue')).cursor, body: getComputedStyle(document.body).cursor }));
+  check('Puntero del sistema (mano sobre el planeta)', !ptr.custom && ptr.hero === 'pointer' && ptr.body === 'auto', `portada ${ptr.hero} · página ${ptr.body}`);
   if (planetHover) {
     await page.mouse.down();
     await page.mouse.up();
@@ -260,6 +262,30 @@ const check = (name, ok, extra = '') => {
   await sleep(600);
   const rail = await page.textContent('#railT');
   check('Carril en órbita al llegar al pie', T.orbit.test(rail), rail);
+  // Lo que no se ve no trabaja: las animaciones en bucle de la portada están en pausa
+  const paused = await page.evaluate(() => {
+    const hero = document.getElementById('despegue');
+    const anims = document.getAnimations().filter((a) => a.effect && a.effect.target && hero.contains(a.effect.target));
+    return { off: hero.classList.contains('off'), n: anims.length, running: anims.filter((a) => a.playState === 'running').length };
+  });
+  check('Animaciones fuera de pantalla en pausa', paused.off && paused.n > 0 && paused.running === 0, `${paused.n} animaciones, ${paused.running} en marcha`);
+  // Logotipo del pie: tras la ola de llegada se queda quieto; bajo el puntero las letras cercanas ganan peso
+  const weights = () => page.evaluate(() => [...document.querySelectorAll('#footWord .ch')].map((l) => Number(l.style.getPropertyValue('--w') || 500)));
+  await sleep(2500);
+  const w1 = await weights();
+  await sleep(700);
+  const w2 = await weights();
+  const wb = await (await page.$('#footWord')).boundingBox();
+  await page.mouse.move(wb.x + wb.width * 0.05, wb.y + wb.height / 2);
+  await page.mouse.move(wb.x + wb.width * 0.06, wb.y + wb.height / 2, { steps: 3 });
+  await sleep(1200);
+  const w3 = await weights();
+  await page.mouse.move(wb.x + wb.width / 2, wb.y - 300);
+  await page.mouse.move(wb.x + wb.width / 2, 5, { steps: 4 });
+  await page.waitForFunction(() => [...document.querySelectorAll('#footWord .ch')].every((l) => Number(l.style.getPropertyValue('--w') || 500) === 500), null, { timeout: 4000 }).catch(() => {});
+  const w4 = await weights();
+  const last = w3.length - 1;
+  check('Logotipo del pie: quieto en reposo y responde al puntero', w1.length === 11 && w1.every((v) => v === 500) && w2.join() === w1.join() && w3[0] > 600 && w3[last] < 400 && w4.every((v) => v === 500), `reposo ${w1[0]} · bajo el puntero ${w3[0]}…${w3[last]} · al salir ${w4.join(',')}`);
   await page.click('.foot-col .legal-link[data-legal="cookies"]');
   await sleep(500);
   let lg = await legalState();

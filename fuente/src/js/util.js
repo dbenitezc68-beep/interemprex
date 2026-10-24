@@ -83,6 +83,24 @@ export function fmtTime(sec) {
   return { h, m, s: r, hh: String(h).padStart(2, '0'), mm: String(m).padStart(2, '0'), ss: String(r).padStart(2, '0') };
 }
 
+// Muestras de un trazado SVG para no medirlo en cada fotograma: devuelve (t de 0 a 1) → [x, y]
+export function pathSampler(path, n = 256) {
+  const L = path.getTotalLength();
+  const xs = new Float32Array(n + 1);
+  const ys = new Float32Array(n + 1);
+  for (let i = 0; i <= n; i++) {
+    const pt = path.getPointAtLength((L * i) / n);
+    xs[i] = pt.x;
+    ys[i] = pt.y;
+  }
+  return (t) => {
+    const f = clamp(t, 0, 1) * n;
+    const i = Math.min(n - 1, f | 0);
+    const k = f - i;
+    return [xs[i] + (xs[i + 1] - xs[i]) * k, ys[i] + (ys[i + 1] - ys[i]) * k];
+  };
+}
+
 export const ns = 'http://www.w3.org/2000/svg';
 export function svgEl(tag, attrs = {}, parent) {
   const el = document.createElementNS(ns, tag);

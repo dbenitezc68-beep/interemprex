@@ -1,4 +1,4 @@
-import { $, clamp, lerp, onVisible } from './util.js';
+import { $, clamp, onVisible } from './util.js';
 import { LAND } from './globe-data.js';
 
 const RAD = Math.PI / 180;
@@ -6,6 +6,10 @@ const HOME = [39.2, -6.2];
 // Rutas de ejemplo, sin nombres: solo ilustran pedidos y proveedores fuera de España
 const DEST = [[51.9, 4.5], [40.7, -74], [31.2, 121.5], [-23.5, -46.6], [33.6, -7.6], [25.2, 55.3], [52.5, 13.4], [19.4, -99.1]];
 
+// La tierra se pinta en 16 niveles de brillo (un trazado por nivel) y los cometas con estilos ya preparados
+const LEVELS = 16;
+const LAND_STYLE = Array.from({ length: LEVELS }, (_, k) => `rgba(150,220,235,${(0.18 + ((k + 0.5) / LEVELS) * 0.62).toFixed(2)})`);
+const COMET_STYLE = Array.from({ length: 11 }, (_, j) => `rgba(125,240,225,${((1 - j / 11) * 0.95).toFixed(2)})`);
 const vec = ([lat, lon]) => [Math.cos(lat * RAD) * Math.sin(lon * RAD), Math.sin(lat * RAD), Math.cos(lat * RAD) * Math.cos(lon * RAD)];
 
 // X12 · Globo de puntos: tierra en puntos, Extremadura encendida y rutas que salen de ella; se gira arrastrando
@@ -20,6 +24,14 @@ export function initGlobe({ motion }) {
   const pts = [];
   for (let i = 0; i < ints.length; i += 2) pts.push(vec([ints[i] / 100, ints[i + 1] / 100]));
   const home = vec(HOME);
+  // Memoria de trabajo de cada fotograma (posición, tamaño y nivel de cada punto visible, agrupados por nivel)
+  const N = pts.length;
+  const px = new Float32Array(N);
+  const py = new Float32Array(N);
+  const ps = new Float32Array(N);
+  const lvOf = new Uint8Array(N);
+  const order = new Uint16Array(N);
+  const count = new Uint16Array(LEVELS + 1);
   const routes = DEST.map((d, i) => {
     const b = vec(d);
     const dot = clamp(home[0] * b[0] + home[1] * b[1] + home[2] * b[2], -1, 1);
@@ -37,6 +49,8 @@ export function initGlobe({ motion }) {
   });
 
   let W = 0, H = 0, dpr = 1;
+  let sphere = null;
+  let rim = null;
   const st = { lon: 4, lat: 26, vl: 0, dragging: false, x: 0, y: 0, t: 0 };
   const resize = () => {
     dpr = Math.min(1.75, window.devicePixelRatio || 1);
@@ -44,65 +58,95 @@ export function initGlobe({ motion }) {
     H = canvas.clientHeight;
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
+    // Degradados de la esfera y la atmósfera: se preparan una vez por tamaño
+    const R = Math.min(W, H) * 0.42;
+    const cx = W / 2;
+    const cy = H * 0.47;
+    sphere = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.35, R * 0.1, cx, cy, R);
+    sphere.addColorStop(0, '#0d2340');
+    sphere.addColorStop(1, '#050b18');
+    rim = ctx.createRadialGradient(cx, cy, R * 0.92, cx, cy, R * 1.14);
+    rim.addColorStop(0, 'rgba(45,212,191,0)');
+    rim.addColorStop(0.45, 'rgba(45,212,191,0.22)');
+    rim.addColorStop(1, 'rgba(45,212,191,0)');
   };
-  // giro: primero longitud (eje Y), luego inclinación (eje X)
+  // giro: primero longitud (eje Y), luego inclinación (eje X); se escribe en «out» para no crear listas
+  const out = [0, 0, 0];
+  let cl = 1, sl = 0, ct = 1, stt = 0;
   const rot = (v) => {
-    const cl = Math.cos(st.lon * RAD), sl = Math.sin(st.lon * RAD);
     const x = v[0] * cl - v[2] * sl;
     const z0 = v[0] * sl + v[2] * cl;
-    const ct = Math.cos(st.lat * RAD), stt = Math.sin(st.lat * RAD);
-    const y = v[1] * ct - z0 * stt;
-    const z = v[1] * stt + z0 * ct;
-    return [x, y, z];
+    out[0] = x;
+    out[1] = v[1] * ct - z0 * stt;
+    out[2] = v[1] * stt + z0 * ct;
+    return out;
   };
   const draw = () => {
+    cl = Math.cos(st.lon * RAD); sl = Math.sin(st.lon * RAD);
+    ct = Math.cos(st.lat * RAD); stt = Math.sin(st.lat * RAD);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
     const R = Math.min(W, H) * 0.42;
     const cx = W / 2;
     const cy = H * 0.47;
     // esfera y atmósfera
-    const g = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.35, R * 0.1, cx, cy, R);
-    g.addColorStop(0, '#0d2340');
-    g.addColorStop(1, '#050b18');
-    ctx.fillStyle = g;
+    ctx.fillStyle = sphere;
     ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
-    const rim = ctx.createRadialGradient(cx, cy, R * 0.92, cx, cy, R * 1.14);
-    rim.addColorStop(0, 'rgba(45,212,191,0)');
-    rim.addColorStop(0.45, 'rgba(45,212,191,0.22)');
-    rim.addColorStop(1, 'rgba(45,212,191,0)');
     ctx.fillStyle = rim;
     ctx.beginPath(); ctx.arc(cx, cy, R * 1.14, 0, Math.PI * 2); ctx.fill();
-    // tierra en puntos
-    for (let i = 0; i < pts.length; i++) {
-      const [x, y, z] = rot(pts[i]);
+    // tierra en puntos: se proyectan una vez y se pintan con un trazado por nivel de brillo
+    count.fill(0);
+    let n = 0;
+    for (let i = 0; i < N; i++) {
+      rot(pts[i]);
+      const z = out[2];
       if (z <= 0) continue;
-      const s = 0.9 + z * 1.3;
-      ctx.fillStyle = `rgba(150,220,235,${(0.18 + z * 0.62).toFixed(2)})`;
-      ctx.fillRect(cx + x * R - s / 2, cy - y * R - s / 2, s, s);
+      const sz = 0.9 + z * 1.3;
+      px[n] = cx + out[0] * R - sz / 2;
+      py[n] = cy - out[1] * R - sz / 2;
+      ps[n] = sz;
+      const lv = Math.min(LEVELS - 1, (z * LEVELS) | 0);
+      lvOf[n] = lv;
+      count[lv + 1]++;
+      n++;
+    }
+    for (let k = 1; k <= LEVELS; k++) count[k] += count[k - 1];
+    const start = count.slice(0, LEVELS);
+    for (let i = 0; i < n; i++) order[start[lvOf[i]]++] = i;
+    for (let lv = 0, j = 0; lv < LEVELS; lv++) {
+      const end = count[lv + 1];
+      if (j === end) continue;
+      ctx.fillStyle = LAND_STYLE[lv];
+      ctx.beginPath();
+      for (; j < end; j++) {
+        const i = order[j];
+        ctx.rect(px[i], py[i], ps[i], ps[i]);
+      }
+      ctx.fill();
     }
     // rutas
+    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = 'rgba(56,189,248,0.28)';
     routes.forEach((r) => {
       const prog = (st.t * 0.22 + r.off) % 1;
-      ctx.lineWidth = 1.2;
       ctx.beginPath();
       let pen = false;
-      r.path.forEach((v) => {
-        const [x, y, z] = rot(v);
-        if (z < -0.05) { pen = false; return; }
+      for (let k = 0; k < r.path.length; k++) {
+        const [x, y, z] = rot(r.path[k]);
+        if (z < -0.05) { pen = false; continue; }
         const px = cx + x * R, py = cy - y * R;
         if (pen) ctx.lineTo(px, py); else ctx.moveTo(px, py);
         pen = true;
-      });
-      ctx.strokeStyle = 'rgba(56,189,248,0.28)';
+      }
       ctx.stroke();
       // cometa
       const head = Math.floor(prog * (r.path.length - 1));
       for (let k = Math.max(0, head - 10); k <= head; k++) {
         const [x, y, z] = rot(r.path[k]);
         if (z < -0.05) continue;
-        const a = (1 - (head - k) / 11) * 0.95;
-        ctx.fillStyle = `rgba(125,240,225,${a.toFixed(2)})`;
+        const j = head - k;
+        const a = (1 - j / 11) * 0.95;
+        ctx.fillStyle = COMET_STYLE[j];
         ctx.beginPath(); ctx.arc(cx + x * R, cy - y * R, 1.2 + a * 1.6, 0, Math.PI * 2); ctx.fill();
       }
       const [ex, ey, ez] = rot(r.end);
@@ -149,6 +193,10 @@ export function initGlobe({ motion }) {
   if (!motion) { st.t = 0.3; draw(); return; }
   let visible = false;
   onVisible(box, (v) => { visible = v; });
+  // El tamaño se vigila con ResizeObserver en lugar de medir el lienzo en cada fotograma
+  const ro = 'ResizeObserver' in window;
+  let stale = false;
+  if (ro) new ResizeObserver(() => { stale = true; }).observe(canvas);
   let last = performance.now();
   const tick = (now) => {
     requestAnimationFrame(tick);
@@ -157,10 +205,12 @@ export function initGlobe({ motion }) {
     if (!visible) return;
     st.t += dt;
     if (!st.dragging) {
-      st.vl = lerp(st.vl, 0, 0.05);
-      st.lon += st.vl + dt * 9;
+      // La inercia del arrastre se frena por tiempo, no por fotograma
+      const r = dt * 60;
+      st.vl *= Math.pow(0.95, r);
+      st.lon += st.vl * r + dt * 9;
     }
-    if (canvas.clientWidth !== W) resize();
+    if (ro ? stale : canvas.clientWidth !== W) { stale = false; resize(); }
     draw();
   };
   requestAnimationFrame(tick);

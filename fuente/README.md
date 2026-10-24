@@ -51,6 +51,17 @@ node perf.cjs es                  # fotogramas al recorrer cada sección
 
 `npm test` ejecuta la carga rápida y las pruebas de interacción en los dos idiomas. Los resultados y capturas quedan en `fuente/out/` (no se sube al repositorio).
 
+## Fluidez
+
+Reglas que mantienen la web fluida (cada una se midió con `perf.cjs` y con las herramientas de rendimiento de Chrome):
+
+- Lo que no se ve no trabaja: cada sección, cada parada del carril de servicios y el pie reciben la clase `.off` al salir de pantalla, y sus animaciones CSS en bucle quedan en pausa. Los lienzos (estrellas, globo, partículas) tampoco dibujan si no están a la vista o si nada ha cambiado.
+- Animar solo `transform` y `opacity`. Nada de `top`, `width`, `clip-path` con variables ni pesos de fuente en bucle.
+- No animar elementos SVG, tampoco el `<svg>` raíz: Chrome repinta la página entera en cada fotograma. Se envuelve el SVG en un `div` (o se dibuja la pieza móvil en HTML) y se anima eso.
+- Sin `backdrop-filter`: fondos algo más opacos en su lugar.
+- En los lienzos: colores precalculados y agrupados (nada de cadenas `rgba()` por punto) y trazados SVG muestreados una sola vez con `pathSampler` (`src/js/util.js`).
+- Los suavizados que siguen al puntero dependen del tiempo, no de los fotogramas, para que un móvil lento no vaya a cámara lenta.
+
 ## Formulario
 
 Envía a Web3Forms con la misma clave y los mismos campos que la web anterior (`name`, `company`, `email`, `service`, `message`), más `language` (ES/EN). El asunto es `[INTEREMPREX web] Nombre — Servicio` (o `[INTEREMPREX web · EN] …` desde la versión inglesa). El cohete solo despega cuando Web3Forms confirma el envío; si falla, se conservan los datos y se ofrecen el email y WhatsApp. Sin JavaScript, el formulario se envía igualmente de forma nativa.

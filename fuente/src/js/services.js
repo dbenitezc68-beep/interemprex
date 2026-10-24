@@ -1,4 +1,4 @@
-import { $, $$, clamp, lerp, onVisible, svgEl } from './util.js';
+import { $, $$, clamp, onVisible, svgEl, pathSampler } from './util.js';
 import { sound } from './sound.js';
 import { S } from './i18n.js';
 
@@ -116,6 +116,9 @@ function initFlow({ motion }) {
   const redo = $('#feR', svg);
   const lens = edges.map((e) => e.getTotalLength());
   const redoLen = redo.getTotalLength();
+  // Posiciones de los tramos ya muestreadas (medir el trazado en cada fotograma es caro)
+  const at = edges.map((e) => pathSampler(e, 120));
+  const atRedo = pathSampler(redo, 160);
   const NODES = [[40, 80], [230, 80], [410, 80], [410, 230], [230, 230], [60, 230]];
   const WORDS = S.services.words;
   let mode = 'manual';
@@ -202,9 +205,9 @@ function initFlow({ motion }) {
           continue;
         }
       }
-      const pt = p.redo ? redo.getPointAtLength(p.t * redoLen) : edges[p.edge].getPointAtLength(p.t * lens[p.edge]);
-      p.el.setAttribute('cx', pt.x.toFixed(1));
-      p.el.setAttribute('cy', pt.y.toFixed(1));
+      const [x, y] = p.redo ? atRedo(p.t) : at[p.edge](p.t);
+      p.el.setAttribute('cx', x.toFixed(1));
+      p.el.setAttribute('cy', y.toFixed(1));
       p.el.classList.toggle('err', p.err && !fast);
     }
     if (fast) hands.forEach((h) => { h.style.opacity = '0'; });
@@ -222,6 +225,7 @@ function initScope({ motion }) {
   const sigEl = $('#scopeSignal');
   let W = 0, H = 0, dpr = 1;
   let k = 0;
+  let shownPct = -1;
   let user = false;
   let visible = false;
   let t = 0;
@@ -236,6 +240,9 @@ function initScope({ motion }) {
   const setK = (v) => {
     k = clamp(v, 0, 1);
     const pct = Math.round(k * 100);
+    // El mando y las cifras solo se tocan cuando cambia el porcentaje
+    if (pct === shownPct) return;
+    shownPct = pct;
     knob.value = String(pct);
     knob.style.setProperty('--fill', pct + '%');
     knob.setAttribute('aria-valuetext', S.services.knob(100 - pct, pct));
@@ -246,11 +253,13 @@ function initScope({ motion }) {
   const draw = () => {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
-    // rejilla
+    // rejilla (un solo trazado)
     ctx.strokeStyle = 'rgba(167,139,250,0.08)';
     ctx.lineWidth = 1;
-    for (let x = 0; x <= W; x += W / 10) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-    for (let y = 0; y <= H; y += H / 6) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+    ctx.beginPath();
+    for (let x = 0; x <= W; x += W / 10) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
+    for (let y = 0; y <= H; y += H / 6) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
+    ctx.stroke();
     const mid = H * 0.56;
     const amp = H * 0.22;
     const pts = [];

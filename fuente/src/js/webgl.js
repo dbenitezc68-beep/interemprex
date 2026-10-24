@@ -374,10 +374,15 @@ export class GL {
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     this.envRot = 0;
     this.aspect = 1;
+    // El tamaño del lienzo se guarda al cambiar (sin leer la maqueta en cada fotograma)
+    this.box = null;
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(([e]) => { this.box = { width: e.contentRect.width, height: e.contentRect.height }; }).observe(canvas);
+    }
     this.resize();
   }
   resize() {
-    const r = this.canvas.getBoundingClientRect();
+    const r = this.box || this.canvas.getBoundingClientRect();
     const dpr = Math.min(window.devicePixelRatio || 1, this.dprMax);
     const w = Math.max(2, Math.round(r.width * dpr));
     const h = Math.max(2, Math.round(r.height * dpr));

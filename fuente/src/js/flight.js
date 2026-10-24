@@ -1,4 +1,4 @@
-import { $, $$, clamp, svgEl } from './util.js';
+import { $, $$, clamp, svgEl, pathSampler } from './util.js';
 import { sound } from './sound.js';
 import { S } from './i18n.js';
 
@@ -40,6 +40,7 @@ export function initFlight({ gsap, ScrollTrigger, motion }) {
   let path = null;
   let L = 0;
   let geo = null;
+  let at = null;
   let p = motion ? 0 : 1;
 
   // Anotaciones del plano (solo en la versión ancha)
@@ -64,6 +65,7 @@ export function initFlight({ gsap, ScrollTrigger, motion }) {
     svg = isTall ? tall : wide;
     path = $('.fp-path', svg);
     L = path.getTotalLength();
+    at = pathSampler(path, 600);
     path.style.strokeDasharray = `${L} ${L}`;
     const vb = svg.viewBox.baseVal;
     const sw = stage.clientWidth;
@@ -98,12 +100,12 @@ export function initFlight({ gsap, ScrollTrigger, motion }) {
   const render = () => {
     if (!path) return;
     path.style.strokeDashoffset = String(L * (1 - p));
-    const a = path.getPointAtLength(L * clamp(p, 0, 1));
-    const b = path.getPointAtLength(L * clamp(p + 0.004, 0, 1));
-    const c = path.getPointAtLength(L * clamp(p - 0.004, 0, 1));
-    const ang = (Math.atan2(b.y - c.y, b.x - c.x) * 180) / Math.PI + 90;
-    const x = geo.ox + a.x * geo.sc;
-    const y = geo.oy + a.y * geo.sc;
+    const a = at(p);
+    const b = at(p + 0.004);
+    const c = at(p - 0.004);
+    const ang = (Math.atan2(b[1] - c[1], b[0] - c[0]) * 180) / Math.PI + 90;
+    const x = geo.ox + a[0] * geo.sc;
+    const y = geo.oy + a[1] * geo.sc;
     rocket.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${ang.toFixed(1)}deg)`;
     readout.textContent = Math.round(p * 100) + '%';
     let on = -1;

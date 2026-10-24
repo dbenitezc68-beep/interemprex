@@ -58,7 +58,7 @@ const LANGS = {
 // Diccionario exacto { "texto tal cual está en body.html": "English" }. Se traducen los nodos de texto y los
 // atributos que se leen o se oyen; lo que va entre <!-- i18n:skip --> y <!-- /i18n:skip --> se queda igual.
 // Si falta alguna traducción, la construcción se para y dice cuáles.
-const ATTRS = ['aria-label', 'title', 'placeholder', 'alt', 'data-cursor', 'data-text', 'data-chapter', 'aria-valuetext'];
+const ATTRS = ['aria-label', 'title', 'placeholder', 'alt', 'data-text', 'data-chapter', 'aria-valuetext'];
 const hasLetters = (t) => /\p{L}/u.test(t.replace(/&#?\w+;/g, '')) && !/^\{\{\w+\}\}$/.test(t);
 function translate(html, dict) {
   const missing = new Set();
