@@ -959,10 +959,12 @@ html.motion .waypoints .wp.on { opacity: 1; translate: 0 0; }
 .fm-steps::before { content: ""; position: absolute; left: 12px; top: 10px; bottom: 10px; width: 1px; background: rgba(56, 189, 248, .25); }
 .fm-steps li { position: relative; display: flex; align-items: center; gap: .8rem; font-size: .8rem; color: rgba(234, 242, 251, .9); }
 .fm-steps li i { position: relative; flex: none; width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--teal); background: #06101e; }
+/* Paso encendido: un halo encima que aparece y se apaga (solo opacidad: no repinta la página) */
+.fm-steps li i::before { content: ""; position: absolute; inset: -1px; border-radius: 50%; background: rgba(45, 212, 191, .18); box-shadow: 0 0 12px rgba(45, 212, 191, .5); opacity: 0; }
 .fm-steps li i::after { content: ""; position: absolute; left: 5px; top: 3px; width: 5px; height: 8px; border: solid var(--teal); border-width: 0 2px 2px 0; transform: rotate(45deg); }
-html.motion .fm-steps li i { animation: fmstep 5s infinite; animation-delay: calc(var(--d) * .45s); will-change: transform; }
+html.motion .fm-steps li i::before { animation: fmstep 5s infinite; animation-delay: calc(var(--d) * .45s); }
 html.motion .fm-steps li i::after { animation: fmcheck 5s infinite; animation-delay: calc(var(--d) * .45s); }
-@keyframes fmstep { 0%, 6% { background: #06101e; box-shadow: none; } 12%, 80% { background: rgba(45, 212, 191, .18); box-shadow: 0 0 12px rgba(45, 212, 191, .5); } 100% { background: #06101e; box-shadow: none; } }
+@keyframes fmstep { 0%, 6% { opacity: 0; } 12%, 80% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes fmcheck { 0%, 6% { opacity: 0; } 12%, 86% { opacity: 1; } 100% { opacity: 0; } }
 .dash { width: min(420px, 44%); padding: 16px; border: 1px solid rgba(56, 189, 248, .25); border-radius: 16px; background: rgba(6, 12, 24, .9); color: #eaf2fb; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .9); }
 .dash-top { display: flex; justify-content: space-between; align-items: center; gap: .6rem; font-size: .55rem; color: rgba(180, 204, 228, .7); }
