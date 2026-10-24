@@ -34,7 +34,7 @@ function splitLine(el) {
   return out;
 }
 
-export function initHero({ gsap, motion, go, cursor }) {
+export function initHero({ gsap, motion, go }) {
   const W = window;
   const html = document.documentElement;
   const section = $('#despegue');
@@ -92,7 +92,7 @@ export function initHero({ gsap, motion, go, cursor }) {
   W.addEventListener('resize', () => { st.aimY = null; st.dirty = true; });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { st.aimY = null; st.dirty = true; });
   let gl = null;
-  try { gl = new GL(canvas, { dprMax: 1.75 }); } catch (e) { html.classList.add('no-gl'); }
+  try { gl = new GL(canvas, { dprMax: 1.5 }); } catch (e) { html.classList.add('no-gl'); }
 
   const setHover = (i) => {
     if (st.hover === i) return;
@@ -106,12 +106,12 @@ export function initHero({ gsap, motion, go, cursor }) {
       $('.ot-t', tip).textContent = pl.title;
       $('.ot-s', tip).textContent = pl.sub;
       tip.classList.add('on');
-      if (cursor) cursor.label('Ver');
       sound.blip(700 + i * 160, 0.035);
     } else {
       tip.classList.remove('on');
-      if (cursor) cursor.label(null);
     }
+    // Sobre un planeta, la mano del sistema indica que se puede pulsar
+    section.classList.toggle('on-planet', i >= 0);
   };
 
   let screen = [];
@@ -126,12 +126,14 @@ export function initHero({ gsap, motion, go, cursor }) {
     const orbitIdle = [0.22, 0.74, 0.97, 0.26];
 
     const frame = (dt) => {
+      // Suavizado por tiempo, no por fotograma: igual a 30, 60 o 120 fotogramas por segundo
+      const ease = motion ? 1 - Math.pow(0.94, dt * 60) : 1;
       if (motion) {
-        st.speed = lerp(st.speed, st.hover >= 0 ? 0.22 : 1 + st.scroll * 2.4, 0.06);
+        st.speed = lerp(st.speed, st.hover >= 0 ? 0.22 : 1 + st.scroll * 2.4, ease);
         st.t += dt * st.speed;
       }
-      st.mx = lerp(st.mx, st.tmx, motion ? 0.06 : 1);
-      st.my = lerp(st.my, st.tmy, motion ? 0.06 : 1);
+      st.mx = lerp(st.mx, st.tmx, ease);
+      st.my = lerp(st.my, st.tmy, ease);
       gl.resize();
       const portrait = gl.aspect < 1;
       const k = portrait ? 0.7 : 1;

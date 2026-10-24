@@ -112,8 +112,11 @@ export function initCompare({ gsap, ScrollTrigger, motion }) {
   });
 }
 
-// X24 · Logotipo que responde: cada letra gana peso bajo el cursor (ola automática en táctil)
-export function initFooter({ gsap, ScrollTrigger, motion, fine }) {
+// X24 · Logotipo que responde: cada letra gana peso bajo el puntero, y una ola recorre la palabra al llegar al pie
+// (y al tocarla en pantallas táctiles). Solo se trabaja mientras alguna letra está cambiando: cambiar el peso de
+// letras tan grandes obliga a redibujarlas, así que en reposo no se toca nada.
+export function initFooter({ gsap, motion, fine }) {
+  const W = window;
   const foot = $('#base');
   const word = $('#footWord');
   const letters = [];
@@ -127,36 +130,69 @@ export function initFooter({ gsap, ScrollTrigger, motion, fine }) {
       letters.push(s);
     }
   });
-  const weights = letters.map(() => 500);
-  const targets = letters.map(() => 500);
-  let visible = false;
-  let mx = -9999, my = -9999;
-  onVisible(foot, (v) => { visible = v; });
-  if (motion) {
-    foot.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') { mx = e.clientX; my = e.clientY; } }, { passive: true });
-    foot.addEventListener('pointerleave', () => { mx = -9999; });
-    gsap.ticker.add((time) => {
-      if (!visible) return;
-      const near = fine && mx > -9000;
-      const rects = near ? letters.map((l) => l.getBoundingClientRect()) : null;
-      letters.forEach((l, i) => {
-        if (near) {
-          const r = rects[i];
-          const d = Math.hypot(r.left + r.width / 2 - mx, (r.top + r.height / 2 - my) * 0.6);
-          targets[i] = 300 + 400 * Math.max(0, 1 - d / 260);
-        } else {
-          targets[i] = 420 + 260 * (0.5 + 0.5 * Math.sin(time * 2.2 - i * 0.55));
-        }
-        const w = lerp(weights[i], targets[i], 0.14);
-        if (Math.round(w) === Math.round(weights[i])) { weights[i] = w; return; }
-        weights[i] = w;
-        l.style.setProperty('--w', w.toFixed(0));
-      });
-    });
-    gsap.from('.foot-grid > *', { y: 40, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: foot, start: 'top 85%' } });
-  } else {
+  if (!motion) {
     letters.forEach((l) => l.style.setProperty('--w', '600'));
+    $('.foot-top', foot).addEventListener('click', () => sound.whoosh());
+    return;
   }
+  const REST = 500;
+  const weights = letters.map(() => REST);
+  const shown = letters.map(() => REST);
+  let centers = null;
+  let mx = -9999, my = -9999;
+  let wave = -1;
+  let running = false;
+  // Centros de las letras en coordenadas de página: se miden al entrar el puntero, no en cada fotograma
+  const measure = () => {
+    centers = letters.map((l) => {
+      const r = l.getBoundingClientRect();
+      return [r.left + r.width / 2, r.top + r.height / 2 + W.scrollY];
+    });
+  };
+  const target = (i, time) => {
+    if (mx > -9000 && centers) {
+      const [cx, cy] = centers[i];
+      const d = Math.hypot(cx - mx, (cy - W.scrollY - my) * 0.6);
+      return 300 + 400 * Math.max(0, 1 - d / 260);
+    }
+    if (wave >= 0) {
+      const k = (time - wave - i * 0.09) / 0.9;
+      if (k > 0 && k < 1) return REST + 200 * Math.sin(Math.PI * k);
+    }
+    return REST;
+  };
+  const tick = (time, dt) => {
+    if (wave >= 0 && time - wave > 0.9 + letters.length * 0.09) wave = -1;
+    let busy = wave >= 0;
+    // Suavizado que no depende de los fotogramas por segundo: se asienta igual de rápido en un móvil lento
+    const f = 1 - Math.pow(0.86, Math.min(dt || 16.7, 100) / 16.7);
+    letters.forEach((l, i) => {
+      const t = target(i, time);
+      const w = lerp(weights[i], t, f);
+      weights[i] = Math.abs(w - t) < 0.5 ? t : w;
+      if (weights[i] !== t) busy = true;
+      const r = Math.round(weights[i]);
+      if (r !== shown[i]) { shown[i] = r; l.style.setProperty('--w', r); }
+    });
+    if (!busy) { gsap.ticker.remove(tick); running = false; }
+  };
+  const run = () => { if (!running) { running = true; gsap.ticker.add(tick); } };
+  const playWave = () => { wave = gsap.ticker.time; run(); };
+  onVisible(foot, (v) => { if (v) playWave(); }, '0px');
+  if (fine) {
+    foot.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') measure(); });
+    foot.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      if (!centers) measure();
+      mx = e.clientX;
+      my = e.clientY;
+      run();
+    }, { passive: true });
+    foot.addEventListener('pointerleave', () => { mx = -9999; run(); });
+    W.addEventListener('resize', () => { centers = null; });
+  }
+  word.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') playWave(); });
+  gsap.from('.foot-grid > *', { y: 40, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: foot, start: 'top 85%' } });
 
   $('.foot-top', foot).addEventListener('click', () => sound.whoosh());
 }

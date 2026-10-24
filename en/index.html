@@ -56,7 +56,7 @@
 -->
 <link rel="preload" href="../assets/web/fonts/grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/web/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/web/styles.css?v=a22ed24d52">
+<link rel="stylesheet" href="../assets/web/styles.css?v=6255f9f680">
 <script>(function(d){var p=null;try{p=localStorage.getItem('ix-motion')}catch(e){}var r=new URLSearchParams(location.search).has('reducido')||(p?p==='reduced':matchMedia('(prefers-reduced-motion: reduce)').matches);if(!r&&location.hash.length<2)d.classList.add('is-loading')})(document.documentElement)</script>
 </head>
 <body>
@@ -97,7 +97,6 @@
 
 <canvas class="stars" id="stars" aria-hidden="true"></canvas>
 <div class="plano-grid" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><div class="cursor-dot"></div><div class="cursor-ring"><i></i><i></i><i></i><i></i><span class="cursor-label"></span></div></div>
 
 <header class="hdr" id="hdr">
   <a class="brand" href="#despegue" aria-label="INTEREMPREX, back to the top">
@@ -198,7 +197,7 @@
     </h1>
     <p class="hero-sub">Your services orbit a single core: your business. <span class="only-fine">Hover over each planet.</span><span class="only-touch">Tap each planet to see it.</span></p>
     <div class="hero-ctas">
-      <a class="btn btn-solid magnetic" href="#contacto" data-cursor="Launch">Get started</a>
+      <a class="btn btn-solid magnetic" href="#contacto">Get started</a>
       <a class="btn btn-ghost magnetic" href="#servicios">See services</a>
     </div>
   </div>
@@ -264,7 +263,7 @@
   <div class="pin-wrap">
     <div class="wrap">
       <div class="chap-head mono"><span>03 · Manifesto</span><span>How we work</span></div>
-      <p class="manifesto-text" id="manifestoText">We don’t deliver reports and leave. <span class="pill pill-doc" aria-hidden="true"><svg viewBox="0 0 44 28"><rect x="13" y="3" width="18" height="22" rx="2"/><path d="M17 9h10M17 13h10M17 17h6"/><path class="x" d="M8 4 36 24"/></svg></span> We implement directly on your real systems. <span class="pill pill-flow" aria-hidden="true"><svg viewBox="0 0 64 28"><path d="M6 14h52"/><circle cx="6" cy="14" r="3.5"/><circle cx="32" cy="14" r="3.5"/><circle cx="58" cy="14" r="3.5"/><circle class="pk" cx="6" cy="14" r="2.2"/></svg></span> No templates, no theory: measurable results. <span class="pill pill-bars" aria-hidden="true"><svg viewBox="0 0 44 28"><rect x="8" y="16" width="6" height="8"/><rect x="19" y="11" width="6" height="13"/><rect x="30" y="5" width="6" height="19"/></svg></span></p>
+      <p class="manifesto-text" id="manifestoText">We don’t deliver reports and leave. <span class="pill pill-doc" aria-hidden="true"><span class="pill-art"><svg viewBox="0 0 44 28"><rect x="13" y="3" width="18" height="22" rx="2"/><path d="M17 9h10M17 13h10M17 17h6"/></svg><i class="x"></i></span></span> We implement directly on your real systems. <span class="pill pill-flow" aria-hidden="true"><span class="pill-art"><svg viewBox="0 0 64 28"><path d="M6 14h52"/><circle cx="6" cy="14" r="3.5"/><circle cx="32" cy="14" r="3.5"/><circle cx="58" cy="14" r="3.5"/></svg><i class="pk"></i></span></span> No templates, no theory: measurable results. <span class="pill pill-bars" aria-hidden="true"><span class="pill-art"><svg viewBox="0 0 44 28"></svg><i></i><i></i><i></i></span></span></p>
     </div>
   </div>
 </section>
@@ -397,7 +396,7 @@
           <ul class="tags"><li>Import / Export</li><li>Suppliers</li><li>Traceability</li></ul>
         </div>
         <div class="st-demo">
-          <div class="globe" id="globe" data-cursor="Spin">
+          <div class="globe" id="globe">
             <canvas class="globe-canvas" id="globeCanvas" aria-hidden="true"></canvas>
             <p class="globe-legend mono" aria-hidden="true"><span class="lg-home">Extremadura</span><span class="lg-route">Example routes</span></p>
           </div>
@@ -420,17 +419,17 @@
     </header>
     <div class="missions" id="missions">
       <article class="mission" data-viz="merge" style="--c: var(--cyan)">
-        <div class="patch" data-cursor="Mission">
+        <div class="patch">
           <div class="patch-in">
             <svg viewBox="0 0 200 200" aria-hidden="true">
               <circle class="pt-bg" cx="100" cy="100" r="96"/>
               <circle class="pt-in" cx="100" cy="100" r="62"/>
               <text class="pt-big" x="100" y="113">25→1</text>
             </svg>
-            <svg class="pt-spin" viewBox="0 0 200 200" aria-hidden="true">
-              <defs><path id="ring1" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
-              <text class="pt-ring"><textPath href="#ring1">MISSION ACCOMPLISHED · FOOD DISTRIBUTION · </textPath></text>
-            </svg>
+            <div class="pt-spin" aria-hidden="true"><svg viewBox="0 0 200 200">
+                <defs><path id="ring1" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
+                <text class="pt-ring"><textPath href="#ring1">MISSION ACCOMPLISHED · FOOD DISTRIBUTION · </textPath></text>
+            </svg></div>
           </div>
         </div>
         <div class="m-copy">
@@ -444,17 +443,17 @@
         </div>
       </article>
       <article class="mission" data-viz="bars" style="--c: var(--teal)">
-        <div class="patch" data-cursor="Mission">
+        <div class="patch">
           <div class="patch-in">
             <svg viewBox="0 0 200 200" aria-hidden="true">
               <circle class="pt-bg" cx="100" cy="100" r="96"/>
               <circle class="pt-in" cx="100" cy="100" r="62"/>
               <text class="pt-big" x="100" y="113">−80%</text>
             </svg>
-            <svg class="pt-spin" viewBox="0 0 200 200" aria-hidden="true">
-              <defs><path id="ring2" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
-              <text class="pt-ring"><textPath href="#ring2">MISSION ACCOMPLISHED · ORDER OPERATIONS · </textPath></text>
-            </svg>
+            <div class="pt-spin" aria-hidden="true"><svg viewBox="0 0 200 200">
+                <defs><path id="ring2" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
+                <text class="pt-ring"><textPath href="#ring2">MISSION ACCOMPLISHED · ORDER OPERATIONS · </textPath></text>
+            </svg></div>
           </div>
         </div>
         <div class="m-copy">
@@ -472,17 +471,17 @@
         </div>
       </article>
       <article class="mission" data-viz="table" style="--c: var(--blue)">
-        <div class="patch" data-cursor="Mission">
+        <div class="patch">
           <div class="patch-in">
             <svg viewBox="0 0 200 200" aria-hidden="true">
               <circle class="pt-bg" cx="100" cy="100" r="96"/>
               <circle class="pt-in" cx="100" cy="100" r="62"/>
               <text class="pt-big" x="100" y="113">0</text>
             </svg>
-            <svg class="pt-spin" viewBox="0 0 200 200" aria-hidden="true">
-              <defs><path id="ring3" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
-              <text class="pt-ring"><textPath href="#ring3">MISSION ACCOMPLISHED · INTEGRITY ERRORS · </textPath></text>
-            </svg>
+            <div class="pt-spin" aria-hidden="true"><svg viewBox="0 0 200 200">
+                <defs><path id="ring3" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
+                <text class="pt-ring"><textPath href="#ring3">MISSION ACCOMPLISHED · INTEGRITY ERRORS · </textPath></text>
+            </svg></div>
           </div>
         </div>
         <div class="m-copy">
@@ -506,7 +505,7 @@
 <section class="chapter scan" id="escaner" data-scene="space">
   <div class="scan-pin">
     <div class="scan-layer scan-dark"><p class="scan-text"><span class="mono">Design phase</span>From plan<br>to liftoff</p></div>
-    <div class="scan-layer scan-light" id="scanLight"><p class="scan-text"><span class="mono">Design phase</span>From plan<br>to liftoff</p></div>
+    <div class="scan-layer scan-light" id="scanLight"><div class="scan-in"><p class="scan-text"><span class="mono">Design phase</span>From plan<br>to liftoff</p></div></div>
     <div class="scan-line" id="scanLine" aria-hidden="true"><span class="mono" id="scanPct">00%</span></div>
   </div>
 </section>
@@ -631,14 +630,14 @@
         </fieldset>
       </form>
       <aside class="cfg-out" aria-live="polite">
-        <div class="cfg-patch">
-          <svg viewBox="0 0 220 220" aria-hidden="true">
+        <div class="cfg-patch" aria-hidden="true">
+          <svg viewBox="0 0 220 220"><circle class="cp-bg" cx="110" cy="110" r="106"/></svg>
+          <div class="cp-spin"><svg viewBox="0 0 220 220">
             <defs><path id="ringCfg" d="M110 110m-92 0a92 92 0 1 1 184 0a92 92 0 1 1-184 0"/></defs>
-            <circle class="cp-bg" cx="110" cy="110" r="106"/>
-            <g class="cp-spin"><text class="cp-ring"><textPath href="#ringCfg" id="cfgRingText">MISSION · SHOP OR RETAIL · INTEREMPREX · </textPath></text></g>
-            <g class="cp-orbits" id="cfgOrbits"></g>
-            <use href="#ix-mark" x="92" y="88" width="36" height="44"/>
-          </svg>
+            <text class="cp-ring"><textPath href="#ringCfg" id="cfgRingText">MISSION · SHOP OR RETAIL · INTEREMPREX · </textPath></text>
+          </svg></div>
+          <div class="cp-orbits" id="cfgOrbits"></div>
+          <svg viewBox="0 0 220 220"><use href="#ix-mark" x="92" y="88" width="36" height="44"/></svg>
         </div>
         <p class="mono cfg-code" id="cfgCode">Mission IX-COM-1</p>
         <p class="cfg-start">We would start with <b id="cfgStart">Web &amp; Ecommerce</b></p>
@@ -716,7 +715,7 @@
           </ul>
           <div class="fuel mono" aria-hidden="true"><span>Fuel</span><i><b id="fuelBar"></b></i><span id="fuelPct">0%</span></div>
         </div>
-        <button class="hold" id="holdBtn" type="submit" data-cursor="Hold">
+        <button class="hold" id="holdBtn" type="submit">
           <span class="hold-fill" aria-hidden="true"></span>
           <svg class="hold-ico" aria-hidden="true"><use href="#i-rocket"/></svg>
           <span class="hold-txt" id="holdTxt">Hold to launch</span>
@@ -750,7 +749,7 @@
   <p class="foot-word" id="footWord" aria-label="INTEREMPREX"></p>
   <div class="wrap foot-bar">
     <p class="mono">© 2026 INTEREMPREX. All rights reserved.</p>
-    <a class="btn btn-ghost magnetic foot-top" href="#despegue" data-cursor="Back">Back to base ↑</a>
+    <a class="btn btn-ghost magnetic foot-top" href="#despegue">Back to base ↑</a>
   </div>
 </footer>
 
@@ -814,6 +813,6 @@
 <script src="../assets/web/vendor/gsap.min.js"></script>
 <script src="../assets/web/vendor/ScrollTrigger.min.js"></script>
 <script src="../assets/web/vendor/lenis.min.js"></script>
-<script src="../assets/web/app.js?v=8627de2f0f"></script>
+<script src="../assets/web/app.js?v=c97bd225ac"></script>
 </body>
 </html>

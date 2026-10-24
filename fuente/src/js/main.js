@@ -1,4 +1,4 @@
-import { $, $$, lerp, store, safe } from './util.js';
+import { $, $$, store, safe } from './util.js';
 import { sound } from './sound.js';
 import { initStars } from './stars.js';
 import { initDecode } from './decode.js';
@@ -49,7 +49,7 @@ function boot() {
   // Scroll suave sincronizado con ScrollTrigger
   let lenis = null;
   if (motion && W.Lenis) {
-    lenis = new W.Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 0.95, allowNestedScroll: true, respectReducedMotion: false });
+    lenis = new W.Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 0.95, allowNestedScroll: true, respectReducedMotion: false });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((t) => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -91,19 +91,7 @@ function boot() {
     note.t = setTimeout(() => el.classList.remove('on'), 4200);
   };
 
-  // X26 · Cursor de mira con etiquetas
-  const cursorEl = $('.cursor');
-  const cursorLabel = $('.cursor-label', cursorEl);
-  let forced = null;
-  const cursor = {
-    label(text) {
-      forced = text;
-      cursorEl.classList.toggle('has-label', !!text);
-      cursorEl.classList.remove('is-hover');
-      if (text) cursorLabel.textContent = text;
-    },
-  };
-  const ctx = { gsap, ScrollTrigger, motion, fine, state, scrollTo, go, getVelocity, cursor, note };
+  const ctx = { gsap, ScrollTrigger, motion, fine, state, scrollTo, go, getVelocity, note };
 
   // Módulos en el orden del documento (los fijados deben crearse de arriba abajo)
   safe('el cielo', () => initStars(ctx));
@@ -122,6 +110,13 @@ function boot() {
   safe('el contacto', () => initContact(ctx));
   safe('el pie', () => initFooter(ctx));
   safe('los titulares', () => initDecode(ctx));
+
+  // Las animaciones CSS en bucle (pulsos, giros, flechas…) solo trabajan en lo que está a la vista:
+  // cada capítulo, cada parada del carril de servicios y el pie se marcan con .off al salir de pantalla
+  if (motion && 'IntersectionObserver' in W) {
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => e.target.classList.toggle('off', !e.isIntersecting)), { rootMargin: '10% 0px' });
+    $$('main > section, #svcTrack > *, footer').forEach((el) => io.observe(el));
+  }
 
   if (motion && hero) {
     ScrollTrigger.create({ trigger: '#despegue', start: 'top top', end: 'bottom top', scrub: true, onUpdate: (s) => hero.scroll(s.progress) });
@@ -296,38 +291,8 @@ function boot() {
   };
   btnMotion.addEventListener('click', toggleMotion);
 
-  // Cursor de mira y botones magnéticos
+  // Botones magnéticos (con el puntero normal del sistema)
   if (fine && motion) {
-    const dot = $('.cursor-dot', cursorEl);
-    const ring = $('.cursor-ring', cursorEl);
-    let mx = -100, my = -100, rx = -100, ry = -100, down = 0, sc = 1;
-    W.addEventListener('pointermove', (e) => {
-      if (e.pointerType !== 'mouse') return;
-      mx = e.clientX;
-      my = e.clientY;
-      cursorEl.style.opacity = '1';
-    }, { passive: true });
-    document.documentElement.addEventListener('mouseleave', () => { cursorEl.style.opacity = '0'; });
-    W.addEventListener('pointerdown', () => { down = 1; });
-    W.addEventListener('pointerup', () => { down = 0; });
-    document.addEventListener('pointerover', (e) => {
-      if (forced) return;
-      const t = e.target instanceof Element ? e.target : null;
-      if (!t) return;
-      const lab = t.closest('[data-cursor]');
-      const hov = t.closest('a, button, summary, label, input, select, textarea');
-      const text = lab && !(hov && hov !== lab && lab.contains(hov) && !hov.dataset.cursor) ? lab.dataset.cursor : '';
-      cursorEl.classList.toggle('has-label', !!text);
-      cursorEl.classList.toggle('is-hover', !!hov && !text);
-      if (text) cursorLabel.textContent = text;
-    });
-    gsap.ticker.add(() => {
-      rx = lerp(rx, mx, 0.2);
-      ry = lerp(ry, my, 0.2);
-      sc = lerp(sc, down ? 0.82 : 1, 0.25);
-      dot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
-      ring.style.transform = `translate3d(${rx.toFixed(1)}px, ${ry.toFixed(1)}px, 0) scale(${sc.toFixed(3)})`;
-    });
     $$('.magnetic').forEach((el) => {
       const xTo = gsap.quickTo(el, 'x', { duration: 0.6, ease: 'power3' });
       const yTo = gsap.quickTo(el, 'y', { duration: 0.6, ease: 'power3' });

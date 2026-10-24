@@ -10,6 +10,9 @@ const MARK = [
   { pts: [[187, 4], [280, 34], [280, 337], [187, 307]], c: [56, 189, 248] },
 ];
 const CHAOS = [[248, 113, 113], [251, 191, 36], [148, 163, 184], [252, 165, 165], [203, 213, 225]];
+// Paso de color: la transición caos → sistema se reparte en 16 tonos por partícula (no se aprecia la diferencia)
+// y las partículas se pintan agrupadas por tono, con un solo estilo por grupo
+const STEPS = 16;
 const inPoly = (x, y, pts) => {
   let c = false;
   for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
@@ -37,9 +40,12 @@ export function initChaos({ gsap, ScrollTrigger, motion }) {
   let time = 0;
   let visible = false;
   let lastStage = -1;
+  let styles = [];
+  let buckets = [];
+  let drawnP = -1;
 
   const build = () => {
-    dpr = Math.min(1.75, window.devicePixelRatio || 1);
+    dpr = Math.min(1.5, window.devicePixelRatio || 1);
     W = box.clientWidth;
     H = box.clientHeight;
     canvas.width = Math.round(W * dpr);
@@ -66,27 +72,47 @@ export function initChaos({ gsap, ScrollTrigger, motion }) {
       const rr = R * (i % 2 ? 1 : 1.12);
       all.push({ x: cx + Math.cos(a) * rr, y: cy + Math.sin(a) * rr * 0.36, c: i % 2 ? [34, 211, 238] : [167, 139, 250], ring: true });
     }
-    parts = all.map((t, i) => ({
-      tx: t.x,
-      ty: t.y,
-      tc: t.c,
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.6,
-      vy: (Math.random() - 0.5) * 0.6,
-      c: CHAOS[i % CHAOS.length],
-      d: (t.ring ? 0.35 : 0) + Math.random() * 0.4,
-      z: 1 + Math.random() * 1.4,
-    }));
+    // Una tabla de estilos por pareja de colores (caos → destino) y paso de la transición
+    const pairs = new Map();
+    styles = [];
+    parts = all.map((t, i) => {
+      const c = CHAOS[i % CHAOS.length];
+      const key = c.join() + '>' + t.c.join();
+      if (!pairs.has(key)) {
+        pairs.set(key, styles.length);
+        for (let k = 0; k <= STEPS; k++) {
+          const f = k / STEPS;
+          const col = c.map((v, j) => lerp(v, t.c[j], f) | 0);
+          styles.push(`rgba(${col[0]},${col[1]},${col[2]},${(0.5 + 0.5 * f).toFixed(2)})`);
+        }
+      }
+      return {
+        tx: t.x,
+        ty: t.y,
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        s0: pairs.get(key),
+        d: (t.ring ? 0.35 : 0) + Math.random() * 0.4,
+        z: 1 + Math.random() * 1.4,
+      };
+    });
+    buckets = styles.map(() => []);
+    drawnP = -1;
   };
 
   const draw = () => {
+    // Con todas las partículas ya en el logotipo, el dibujo no cambia: no se repite
+    const settled = p >= 0.84;
+    if (settled && drawnP === p) return;
+    drawnP = p;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
     for (let i = 0; i < parts.length; i++) {
       const q = parts[i];
       // deriva del caos
-      if (motion) {
+      if (motion && !settled) {
         q.vx += (Math.random() - 0.5) * 0.08;
         q.vy += (Math.random() - 0.5) * 0.08;
         q.vx *= 0.97;
@@ -97,15 +123,22 @@ export function initChaos({ gsap, ScrollTrigger, motion }) {
         if (q.y < 0 || q.y > H) q.vy *= -1;
       }
       const t = smooth(clamp((p - q.d * 0.55) / 0.42, 0, 1));
-      const x = lerp(q.x, q.tx, t);
-      const y = lerp(q.y, q.ty, t);
-      const r = lerp(q.c[0], q.tc[0], t) | 0;
-      const g = lerp(q.c[1], q.tc[1], t) | 0;
-      const b = lerp(q.c[2], q.tc[2], t) | 0;
-      const a = 0.5 + 0.5 * t;
-      ctx.fillStyle = `rgba(${r},${g},${b},${a.toFixed(2)})`;
-      const sz = lerp(q.z, 2.2, t);
-      ctx.fillRect(x - sz / 2, y - sz / 2, sz, sz);
+      q.px = lerp(q.x, q.tx, t);
+      q.py = lerp(q.y, q.ty, t);
+      q.sz = lerp(q.z, 2.2, t);
+      buckets[q.s0 + Math.round(t * STEPS)].push(q);
+    }
+    for (let k = 0; k < buckets.length; k++) {
+      const list = buckets[k];
+      if (!list.length) continue;
+      ctx.fillStyle = styles[k];
+      ctx.beginPath();
+      for (let j = 0; j < list.length; j++) {
+        const q = list[j];
+        ctx.rect(q.px - q.sz / 2, q.py - q.sz / 2, q.sz, q.sz);
+      }
+      ctx.fill();
+      list.length = 0;
     }
   };
 

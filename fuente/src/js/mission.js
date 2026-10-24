@@ -26,7 +26,7 @@ export function initMission({ gsap, motion, go }) {
   const code = $('#cfgCode');
   const start = $('#cfgStart');
   const then = $('#cfgThen');
-  const patch = $('.cfg-patch svg');
+  const patch = $('.cfg-patch');
   const send = $('#cfgSend');
   let snapshot = null;
 
@@ -52,16 +52,18 @@ export function initMission({ gsap, motion, go }) {
       start.textContent = M.startNone;
       then.textContent = M.thenNone;
     }
-    // Órbitas del parche: una por objetivo marcado
+    // Órbitas del parche: una por objetivo marcado, cada una en su propia capa para girar sin repintar
     orbits.innerHTML = '';
     ordered.forEach((g, i) => {
       const r = 40 + i * 13;
-      const grp = svgEl('g', {}, orbits);
+      const grp = document.createElement('div');
       grp.style.setProperty('--t', 9 + i * 4 + 's');
       grp.style.setProperty('--c', SERVICE[g].color);
-      svgEl('circle', { cx: 110, cy: 110, r, fill: 'none', stroke: 'rgba(255,255,255,0.14)' }, grp);
+      orbits.appendChild(grp);
+      const svg = svgEl('svg', { viewBox: '0 0 220 220' }, grp);
+      svgEl('circle', { cx: 110, cy: 110, r, fill: 'none', stroke: 'rgba(255,255,255,0.14)' }, svg);
       const a = i * 1.9;
-      svgEl('circle', { cx: 110 + Math.cos(a) * r, cy: 110 + Math.sin(a) * r, r: 4.5, class: 'pl' }, grp).style.fill = SERVICE[g].color;
+      svgEl('circle', { cx: 110 + Math.cos(a) * r, cy: 110 + Math.sin(a) * r, r: 4.5, class: 'pl' }, svg).style.fill = SERVICE[g].color;
     });
     snapshot = { T, ordered, w };
     if (user && motion) {
