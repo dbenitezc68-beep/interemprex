@@ -17,11 +17,32 @@ export const store = {
   },
 };
 
+// Margen para lo que solo debe trabajar en pantalla: un elemento que únicamente toca el borde (al aterrizar justo
+// al principio de la sección siguiente, por ejemplo desde el menú) no cuenta como visible
+export const ON_SCREEN = '-2px';
+
 export function onVisible(el, cb, rootMargin = '120px') {
   if (!('IntersectionObserver' in window)) { cb(true); return null; }
   const io = new IntersectionObserver((entries) => entries.forEach((e) => cb(e.isIntersecting, e)), { rootMargin });
   io.observe(el);
   return io;
+}
+
+// Avisa cuando cambia el tamaño de un elemento, con ResizeObserver: no hace falta leer la maqueta y no salta
+// cuando el móvil enseña o esconde la barra de direcciones si el elemento no cambia (lo que sí hace el evento
+// resize de la ventana). Avisa también una vez al empezar, salvo con «changes»: entonces solo avisa si el tamaño
+// redondeado (o solo el ancho, con «width») cambia de verdad. Sin ResizeObserver, se usa el evento de la ventana.
+export function onResize(el, cb, { changes = false, width = false } = {}) {
+  if (!('ResizeObserver' in window)) { window.addEventListener('resize', () => cb(null)); return; }
+  let size = null;
+  new ResizeObserver(([e]) => {
+    const r = e.contentRect;
+    const k = Math.round(r.width) + (width ? '' : 'x' + Math.round(r.height));
+    const was = size;
+    size = k;
+    if (changes && (was === null || was === k)) return;
+    cb(r);
+  }).observe(el);
 }
 
 export function hexToRgb(hex) {

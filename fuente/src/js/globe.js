@@ -1,4 +1,4 @@
-import { $, clamp, onVisible } from './util.js';
+import { $, clamp, onVisible, ON_SCREEN, onResize } from './util.js';
 import { LAND } from './globe-data.js';
 
 const RAD = Math.PI / 180;
@@ -14,7 +14,7 @@ const vec = ([lat, lon]) => [Math.cos(lat * RAD) * Math.sin(lon * RAD), Math.sin
 
 // X12 · Globo de puntos: tierra en puntos, Extremadura encendida y rutas que salen de ella; se gira arrastrando
 export function initGlobe({ motion }) {
-  const box = $('#globe');
+  const wrap = $('#globe');
   const canvas = $('#globeCanvas');
   const ctx = canvas.getContext('2d');
   const raw = atob(LAND);
@@ -52,10 +52,16 @@ export function initGlobe({ motion }) {
   let sphere = null;
   let rim = null;
   const st = { lon: 4, lat: 26, vl: 0, dragging: false, x: 0, y: 0, t: 0 };
+  // Tamaño del lienzo según ResizeObserver (null: hay que medirlo); solo se rehace si algo cambia de verdad
+  let box = null;
   const resize = () => {
-    dpr = Math.min(1.75, window.devicePixelRatio || 1);
-    W = canvas.clientWidth;
-    H = canvas.clientHeight;
+    const d = Math.min(1.75, window.devicePixelRatio || 1);
+    const w = box ? Math.round(box.width) : canvas.clientWidth;
+    const h = box ? Math.round(box.height) : canvas.clientHeight;
+    if (w === W && h === H && d === dpr && sphere) return false;
+    dpr = d;
+    W = w;
+    H = h;
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     // Degradados de la esfera y la atmósfera: se preparan una vez por tamaño
@@ -69,6 +75,7 @@ export function initGlobe({ motion }) {
     rim.addColorStop(0, 'rgba(45,212,191,0)');
     rim.addColorStop(0.45, 'rgba(45,212,191,0.22)');
     rim.addColorStop(1, 'rgba(45,212,191,0)');
+    return true;
   };
   // giro: primero longitud (eje Y), luego inclinación (eje X); se escribe en «out» para no crear listas
   const out = [0, 0, 0];
@@ -168,7 +175,11 @@ export function initGlobe({ motion }) {
   };
 
   resize();
-  window.addEventListener('resize', () => { resize(); if (!motion) draw(); });
+  // El tamaño se vigila con ResizeObserver: el evento resize de la ventana salta en el móvil cada vez que la barra
+  // de direcciones aparece o se esconde, y el globo no cambia. La ventana solo avisa de un cambio de zoom.
+  let stale = false;
+  onResize(canvas, (b) => { box = b; stale = true; if (!motion && resize()) draw(); });
+  window.addEventListener('resize', () => { stale = true; if (!motion && resize()) draw(); });
   // Arrastrar para girar (en táctil solo el gesto horizontal; el vertical sigue siendo scroll)
   canvas.addEventListener('pointerdown', (e) => {
     st.dragging = true;
@@ -191,18 +202,13 @@ export function initGlobe({ motion }) {
   canvas.addEventListener('pointerup', up);
   canvas.addEventListener('pointercancel', up);
   if (!motion) { st.t = 0.3; draw(); return; }
-  let visible = false;
-  onVisible(box, (v) => { visible = v; });
-  // El tamaño se vigila con ResizeObserver en lugar de medir el lienzo en cada fotograma
-  const ro = 'ResizeObserver' in window;
-  let stale = false;
-  if (ro) new ResizeObserver(() => { stale = true; }).observe(canvas);
-  let last = performance.now();
+  // Solo se piden fotogramas mientras el globo está a la vista
+  let raf = 0;
+  let last = 0;
   const tick = (now) => {
-    requestAnimationFrame(tick);
-    const dt = Math.min(0.05, (now - last) / 1000);
+    raf = requestAnimationFrame(tick);
+    const dt = clamp((now - last) / 1000, 0, 0.05);
     last = now;
-    if (!visible) return;
     st.t += dt;
     if (!st.dragging) {
       // La inercia del arrastre se frena por tiempo, no por fotograma
@@ -210,8 +216,11 @@ export function initGlobe({ motion }) {
       st.vl *= Math.pow(0.95, r);
       st.lon += st.vl * r + dt * 9;
     }
-    if (ro ? stale : canvas.clientWidth !== W) { stale = false; resize(); }
+    if (stale) { stale = false; resize(); }
     draw();
   };
-  requestAnimationFrame(tick);
+  onVisible(wrap, (v) => {
+    if (v && !raf) { last = performance.now(); raf = requestAnimationFrame(tick); }
+    else if (!v && raf) { cancelAnimationFrame(raf); raf = 0; }
+  }, ON_SCREEN);
 }

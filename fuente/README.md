@@ -61,6 +61,12 @@ Reglas que mantienen la web fluida (cada una se midió con `perf.cjs` y con las 
 - Sin `backdrop-filter`: fondos algo más opacos en su lugar.
 - En los lienzos: colores precalculados y agrupados (nada de cadenas `rgba()` por punto) y trazados SVG muestreados una sola vez con `pathSampler` (`src/js/util.js`).
 - Los suavizados que siguen al puntero dependen del tiempo, no de los fotogramas, para que un móvil lento no vaya a cámara lenta.
+- Ningún bucle de fotogramas sin fin: cada `requestAnimationFrame` y cada oyente de `gsap.ticker` arranca y se para con `onVisible(…, ON_SCREEN)` (un margen de −2 px, para que lo que solo toca el borde no cuente como visible) y se suelta cuando no queda nada que cambiar. Así el reloj de GSAP se duerme en reposo (`autoSleep: 30`). En táctil (salvo Firefox) se corta además el bucle `_rafBugFix` de ScrollTrigger, que pide fotogramas sin hacer nada.
+- En pantallas táctiles el scroll es el nativo: Lenis solo se usa con ratón o trackpad, porque sus oyentes táctiles retrasaban el arranque del scroll con el dedo (de 20–60 ms a 1 ms sin él). `getScroll()`/`getVelocity()` y `lock` (`src/js/main.js`) funcionan con y sin Lenis.
+- Tamaños con `onResize` (ResizeObserver) y no con el evento `resize` de la ventana, que en el móvil salta cada vez que la barra de direcciones aparece o se esconde. Por lo mismo, el cielo de estrellas mide `100lvh` en táctil.
+- No leer `scrollY` ni medidas de la página dentro de un bucle: obligan al navegador a recalcular la maqueta. Se guardan al hacer scroll o al cambiar de tamaño.
+- Los titulares que se descifran fijan el ancho exacto de cada letra, sin redondear: con anchos redondeados una línea podía partirse distinto en el móvil y mover la página.
+- Dentro de un recorte `clip-path` que usa una variable (el lado «sistema» del comparador), Chrome hacía trabajar al hilo principal en cada fotograma para animar la opacidad de los pasos, aunque la animación debía ir fuera de él. En táctil, el halo animado va en su propia capa (`translateZ(0)`). Para comprobar algo así: pausar las animaciones una a una (`document.getAnimations()`) y contar los fotogramas del hilo principal en una traza.
 
 ## Formulario
 

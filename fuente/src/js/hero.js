@@ -1,4 +1,4 @@
-import { $, $$, clamp, lerp, toLinear, easeOut } from './util.js';
+import { $, $$, clamp, lerp, toLinear, easeOut, onResize } from './util.js';
 import { GL, M4, box, sphere, torus, circle, loop } from './webgl.js';
 import { sound } from './sound.js';
 import { S } from './i18n.js';
@@ -34,7 +34,7 @@ function splitLine(el) {
   return out;
 }
 
-export function initHero({ gsap, motion, go }) {
+export function initHero({ gsap, motion, fine, go }) {
   const W = window;
   const html = document.documentElement;
   const section = $('#despegue');
@@ -89,7 +89,6 @@ export function initHero({ gsap, motion, go }) {
     const ndc = 1 - (2 * cy) / h;
     return -ndc * Math.tan(FOV / 2) * dist;
   };
-  W.addEventListener('resize', () => { st.aimY = null; st.dirty = true; });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { st.aimY = null; st.dirty = true; });
   let gl = null;
   try { gl = new GL(canvas, { dprMax: 1.5 }); } catch (e) { html.classList.add('no-gl'); }
@@ -223,7 +222,7 @@ export function initHero({ gsap, motion, go }) {
       st.t = 1.2;
       const redraw = () => requestAnimationFrame(() => frame(0));
       redraw();
-      W.addEventListener('resize', redraw);
+      onResize(canvas, redraw);
       setInterval(() => { if (st.dirty) frame(0); }, 120);
     }
     labelsBox.classList.add('on');
@@ -263,7 +262,17 @@ export function initHero({ gsap, motion, go }) {
     a.addEventListener('focus', () => setHover(i));
     a.addEventListener('blur', () => setHover(-1));
   });
-  W.addEventListener('resize', relayout);
+  // Al cambiar el tamaño de la ventana se reajustan el titular y la altura de cámara. En pantallas táctiles el alto
+  // cambia cada vez que la barra de direcciones aparece o se esconde, y la portada (100svh) no: ahí solo cuenta el ancho
+  let lastW = W.innerWidth;
+  W.addEventListener('resize', () => {
+    const w = W.innerWidth;
+    if (!fine && w === lastW) return;
+    lastW = w;
+    relayout();
+    st.aimY = null;
+    st.dirty = true;
+  });
 
   return {
     intro() {

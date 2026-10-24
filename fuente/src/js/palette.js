@@ -5,7 +5,7 @@ import { LANG, S } from './i18n.js';
 const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
 // X21 · Buscador (Ctrl o ⌘ + K): saltar a cualquier sección o lanzar una acción desde el teclado
-export function initPalette({ go, note, lenis, actions }) {
+export function initPalette({ go, note, lock, actions }) {
   const box = $('#cmdk');
   const input = $('#cmdkInput');
   const list = $('#cmdkList');
@@ -88,14 +88,14 @@ export function initPalette({ go, note, lenis, actions }) {
     input.value = '';
     sel = 0;
     render();
-    if (lenis) lenis.stop();
+    lock.stop();
     input.focus();
     sound.blip(1000, 0.03);
   };
   const close = (restore = true) => {
     if (box.hidden) return;
     box.hidden = true;
-    if (lenis) lenis.start();
+    lock.start();
     if (restore && back && back.focus) back.focus({ preventScroll: true });
   };
   const runSel = (i) => {

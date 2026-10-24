@@ -1,4 +1,4 @@
-import { $, $$, clamp, svgEl, pathSampler } from './util.js';
+import { $, $$, clamp, svgEl, pathSampler, onResize } from './util.js';
 import { sound } from './sound.js';
 import { S } from './i18n.js';
 
@@ -60,13 +60,18 @@ export function initFlight({ gsap, ScrollTrigger, motion }) {
   });
   svgEl('line', { x1: 40, y1: 506, x2: 1160, y2: 506 }, notes);
 
+  // La trayectoria de cada versión (ancha y alta) se mide una sola vez: no depende del tamaño de la pantalla
+  const paths = new Map();
   const layout = () => {
     const isTall = getComputedStyle(tall).display !== 'none';
     svg = isTall ? tall : wide;
-    path = $('.fp-path', svg);
-    L = path.getTotalLength();
-    at = pathSampler(path, 600);
-    path.style.strokeDasharray = `${L} ${L}`;
+    if (!paths.has(svg)) {
+      const pa = $('.fp-path', svg);
+      const len = pa.getTotalLength();
+      pa.style.strokeDasharray = `${len} ${len}`;
+      paths.set(svg, { pa, len, at: pathSampler(pa, 600) });
+    }
+    ({ pa: path, len: L, at } = paths.get(svg));
     const vb = svg.viewBox.baseVal;
     const sw = stage.clientWidth;
     const sh = stage.clientHeight;
@@ -119,7 +124,9 @@ export function initFlight({ gsap, ScrollTrigger, motion }) {
   };
 
   layout();
-  window.addEventListener('resize', layout);
+  // Se recoloca solo si cambia el tamaño del plano: el evento resize de la ventana también salta en el móvil
+  // cada vez que la barra de direcciones aparece o se esconde, y el plano (62svh como mucho) no cambia
+  onResize(stage, () => layout(), { changes: true });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
   if (!motion) return;
   const mobile = () => getComputedStyle(tall).display !== 'none';

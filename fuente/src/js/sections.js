@@ -1,4 +1,4 @@
-import { $, clamp, lerp, splitWords, onVisible } from './util.js';
+import { $, clamp, lerp, splitWords, onVisible, ON_SCREEN } from './util.js';
 import { sound } from './sound.js';
 import { S } from './i18n.js';
 
@@ -20,7 +20,7 @@ export function initManifesto({ gsap, motion }) {
 
 // X17 · Informe contra sistema: comparador arrastrable con un panel que trabaja solo
 const ROWS = S.compare.rows;
-export function initCompare({ gsap, ScrollTrigger, motion }) {
+export function initCompare({ gsap, ScrollTrigger, motion, fine }) {
   const cmp = $('#cmp');
   const range = $('#cmpRange');
   const rowsEl = $('#dashRows');
@@ -61,7 +61,11 @@ export function initCompare({ gsap, ScrollTrigger, motion }) {
     live.unshift({ li, steps, k: 0 });
     id++;
     while (live.length > 5) live.pop().li.remove();
-    if (motion) gsap.from(li, { y: -14, opacity: 0, duration: 0.5, ease: 'expo.out' });
+    if (!motion) return;
+    // En pantallas táctiles la entrada la hace el navegador (no ocupa el hilo principal y deja dormir el reloj de
+    // animación entre fila y fila); con ratón, la de siempre
+    if (!fine && li.animate) li.animate([{ transform: 'translate3d(0, -14px, 0)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 500, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    else gsap.from(li, { y: -14, opacity: 0, duration: 0.5, ease: 'expo.out' });
   };
   const advance = () => {
     live.forEach((r) => {
@@ -95,7 +99,7 @@ export function initCompare({ gsap, ScrollTrigger, motion }) {
       pts.push(clamp(last - 0.8 + (Math.random() - 0.45) * 7, 10, 60));
       drawLine();
     }, 900);
-  });
+  }, ON_SCREEN);
   // Barrido de presentación la primera vez que se ve
   ScrollTrigger.create({
     trigger: cmp,

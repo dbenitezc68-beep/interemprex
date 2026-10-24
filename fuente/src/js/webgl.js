@@ -519,7 +519,7 @@ export function loop(el, frame) {
     new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
       if (visible && !document.hidden) start(); else stop();
-    }, { rootMargin: '80px' }).observe(el);
+    }, { rootMargin: '-2px' }).observe(el);
   } else { visible = true; start(); }
   document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else if (visible) start(); });
   return { start, stop, get running() { return !!raf; } };

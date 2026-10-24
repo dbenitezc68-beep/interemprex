@@ -1,4 +1,4 @@
-import { $, $$, clamp, onVisible, svgEl, pathSampler } from './util.js';
+import { $, $$, clamp, onVisible, ON_SCREEN, onResize, svgEl, pathSampler } from './util.js';
 import { sound } from './sound.js';
 import { S } from './i18n.js';
 
@@ -18,11 +18,19 @@ export function initServices({ gsap, ScrollTrigger, motion, state }) {
     return;
   }
   const dist = () => Math.max(0, track.scrollWidth - document.documentElement.clientWidth);
+  // Ancho de la pantalla y posición de cada parada: se miden al refrescar, no en cada fotograma de scroll
+  let vw = 0;
+  let lefts = [];
+  const measure = () => {
+    vw = document.documentElement.clientWidth;
+    lefts = stations.map((s) => s.offsetLeft);
+  };
+  let D = 0;
   let cur = -1;
   const setCur = (x) => {
-    const vw = document.documentElement.clientWidth;
+    if (!vw) measure();
     let k = -1;
-    stations.forEach((s, i) => { if (s.offsetLeft - x < vw * 0.5) k = i; });
+    lefts.forEach((l, i) => { if (l - x < vw * 0.5) k = i; });
     if (k === cur) return;
     cur = k;
     map.forEach((li, i) => li.classList.toggle('on', i === k));
@@ -38,7 +46,8 @@ export function initServices({ gsap, ScrollTrigger, motion, state }) {
       pin,
       scrub: 0.8,
       invalidateOnRefresh: true,
-      onUpdate: (s) => setCur(s.progress * dist()),
+      onRefresh: () => { D = dist(); measure(); },
+      onUpdate: (s) => setCur(s.progress * (D || (D = dist()))),
     },
   });
   // Posición de scroll que deja una parada centrada (para enlaces, planetas y buscador)
@@ -101,7 +110,7 @@ function initBrowser({ gsap, motion }) {
       k = (k + 1) % order.length;
       set(order[k]);
     }, 2600);
-  });
+  }, ON_SCREEN);
 }
 
 // X10 · Flujo manual contra automático: los pedidos recorren nodos; en manual se paran y se repiten
@@ -157,14 +166,12 @@ function initFlow({ motion }) {
     packets.push({ el, edge: 0, t: 0, wait: 0, err: false, redo: false });
   };
   let acc = 0;
-  let visible = false;
-  let last = performance.now();
+  let raf = 0;
+  let last = 0;
   let modeClock = 0;
-  onVisible(flow, (v) => { visible = v; last = performance.now(); });
   const tick = (now) => {
-    requestAnimationFrame(tick);
-    if (!visible) return;
-    const dt = Math.min(0.05, (now - last) / 1000);
+    raf = requestAnimationFrame(tick);
+    const dt = clamp((now - last) / 1000, 0, 0.05);
     last = now;
     if (auto) {
       modeClock += dt;
@@ -212,7 +219,11 @@ function initFlow({ motion }) {
     }
     if (fast) hands.forEach((h) => { h.style.opacity = '0'; });
   };
-  requestAnimationFrame(tick);
+  // Solo se piden fotogramas mientras el flujo está a la vista
+  onVisible(flow, (v) => {
+    if (v && !raf) { last = performance.now(); raf = requestAnimationFrame(tick); }
+    else if (!v && raf) { cancelAnimationFrame(raf); raf = 0; }
+  }, ON_SCREEN);
 }
 
 // X11 · Señal contra ruido: osciloscopio con un mando que filtra el ruido
@@ -227,15 +238,22 @@ function initScope({ motion }) {
   let k = 0;
   let shownPct = -1;
   let user = false;
-  let visible = false;
   let t = 0;
   const noise = new Float32Array(256).map(() => Math.random() * 2 - 1);
+  // Tamaño según ResizeObserver (null: hay que medirlo); el lienzo solo se rehace si algo cambia de verdad
+  let box = null;
+  let stale = false;
   const resize = () => {
-    dpr = Math.min(1.75, window.devicePixelRatio || 1);
-    W = canvas.clientWidth;
-    H = canvas.clientHeight;
+    const d = Math.min(1.75, window.devicePixelRatio || 1);
+    const w = box ? Math.round(box.width) : canvas.clientWidth;
+    const h = box ? Math.round(box.height) : canvas.clientHeight;
+    if (w === W && h === H && d === dpr) return false;
+    dpr = d;
+    W = w;
+    H = h;
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
+    return true;
   };
   const setK = (v) => {
     k = clamp(v, 0, 1);
@@ -298,19 +316,24 @@ function initScope({ motion }) {
   resize();
   setK(motion ? 0 : 1);
   knob.addEventListener('input', () => { user = true; setK(Number(knob.value) / 100); if (!motion) draw(); });
-  window.addEventListener('resize', () => { resize(); if (!motion) draw(); });
+  // El evento resize de la ventana salta en el móvil con la barra de direcciones; aquí solo avisa de un cambio de zoom
+  onResize(canvas, (b) => { box = b; stale = true; if (!motion && resize()) draw(); });
+  window.addEventListener('resize', () => { stale = true; if (!motion && resize()) draw(); });
   if (!motion) { draw(); return; }
-  onVisible(canvas, (v) => { visible = v; });
-  let last = performance.now();
+  // Solo se piden fotogramas mientras el osciloscopio está a la vista
+  let raf = 0;
+  let last = 0;
   const loopFn = (now) => {
-    requestAnimationFrame(loopFn);
-    const dt = Math.min(0.05, (now - last) / 1000);
+    raf = requestAnimationFrame(loopFn);
+    const dt = clamp((now - last) / 1000, 0, 0.05);
     last = now;
-    if (!visible) return;
     t += dt;
     if (!user) setK(0.5 - 0.5 * Math.cos(t * 0.75));
-    if (canvas.clientWidth !== W) resize();
+    if (stale) { stale = false; resize(); }
     draw();
   };
-  requestAnimationFrame(loopFn);
+  onVisible(canvas, (v) => {
+    if (v && !raf) { last = performance.now(); raf = requestAnimationFrame(loopFn); }
+    else if (!v && raf) { cancelAnimationFrame(raf); raf = 0; }
+  }, ON_SCREEN);
 }
