@@ -59,6 +59,8 @@ html[data-scene="plano"] {
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 html.lenis, html.lenis body { height: auto; }
 .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+/* Sin Lenis (pantallas táctiles) el scroll se bloquea así mientras hay algo abierto encima de la página */
+html.is-locked { overflow: hidden; }
 
 body {
   margin: 0;
@@ -226,6 +228,9 @@ html.is-loading .pre { display: grid; animation: pre-fail .6s 8s forwards; }
    el fondo del cuerpo es siempre el espacio y el plano es una capa con su propio color que aparece encima */
 .stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; transition: opacity .9s var(--ease); }
 html[data-scene="plano"] .stars { opacity: 0; }
+/* En pantallas táctiles el cielo mide la pantalla con la barra de direcciones escondida: así no cambia de tamaño
+   (ni se vuelve a sembrar) cada vez que la barra aparece o se esconde */
+html:not(.fine) .stars { height: 100lvh; }
 .plano-grid {
   position: fixed;
   inset: 0;
@@ -964,6 +969,9 @@ html.motion .waypoints .wp.on { opacity: 1; translate: 0 0; }
 .fm-steps li i::after { content: ""; position: absolute; left: 5px; top: 3px; width: 5px; height: 8px; border: solid var(--teal); border-width: 0 2px 2px 0; transform: rotate(45deg); }
 html.motion .fm-steps li i::before { animation: fmstep 5s infinite; animation-delay: calc(var(--d) * .45s); }
 html.motion .fm-steps li i::after { animation: fmcheck 5s infinite; animation-delay: calc(var(--d) * .45s); }
+/* En pantallas táctiles el halo va en su propia capa: dentro del recorte del comparador (clip-path con variable),
+   Chrome necesitaba al hilo principal en cada fotograma para animarlo, unos 20 fotogramas por segundo con la página quieta */
+html.motion:not(.fine) .fm-steps li i::before { transform: translateZ(0); }
 @keyframes fmstep { 0%, 6% { opacity: 0; } 12%, 80% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes fmcheck { 0%, 6% { opacity: 0; } 12%, 86% { opacity: 1; } 100% { opacity: 0; } }
 .dash { width: min(420px, 44%); padding: 16px; border: 1px solid rgba(56, 189, 248, .25); border-radius: 16px; background: rgba(6, 12, 24, .9); color: #eaf2fb; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .9); }

@@ -34,10 +34,12 @@ function prepare(el) {
 const glyph = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
 
 function run(chars) {
-  // Fija el ancho de cada letra mientras dura el baile para que la línea no tiemble
-  chars.forEach((c) => { c.textContent = c.dataset.ch; c.style.display = 'inline-block'; });
-  const widths = chars.map((c) => c.offsetWidth);
-  chars.forEach((c, i) => { c.style.width = widths[i] + 'px'; });
+  // Fija el ancho de cada letra mientras dura el baile para que la línea no tiemble. Se mide en el texto normal y
+  // sin redondear: con anchos redondeados, algunos titulares cambiaban de número de líneas durante el baile y movían
+  // toda la página (en el móvil, sobre todo)
+  chars.forEach((c) => { c.textContent = c.dataset.ch; });
+  const widths = chars.map((c) => c.getBoundingClientRect().width);
+  chars.forEach((c, i) => { c.style.display = 'inline-block'; c.style.width = widths[i] + 'px'; });
   const t0 = performance.now();
   const step = Math.max(9, Math.min(22, 900 / chars.length));
   const tick = (now) => {

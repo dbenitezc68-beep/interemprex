@@ -44,17 +44,54 @@ function boot() {
   if (libs) {
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true });
+    // El reloj de GSAP se duerme antes cuando nada se anima (por defecto espera 120 fotogramas). Con Lenis
+    // (ordenador) no cambia nada: Lenis lo mantiene en marcha.
+    gsap.config({ autoSleep: 30 });
+  }
+  // ScrollTrigger deja un requestAnimationFrame en bucle que no para nunca (_rafBugFix, un apaño para que Firefox
+  // repinte con regularidad). En pantallas táctiles obliga a preparar todos los fotogramas aunque la página esté
+  // quieta, así que fuera de Firefox se corta; ScrollTrigger se sigue actualizando con cada scroll igual que antes.
+  if (libs && !fine && !/firefox/i.test(navigator.userAgent)) {
+    const raf = W.requestAnimationFrame;
+    W.requestAnimationFrame = function (cb) { return cb && cb.name === '_rafBugFix' ? 0 : raf.call(W, cb); };
   }
 
-  // Scroll suave sincronizado con ScrollTrigger
+  // Scroll suave sincronizado con ScrollTrigger, solo con ratón o panel táctil: es lo que suaviza la rueda.
+  // En pantallas táctiles el scroll del dedo ya es nativo y suave, y Lenis solo añadiría escuchas que hacen
+  // esperar al navegador antes de mover la página y un trabajo en cada fotograma aunque nada se mueva.
   let lenis = null;
-  if (motion && W.Lenis) {
+  if (motion && fine && W.Lenis) {
     lenis = new W.Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 0.95, allowNestedScroll: true, respectReducedMotion: false });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((t) => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
   }
-  const getVelocity = () => (lenis ? lenis.velocity : 0);
+  // Posición y velocidad del scroll sin leer la maqueta en cada fotograma: con Lenis las da Lenis; sin él, el
+  // evento scroll (velocidad en píxeles por fotograma de 60 Hz, a cero al parar)
+  let sy = W.scrollY;
+  let sv = 0;
+  let sAt = 0;
+  let sStop = 0;
+  if (!lenis) {
+    W.addEventListener('scroll', () => {
+      const y = W.scrollY;
+      const now = performance.now();
+      const dt = now - sAt;
+      sv = dt > 0 && dt < 100 ? ((y - sy) * 16.7) / dt : 0;
+      sy = y;
+      sAt = now;
+      clearTimeout(sStop);
+      sStop = setTimeout(() => { sv = 0; }, 150);
+    }, { passive: true });
+  }
+  const getScroll = () => (lenis ? lenis.scroll : sy);
+  const getVelocity = () => (lenis ? lenis.velocity : sv);
+  // Bloqueo del scroll mientras hay algo abierto encima (cuenta atrás, menú, buscador, textos legales):
+  // con Lenis se para Lenis; sin él, con CSS
+  const lock = lenis || {
+    stop: () => html.classList.add('is-locked'),
+    start: () => html.classList.remove('is-locked'),
+  };
   const state = {};
   const scrollTo = (target, opts = {}) => {
     if (target == null) return;
@@ -62,6 +99,10 @@ function boot() {
       const y = typeof target === 'number' ? target : target.getBoundingClientRect().top + W.scrollY;
       const dist = Math.abs(y - W.scrollY);
       lenis.scrollTo(target, { duration: Math.min(2.6, 0.9 + dist / 9000), easing: (t) => 1 - Math.pow(1 - t, 4), ...opts });
+    } else if (motion) {
+      // Sin Lenis, el desplazamiento suave del propio navegador (lo mueve fuera del hilo principal)
+      const y = typeof target === 'number' ? target : target.getBoundingClientRect().top + W.scrollY;
+      W.scrollTo({ top: y, behavior: opts.immediate ? 'auto' : 'smooth' });
     } else if (typeof target === 'number') W.scrollTo(0, target);
     else target.scrollIntoView({ block: 'start' });
   };
@@ -91,7 +132,7 @@ function boot() {
     note.t = setTimeout(() => el.classList.remove('on'), 4200);
   };
 
-  const ctx = { gsap, ScrollTrigger, motion, fine, state, scrollTo, go, getVelocity, note };
+  const ctx = { gsap, ScrollTrigger, motion, fine, state, scrollTo, go, getScroll, getVelocity, note };
 
   // Módulos en el orden del documento (los fijados deben crearse de arriba abajo)
   safe('el cielo', () => initStars(ctx));
@@ -194,14 +235,14 @@ function boot() {
     menu.hidden = true;
     btnMenu.setAttribute('aria-expanded', 'false');
     $('span', btnMenu).textContent = S.main.menu;
-    if (lenis) lenis.start();
+    lock.start();
     syncHdr();
   };
   const openMenu = () => {
     menu.hidden = false;
     btnMenu.setAttribute('aria-expanded', 'true');
     $('span', btnMenu).textContent = S.main.close;
-    if (lenis) lenis.stop();
+    lock.stop();
     syncHdr();
     if (motion) {
       gsap.fromTo(menu, { clipPath: 'circle(0% at 100% 0%)' }, { clipPath: 'circle(150% at 100% 0%)', duration: 0.8, ease: 'expo.out' });
@@ -313,14 +354,14 @@ function boot() {
   const playIntro = () => {
     if (!motion) { if (hero) hero.intro(); return; }
     html.classList.add('is-loading');
-    if (lenis) lenis.stop();
+    lock.stop();
     const R = Math.hypot(W.innerWidth, W.innerHeight) * 0.75;
     gsap.set(pre, { '--hole': '0px' });
     gsap.set('.pre-inner', { autoAlpha: 1, scale: 1 });
     gsap.set('#preBar', { scaleX: 0 });
     checks.forEach((li) => li.classList.remove('ok'));
     preK.textContent = S.main.preK;
-    const tl = gsap.timeline({ onComplete: () => { html.classList.remove('is-loading'); if (lenis) lenis.start(); } });
+    const tl = gsap.timeline({ onComplete: () => { html.classList.remove('is-loading'); lock.start(); } });
     ['T−03', 'T−02', 'T−01'].forEach((s, i) => tl.call(() => { preCount.textContent = s; sound.beep(660, 0.09); }, null, i * 0.5));
     checks.forEach((li, i) => tl.call(() => { li.classList.add('ok'); sound.tick(); }, null, 0.2 + i * 0.32));
     tl.call(() => { preCount.textContent = 'T−00'; preK.textContent = S.main.ignition; sound.beep(1320, 0.28); }, null, 1.5);
@@ -330,7 +371,7 @@ function boot() {
     tl.call(() => { if (hero) hero.intro(); sound.whoosh(); }, null, 2.1);
   };
   // Textos legales (ventana con pestañas; también se abren con #privacidad, #cookies, #aviso-legal o #condiciones)
-  const legal = safe('los textos legales', () => initLegal({ lenis }));
+  const legal = safe('los textos legales', () => initLegal({ lock }));
 
   // Cambio de idioma: la otra versión se abre en el mismo capítulo (y sin repetir la cuenta atrás)
   const langLinks = $$('[data-lang-switch]');
@@ -349,7 +390,7 @@ function boot() {
   const palette = safe('el buscador', () => initPalette({
     go,
     note,
-    lenis,
+    lock,
     actions: {
       sound: toggleSound,
       motion: toggleMotion,

@@ -1,4 +1,4 @@
-import { $, $$, clamp, lerp, smooth, onVisible } from './util.js';
+import { $, $$, clamp, lerp, smooth, onVisible, ON_SCREEN, onResize } from './util.js';
 import { sound } from './sound.js';
 import { S } from './i18n.js';
 
@@ -103,9 +103,9 @@ export function initChaos({ gsap, ScrollTrigger, motion }) {
   };
 
   const draw = () => {
-    // Con todas las partículas ya en el logotipo, el dibujo no cambia: no se repite
+    // Con todas las partículas ya en el logotipo (desde 0,84 todas han llegado), el dibujo no cambia: no se repite
     const settled = p >= 0.84;
-    if (settled && drawnP === p) return;
+    if (settled && drawnP >= 0.84) return;
     drawnP = p;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, W, H);
@@ -172,26 +172,38 @@ export function initChaos({ gsap, ScrollTrigger, motion }) {
       setP(Number(range.value) / 100);
     });
     setP(1);
-    window.addEventListener('resize', () => { build(); draw(); });
+    // Se rehace solo si cambia el tamaño de la caja (el evento resize de la ventana salta en el móvil con la barra
+    // de direcciones, y la caja no cambia)
+    onResize(box, () => { build(); draw(); }, { changes: true });
     return;
   }
 
   setP(0);
-  onVisible(box, (v) => { visible = v; });
-  gsap.ticker.add((t) => {
+  // Solo trabaja en cada fotograma mientras la caja está a la vista y el dibujo puede cambiar: con el logotipo ya
+  // formado y pintado se suelta el reloj de animación (que así puede dormirse) hasta que el scroll mueva la barra
+  let on = false;
+  const done = () => p >= 0.84 && drawnP >= 0.84;
+  const tick = (t) => {
     time = t;
-    if (!visible) return;
     // pequeño temblor de las etiquetas mientras hay caos
     if (p < 0.5) chips.forEach((c, i) => { c.style.translate = `${(Math.sin(time * 1.3 + i) * 4).toFixed(1)}px ${(Math.cos(time * 1.1 + i * 2) * 3).toFixed(1)}px`; });
     draw();
-  });
+    if (done()) { on = false; gsap.ticker.remove(tick); }
+  };
+  const wake = () => { if (visible && !on && !done()) { on = true; gsap.ticker.add(tick); } };
+  onVisible(box, (v) => {
+    if (v === visible) return;
+    visible = v;
+    if (v) wake();
+    else if (on) { on = false; gsap.ticker.remove(tick); }
+  }, ON_SCREEN);
   ScrollTrigger.create({
     trigger: section,
     start: 'top top',
     end: () => '+=' + window.innerHeight * 1.6,
     pin: $('.why-pin', section),
     scrub: 0.6,
-    onUpdate: (s) => setP(s.progress * 1.12),
-    onRefresh: () => build(),
+    onUpdate: (s) => { setP(s.progress * 1.12); wake(); },
+    onRefresh: () => { build(); wake(); },
   });
 }

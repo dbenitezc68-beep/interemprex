@@ -4,7 +4,7 @@ import { $, $$ } from './util.js';
 // formulario, desde el buscador o con un enlace directo (#privacidad, #cookies, #aviso-legal, #condiciones).
 const HASH = { privacidad: 'privacy', privacy: 'privacy', cookies: 'cookies', 'aviso-legal': 'legal', 'legal-notice': 'legal', condiciones: 'terms', terms: 'terms' };
 
-export function initLegal({ lenis }) {
+export function initLegal({ lock }) {
   const dlg = $('#legal');
   const body = $('#legalBody');
   const tabs = $$('[role="tab"]', dlg);
@@ -27,7 +27,7 @@ export function initLegal({ lenis }) {
     if (!shown) return;
     shown = false;
     document.documentElement.classList.remove('legal-open');
-    if (lenis) lenis.start();
+    lock.start();
     if (back && back.focus) back.focus({ preventScroll: true });
     back = null;
   };
@@ -39,7 +39,7 @@ export function initLegal({ lenis }) {
       if (native) dlg.showModal();
       else dlg.setAttribute('open', '');
       document.documentElement.classList.add('legal-open');
-      if (lenis) lenis.stop();
+      lock.stop();
       shown = true;
     }
     const cur = tabs.find((t) => t.getAttribute('aria-selected') === 'true');
